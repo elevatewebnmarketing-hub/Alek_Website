@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { BrandMark } from "@/components/BrandMark";
+import siteLogo from "@/assets/runway-refined-logo.png";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -20,23 +20,27 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 lg:px-12">
-        <Link to="/" className="group inline-flex items-center gap-3 leading-none" onClick={() => setOpen(false)}>
-          <BrandMark className="size-8 text-foreground sm:size-9" />
-          <span className="flex flex-col">
-            <span className="font-serif text-xl tracking-tight text-foreground sm:text-2xl">
-              Runway Refined
-            </span>
-            <span className="editorial-eyebrow mt-1">by Alek</span>
-          </span>
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-4 sm:px-6 lg:px-10 2xl:px-12">
+        <Link
+          to="/"
+          className="group inline-flex min-w-0 items-center"
+          onClick={() => setOpen(false)}
+        >
+          <img
+            src={siteLogo}
+            alt="Runway Refined logo"
+            className="h-12 w-auto object-contain sm:h-14 md:h-16"
+            width={1024}
+            height={683}
+          />
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-5 xl:flex 2xl:gap-7">
           {NAV.slice(1).map((item) => (
             <Link
               key={item.to}
               to={item.to}
-              className="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-foreground"
+              className="whitespace-nowrap text-[0.72rem] font-medium uppercase tracking-[0.16em] text-foreground/70 transition-colors hover:text-foreground 2xl:text-[0.78rem] 2xl:tracking-[0.18em]"
               activeProps={{ className: "text-foreground" }}
               activeOptions={{ exact: item.to === "/" }}
             >
@@ -45,7 +49,7 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden 2xl:block">
           <Link
             to="/booking"
             className="inline-flex items-center border border-foreground bg-foreground px-5 py-2.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-background transition-colors hover:bg-background hover:text-foreground"
@@ -58,14 +62,14 @@ export function SiteHeader() {
           type="button"
           aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((v) => !v)}
-          className="lg:hidden"
+          className="xl:hidden"
         >
           {open ? <X className="size-6" /> : <Menu className="size-6" />}
         </button>
       </div>
 
       {open && (
-        <div className="border-t border-border bg-background lg:hidden">
+        <div className="border-t border-border bg-background xl:hidden">
           <nav className="flex flex-col px-6 py-6">
             {NAV.map((item) => (
               <Link

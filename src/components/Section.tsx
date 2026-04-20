@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import siteLogo from "@/assets/runway-refined-logo.png";
 
 export function Section({
   children,
@@ -28,6 +29,14 @@ export function PageHero({
 }) {
   return (
     <Section className="border-b border-border pt-16 lg:pt-24">
+      <img
+        src={siteLogo}
+        alt="Runway Refined logo"
+        className="h-24 w-auto object-contain sm:h-28 lg:h-32"
+        loading="lazy"
+        width={1024}
+        height={683}
+      />
       <div className="editorial-eyebrow fade-in">{eyebrow}</div>
       <h1 className="display-xl mt-6 max-w-5xl fade-up">{title}</h1>
       {intro && (

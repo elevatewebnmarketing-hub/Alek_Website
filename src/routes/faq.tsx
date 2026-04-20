@@ -28,7 +28,7 @@ const FAQS = [
   },
   {
     q: "How do sessions work?",
-    a: "Most sessions are 1:1 over video call, with in-person sessions available depending on location. You'll book a slot, pay securely in GBP, and choose a time via Calendly. Each session is tailored to your level and goals.",
+    a: "Most sessions are 1:1 over video call, with in-person sessions available depending on location. You'll choose a service and submit your booking request. Stripe and Calendly automation are currently being finalised for launch.",
   },
   {
     q: "How much does it cost?",

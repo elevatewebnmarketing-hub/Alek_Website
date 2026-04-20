@@ -16,7 +16,7 @@ export const Route = createFileRoute("/booking")({
     meta: pageMeta({
       title: "Book a Session — Runway Refined by Alek",
       description:
-        "Reserve your coaching session. Pay securely, then choose a time that suits you. GBP, one-time payment.",
+        "Reserve your coaching session and choose your service. Booking automation setup is currently being finalised.",
       path: "/booking",
     }),
   }),
@@ -25,9 +25,9 @@ export const Route = createFileRoute("/booking")({
 
 const STEPS = [
   { n: "01", t: "Choose a service", d: "Pick the coaching that fits where you are." },
-  { n: "02", t: "Pay securely", d: "Stripe checkout in GBP. Test mode active until launch." },
-  { n: "03", t: "Schedule with Calendly", d: "After payment you'll pick a time that suits." },
-  { n: "04", t: "Show up and grow", d: "You'll get a confirmation email with everything you need." },
+  { n: "02", t: "Pay securely", d: "Stripe checkout in GBP (integration setup in progress)." },
+  { n: "03", t: "Schedule with Calendly", d: "Calendly link will be added once final setup is complete." },
+  { n: "04", t: "Show up and grow", d: "Confirmation email automation will be enabled at launch." },
 ];
 
 function BookingPage() {
@@ -38,6 +38,12 @@ function BookingPage() {
 
   const handleBook = () => {
     // TODO: Wire to Stripe Checkout (GBP) → success redirect → Calendly + confirmation email.
+    if (CALENDLY_URL.includes("your-calendly-link")) {
+      alert(
+        "Calendly link placeholder is still active. Please add your real Calendly booking link before launch.",
+      );
+      return;
+    }
     alert(
       "Stripe checkout will be wired up next. For now, you'll be taken to Calendly to schedule.",
     );
@@ -49,7 +55,7 @@ function BookingPage() {
       <PageHero
         eyebrow="Booking"
         title="Reserve your session."
-        intro="Pick the service that fits where you are. You'll pay securely in GBP, then schedule a time that works for you."
+        intro="Pick the service that fits where you are. Stripe and Calendly automation are currently being finalised before launch."
       />
 
       <Section className="border-b border-border">
@@ -120,7 +126,7 @@ function BookingPage() {
                 Pay & Book <ArrowRight className="size-4" />
               </button>
               <p className="mt-4 text-center text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
-                Secure checkout · GBP · Email confirmation
+                Booking setup in progress · GBP pricing
               </p>
             </div>
           </aside>

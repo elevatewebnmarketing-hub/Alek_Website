@@ -10,7 +10,7 @@ export const Route = createFileRoute("/resources")({
     meta: pageMeta({
       title: "Free Resources — Runway Refined by Alek",
       description:
-        "Free guides, runway drills, and casting checklists for models. Drop your email to receive new resources as they're released.",
+        "Free runway, branding, and casting resources for models. Join the list to get new tools as they are released.",
       image: resourcesImage,
       path: "/resources",
     }),
@@ -56,8 +56,8 @@ function ResourcesPage() {
     <>
       <PageHero
         eyebrow="Resources"
-        title="Free guides for the next step in your career."
-        intro="A growing library of practical tools — runway drills, casting prep, mindset notes — for models building their craft between sessions."
+        title="Free tools to grow your model career."
+        intro="A growing library of practical resources focused on runway development, personal branding, and better content strategy."
       />
 
       <Section className="border-b border-border pt-0">
@@ -98,8 +98,8 @@ function ResourcesPage() {
             Join the list. New tools, no spam.
           </h2>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-            Drop your email and you'll be notified the moment a new resource
-            is released.
+            Drop your email and you'll be notified as soon as new resources are
+            released. Resource delivery automation is being finalised.
           </p>
           <form
             onSubmit={onSubmit}
@@ -122,7 +122,8 @@ function ResourcesPage() {
           </form>
           {sent && (
             <p className="mt-4 text-sm text-muted-foreground">
-              Thank you — you're on the list.
+              Thank you — you're on the list. New resources will be shared here
+              and via email updates.
             </p>
           )}
         </div>

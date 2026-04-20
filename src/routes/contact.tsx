@@ -36,7 +36,7 @@ function ContactPage() {
       <PageHero
         eyebrow="Contact"
         title="Let's start the conversation."
-        intro="Tell Alek a little about you, where you are in your modelling journey, and what you're hoping to refine. Replies usually within 48 hours."
+        intro="Tell Alek where you are in your modelling journey and what support you need. Beginner, intermediate, and experienced models are all welcome."
       />
 
       <Section className="border-b border-border">
@@ -100,12 +100,12 @@ function ContactPage() {
               </li>
               <li>
                 <a
-                  href="https://instagram.com"
+                  href="https://instagram.com/"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-3 hover:underline"
                 >
-                  <Instagram className="size-5" /> Instagram
+                  <Instagram className="size-5" /> Instagram (link placeholder)
                 </a>
               </li>
             </ul>
@@ -113,7 +113,8 @@ function ContactPage() {
               <div className="editorial-eyebrow">Coverage</div>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                 Online coaching available worldwide. In-person sessions
-                arranged on request — let us know your location.
+                arranged on request from the United Kingdom base — let us know
+                your location.
               </p>
             </div>
           </aside>

@@ -8,7 +8,7 @@ export const Route = createFileRoute("/blog")({
     meta: pageMeta({
       title: "Journal — Runway Refined by Alek",
       description:
-        "Fashion industry insights, runway tips, and trends for working models. Written by model coach Alek Deng Malek.",
+        "Fashion industry trend insights, runway guidance, and model growth strategy from Alek Deng Malek.",
       path: "/blog",
     }),
   }),
@@ -17,35 +17,35 @@ export const Route = createFileRoute("/blog")({
 
 const POSTS = [
   {
-    slug: "five-runway-mistakes",
+    slug: "fashion-trends-models-should-watch",
+    category: "Industry Trends",
+    title: "Fashion Trends Models Should Watch This Season",
+    excerpt:
+      "The shifts in aesthetics, casting preferences, and content style that are shaping model demand right now.",
+    date: "Coming soon",
+  },
+  {
+    slug: "what-agencies-look-for-now",
+    category: "Industry Trends",
+    title: "What Agencies and Clients Are Looking For Right Now",
+    excerpt:
+      "A practical breakdown of the qualities, presentation, and professionalism decision-makers are prioritising.",
+    date: "Coming soon",
+  },
+  {
+    slug: "social-content-that-converts",
+    category: "Content Strategy",
+    title: "How Models Can Turn Social Media Content Into Paying Work",
+    excerpt:
+      "The structure, consistency, and positioning that helps online visibility turn into real client enquiries.",
+    date: "Coming soon",
+  },
+  {
+    slug: "runway-casting-readiness-checklist",
     category: "Runway",
-    title: "Five Runway Mistakes Every New Model Makes",
+    title: "Runway and Casting Readiness: A Practical Checklist",
     excerpt:
-      "The small habits castings notice immediately — and how to fix them before your next walk.",
-    date: "Coming soon",
-  },
-  {
-    slug: "casting-mindset",
-    category: "Mindset",
-    title: "How to Walk Into a Casting Already Booked",
-    excerpt:
-      "The internal work that quietly separates models who get remembered from those who don't.",
-    date: "Coming soon",
-  },
-  {
-    slug: "build-personal-brand",
-    category: "Brand",
-    title: "Build a Personal Brand Clients Want to Pay For",
-    excerpt:
-      "Content, consistency and positioning — the modern formula for turning attention into income.",
-    date: "Coming soon",
-  },
-  {
-    slug: "industry-trends-2025",
-    category: "Industry",
-    title: "What's Shifting in Fashion Modelling Right Now",
-    excerpt:
-      "Quiet trends from the agencies, casting directors and brands worth paying attention to.",
+      "A clear prep checklist models can use before castings, training sessions, and high-stakes opportunities.",
     date: "Coming soon",
   },
 ];
@@ -55,8 +55,8 @@ function BlogPage() {
     <>
       <PageHero
         eyebrow="The Journal"
-        title="Notes on runway, mindset and the modelling industry."
-        intro="A place for slow, considered writing on the craft and business of modelling. New essays added regularly."
+        title="Fashion trends, strategy, and model growth insights."
+        intro="A trend-led journal focused on what is changing in the fashion industry and how models can adapt, grow, and earn consistently."
       />
 
       <Section className="border-b border-border">

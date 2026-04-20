@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Mail } from "lucide-react";
-import { BrandMark } from "@/components/BrandMark";
+import siteLogo from "@/assets/runway-refined-logo.png";
 
 export function SiteFooter() {
   return (
@@ -8,13 +8,14 @@ export function SiteFooter() {
       <div className="mx-auto max-w-[1600px] px-6 py-16 lg:px-12">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
-            <div className="inline-flex items-center gap-3">
-              <BrandMark className="size-10 text-foreground" />
-              <div>
-                <div className="font-serif text-3xl leading-none">Runway Refined</div>
-                <div className="editorial-eyebrow mt-2">by Alek Deng Malek</div>
-              </div>
-            </div>
+            <img
+              src={siteLogo}
+              alt="Runway Refined logo"
+              className="h-24 w-auto object-contain sm:h-28"
+              loading="lazy"
+              width={1024}
+              height={683}
+            />
             <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
               Personalised model coaching for those building a long-term career
               in fashion. Runway, branding, mindset — refined.
@@ -45,12 +46,12 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href="https://instagram.com"
+                  href="https://instagram.com/"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 hover:underline"
                 >
-                  <Instagram className="size-4" /> Instagram
+                  <Instagram className="size-4" /> Instagram (placeholder)
                 </a>
               </li>
             </ul>

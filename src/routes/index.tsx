@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImage from "@/assets/hero-runway.jpg";
 import transformationImage from "@/assets/transformation.jpg";
 import portraitImage from "@/assets/about-portrait.jpg";
+import siteLogo from "@/assets/runway-refined-logo.png";
 import { Section } from "@/components/Section";
 import { SERVICES } from "@/lib/services";
 import { pageMeta } from "@/components/PageMeta";
@@ -12,7 +13,7 @@ export const Route = createFileRoute("/")({
     meta: pageMeta({
       title: "Runway Refined by Alek — Refine Your Walk. Build Your Brand.",
       description:
-        "Personalised model and runway coaching with Alek Deng Malek. Confidence, presence and branding strategy that turns attention into income.",
+        "Personalised model coaching helping models build confidence, create stronger content, and turn social media attention into paying clients.",
       image: heroImage,
       path: "/",
     }),
@@ -21,9 +22,18 @@ export const Route = createFileRoute("/")({
 });
 
 const AUDIENCES = [
-  { label: "Beginner", body: "Just starting and want a real foundation, not generic advice." },
-  { label: "Intermediate", body: "Booking work and ready to sharpen your walk, presence and brand." },
-  { label: "Advanced", body: "Already established and scaling income, opportunities and visibility." },
+  {
+    label: "Beginner models",
+    body: "New to modelling and ready for clear direction on runway basics, confidence, and building your online presence.",
+  },
+  {
+    label: "Intermediate models",
+    body: "Already practicing and now focused on stronger content, better positioning, and more consistent paid opportunities.",
+  },
+  {
+    label: "Experienced models",
+    body: "Working models looking to scale income, increase reach, and refine how they present across castings and social media.",
+  },
 ];
 
 function HomePage() {
@@ -33,19 +43,27 @@ function HomePage() {
       <section className="relative isolate overflow-hidden border-b border-border bg-foreground text-background">
         <div className="relative grid min-h-[88vh] grid-cols-1 lg:grid-cols-12">
           <div className="z-10 flex flex-col justify-end px-6 pb-16 pt-20 lg:col-span-6 lg:px-12 lg:pb-24 lg:pt-32">
+            <img
+              src={siteLogo}
+              alt="Runway Refined logo"
+              className="h-16 w-auto object-contain sm:h-20"
+              width={1024}
+              height={683}
+            />
             <div className="editorial-eyebrow text-background/70 fade-in">
               Runway · Brand · Income
             </div>
             <h1 className="display-xl mt-6 fade-up">
               Refine Your Walk.
               <br />
-              Build Your Brand.
+              Build Your Presence.
               <br />
-              <em className="italic text-background/80">Get Paid as a Model.</em>
+              <em className="italic text-background/80">Turn Attention Into Income.</em>
             </h1>
             <p className="mt-8 max-w-md text-base leading-relaxed text-background/75 fade-up">
-              Personalised coaching for models who refuse to leave their career
-              to chance. Runway, mindset and branding — refined together.
+              Personalised strategy for models who want more than generic
+              advice. We focus on runway, confidence, content quality, and
+              consistent long-term growth.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4 fade-up">
               <Link
@@ -78,8 +96,8 @@ function HomePage() {
         <div className="border-t border-background/15">
           <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-4 px-6 py-5 text-[0.65rem] uppercase tracking-[0.3em] text-background/60 lg:px-12">
             <span>Coaching Worldwide</span>
-            <span className="hidden md:inline">Runway · Casting · Mindset</span>
-            <span>Featured in independent press</span>
+            <span className="hidden md:inline">Runway · Content · Personal Brand</span>
+            <span>Built for long-term model growth</span>
           </div>
         </div>
       </section>
@@ -90,7 +108,7 @@ function HomePage() {
           <div className="md:col-span-4">
             <div className="editorial-eyebrow">Who it's for</div>
             <h2 className="display-lg mt-6">
-              Built for models at every stage of the climb.
+              Built for models at every stage of growth.
             </h2>
           </div>
           <div className="grid gap-px bg-border md:col-span-8 md:grid-cols-3">
@@ -163,15 +181,16 @@ function HomePage() {
               From hesitant walks to <em className="italic">paid bookings.</em>
             </h2>
             <p className="mt-6 text-base leading-relaxed text-background/75">
-              We work on the things castings actually notice — confidence,
-              tempo, presence, and the personal brand that makes clients book
-              you again. Long-term growth, not quick fixes.
+              Many models struggle to market themselves, create engaging
+              content, and convert visibility into paying work. This coaching
+              gives you a personalised strategy, clear direction, and
+              consistent support to grow with confidence.
             </p>
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-background/15 pt-8">
               {[
                 ["1:1", "Tailored coaching"],
-                ["£0", "Wasted on guesswork"],
-                ["∞", "Long-term growth"],
+                ["UK", "Based · Coaching worldwide"],
+                ["∞", "Long-term results"],
               ].map(([k, v]) => (
                 <div key={v}>
                   <div className="font-serif text-3xl">{k}</div>
@@ -205,10 +224,9 @@ function HomePage() {
             </h2>
             <p className="mt-8 text-base leading-relaxed text-muted-foreground">
               Alek helps aspiring and professional models build confidence,
-              develop their personal brand, and succeed in the fashion
-              industry. His coaching combines technical runway skills with the
-              mindset and branding strategy needed to actually convert
-              attention into income.
+              sharpen their runway presence, and grow a personal brand that
+              attracts paying clients. His coaching combines technique,
+              strategy, and honest feedback tailored to each client.
             </p>
             <Link
               to="/about"

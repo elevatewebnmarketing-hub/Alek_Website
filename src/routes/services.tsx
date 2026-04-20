@@ -8,9 +8,9 @@ import { ArrowRight, Check } from "lucide-react";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: pageMeta({
-      title: "Model Coaching Services — Runway, Mindset, Mentorship",
+      title: "Model Coaching Services — Runway, Casting, Confidence, Mentorship",
       description:
-        "1:1 runway coaching, beginner foundations, advanced runway training, walk analysis, casting prep, and monthly mentorship. GBP pricing.",
+        "1:1 runway coaching, beginner and advanced training, walk analysis, casting prep, confidence coaching, and monthly mentorship. GBP pricing.",
       image: walkImage,
       path: "/services",
     }),
@@ -24,7 +24,7 @@ function ServicesPage() {
       <PageHero
         eyebrow="Services"
         title="Coaching, refined to where you are."
-        intro="Every service is built around your level, your goals and the castings you're chasing. Pricing in GBP, quoted in ranges to match session length and depth."
+        intro="Every service is tailored to your level, goals, and growth stage. Pricing is in GBP, with clear ranges based on session depth and support level."
       />
 
       <Section className="border-b border-border pt-0">

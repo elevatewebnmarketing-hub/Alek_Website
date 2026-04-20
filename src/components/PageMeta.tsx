@@ -6,7 +6,8 @@ type MetaInput = {
 };
 
 export function pageMeta({ title, description, image, path }: MetaInput) {
-  const url = path ? `https://runwayrefined.com${path}` : undefined;
+  const siteUrl = import.meta.env.VITE_SITE_URL?.replace(/\/$/, "");
+  const url = siteUrl && path ? `${siteUrl}${path}` : undefined;
   const meta: Array<Record<string, string>> = [
     { title },
     { name: "description", content: description },

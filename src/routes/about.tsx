@@ -9,7 +9,7 @@ export const Route = createFileRoute("/about")({
     meta: pageMeta({
       title: "About Alek Deng Malek — Model Coach",
       description:
-        "Meet Alek Deng Malek, a dedicated model coach helping aspiring and professional models build confidence, develop their brand, and succeed in fashion.",
+        "Meet Alek Deng Malek, a model coach helping aspiring and professional models build confidence, refine their craft, and grow in fashion and commercial work.",
       image: portrait,
       path: "/about",
     }),
@@ -20,15 +20,15 @@ export const Route = createFileRoute("/about")({
 const PILLARS = [
   {
     label: "Runway craft",
-    body: "Posture, stride, tempo, turns, presence — the technical foundation that castings notice instantly.",
+    body: "Posture, stride, turns, pacing, and runway presence built around your level and goals.",
   },
   {
-    label: "Mindset & confidence",
-    body: "The internal work that lets your walk land. Calm in the room, bold on the runway.",
+    label: "Mindset & professionalism",
+    body: "Confidence, body language, preparation, and professional habits that help you perform under pressure.",
   },
   {
     label: "Brand & content",
-    body: "Strategy that turns your visibility into paying clients and long-term opportunities.",
+    body: "Personalised strategy to improve content quality, strengthen your online presence, and convert attention into paying clients.",
   },
 ];
 
@@ -37,8 +37,8 @@ function AboutPage() {
     <>
       <PageHero
         eyebrow="About"
-        title="Alek Deng Malek — model coach for the long career."
-        intro="Alek is a dedicated model coach helping aspiring and professional models build confidence, develop their personal brand, and succeed in the fashion industry. His coaching focuses on runway skills, mindset, and industry readiness, helping models stand out and grow."
+        title="Alek Deng Malek — model coach for confident, consistent growth."
+        intro="Alek helps aspiring and professional models build confidence, improve their runway and camera presence, and grow a personal brand that leads to real opportunities."
       />
 
       <Section className="border-b border-border">
@@ -52,29 +52,34 @@ function AboutPage() {
               width={1080}
               height={1350}
             />
-            <div className="editorial-eyebrow mt-4">[Replace with Alek's portrait]</div>
           </div>
           <div className="md:col-span-7 md:pl-6">
             <div className="editorial-eyebrow">The story</div>
             <h2 className="display-lg mt-6">A coach who builds careers, not just walks.</h2>
             <div className="mt-8 space-y-6 text-base leading-relaxed text-muted-foreground">
               <p>
-                For Alek, modelling has never been about a single great photo
-                or a single perfect walk. It's about the long, deliberate
-                climb — the small refinements that, over time, separate the
-                models who book consistently from the ones who don't.
+                Alek is a dedicated model coach with a passion for helping
+                aspiring and professional models build confidence, develop
+                their personal brand, and succeed in the fashion and
+                commercial industries.
               </p>
               <p>
-                His approach is technical, personal and unhurried. Every
-                client is met where they are: a beginner taking their first
-                steps, a working model preparing for a high-stakes casting,
-                or an advanced talent scaling income and opportunities.
+                With experience across posing, runway, photoshoots, and
+                industry expectations, he works closely with each model to
+                bring out their strengths and presence in front of the camera
+                and on the runway.
               </p>
               <p>
-                The work goes beyond the walk. Together you'll sharpen the
-                way you carry yourself, the way you present online, and the
-                way you turn attention into real bookings — confidence,
-                consistency and craft as one.
+                His coaching goes beyond technique. Alek focuses on mindset,
+                professionalism, and confidence so models are not only
+                photogenic, but prepared, expressive, and ready to perform at
+                castings and paid opportunities.
+              </p>
+              <p>
+                Whether you are just starting out or refining existing skills,
+                his approach is personalised for long-term progress: clear
+                direction, honest feedback, and strategies built for real
+                growth instead of quick, unsustainable tactics.
               </p>
             </div>
             <Link
