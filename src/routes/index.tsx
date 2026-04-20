@@ -73,11 +73,11 @@ function HomePage() {
             </div>
           </div>
 
-          <div className="relative lg:col-span-6">
+          <div className="absolute inset-0 lg:relative lg:col-span-6">
             <img
               src={heroImage}
               alt="Editorial runway photograph of a model walking under a single spotlight"
-              className="absolute inset-0 size-full object-cover opacity-90"
+              className="absolute inset-0 size-full object-cover object-right opacity-90 lg:object-cover"
               width={1080}
               height={1920}
             />
