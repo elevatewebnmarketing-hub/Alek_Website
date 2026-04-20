@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImage from "@/assets/hero-runway.jpg";
 import transformationImage from "@/assets/transformation.jpg";
-import portraitImage from "@/assets/about-portrait.jpg";
+import portraitImage from "@/assets/alek-home-portrait.png";
 import { Section } from "@/components/Section";
 import { SERVICES } from "@/lib/services";
 import { pageMeta } from "@/components/PageMeta";
@@ -202,7 +202,7 @@ function HomePage() {
           <div className="md:col-span-5">
             <img
               src={portraitImage}
-              alt="Editorial portrait suggesting Alek's coaching style"
+              alt="Alek Malek in a tailored white suit with pearl accessories, editorial portrait"
               loading="lazy"
               className="aspect-[4/5] w-full object-cover"
               width={1080}

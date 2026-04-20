@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import portrait from "@/assets/about-portrait.jpg";
+import portrait from "@/assets/alek-about-portrait.png";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
 import { ArrowRight } from "lucide-react";
@@ -46,7 +46,7 @@ function AboutPage() {
           <div className="md:col-span-5">
             <img
               src={portrait}
-              alt="Editorial portrait suggesting Alek's coaching philosophy"
+              alt="Alek Malek in an emerald green velvet suit, professional portrait for Runway Refined by Alek"
               loading="lazy"
               className="aspect-[4/5] w-full object-cover"
               width={1080}
