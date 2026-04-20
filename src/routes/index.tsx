@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImage from "@/assets/hero-runway.jpg";
 import transformationImage from "@/assets/transformation.jpg";
 import portraitImage from "@/assets/about-portrait.jpg";
-import siteLogo from "@/assets/runway-refined-logo.png";
 import { Section } from "@/components/Section";
 import { SERVICES } from "@/lib/services";
 import { pageMeta } from "@/components/PageMeta";
@@ -43,13 +42,6 @@ function HomePage() {
       <section className="relative isolate overflow-hidden border-b border-border bg-foreground text-background">
         <div className="relative grid min-h-[88vh] grid-cols-1 lg:grid-cols-12">
           <div className="z-10 flex flex-col justify-end px-6 pb-16 pt-20 lg:col-span-6 lg:px-12 lg:pb-24 lg:pt-32">
-            <img
-              src={siteLogo}
-              alt="Runway Refined logo"
-              className="h-16 w-auto object-contain sm:h-20"
-              width={1024}
-              height={683}
-            />
             <div className="editorial-eyebrow text-background/70 fade-in">
               Runway · Brand · Income
             </div>
