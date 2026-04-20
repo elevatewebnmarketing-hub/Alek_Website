@@ -50,6 +50,34 @@ const FAQS = [
     q: "Do you work with male and non-binary models?",
     a: "Yes — coaching is open to models of every gender. The work is personalised, never one-size-fits-all.",
   },
+  {
+    q: "How should I prepare before my first session?",
+    a: "Wear fitted clothing you can move in, bring heels if your session includes runway work, and be ready to share your current goals. If you've done any practice videos, bring those too so feedback is more precise.",
+  },
+  {
+    q: "Can I switch services after booking?",
+    a: "Yes, in most cases. If your goals change, we can move you to a more suitable service and apply your payment fairly based on session value and timing.",
+  },
+  {
+    q: "How often should I train to see progress?",
+    a: "Most models improve fastest with weekly or bi-weekly sessions plus consistent practice between calls. Mentorship clients typically follow a structured weekly rhythm for best results.",
+  },
+  {
+    q: "Do you help with social media and personal branding?",
+    a: "Yes. Alongside runway and confidence work, coaching can include content direction, profile positioning, and brand strategy so your visibility supports real paid opportunities.",
+  },
+  {
+    q: "What do I get after a coaching session?",
+    a: "You'll leave with clear feedback and practical next steps. Depending on your service, this can include correction points, drills, and structured actions to work on before your next session.",
+  },
+  {
+    q: "What happens if I miss a session?",
+    a: "If something urgent comes up, contact us as soon as possible. Rescheduling is easiest with advance notice, and missed-session handling is reviewed case-by-case with fairness in mind.",
+  },
+  {
+    q: "Can I book if I'm outside the UK?",
+    a: "Absolutely. Coaching is available worldwide through online sessions, and time slots can be arranged across different time zones.",
+  },
 ];
 
 function FaqPage() {
