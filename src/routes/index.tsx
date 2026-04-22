@@ -41,7 +41,7 @@ function HomePage() {
       {/* HERO */}
       <section className="relative isolate overflow-hidden border-b border-border bg-foreground text-background">
         <div className="relative grid min-h-[88vh] grid-cols-1 lg:grid-cols-12">
-          <div className="z-10 flex flex-col justify-end bg-foreground/95 px-6 pb-16 pt-20 lg:col-span-6 lg:px-12 lg:pb-24 lg:pt-32">
+          <div className="z-10 flex flex-col justify-end bg-foreground/80 px-6 pb-16 pt-20 lg:col-span-6 lg:bg-foreground/85 lg:px-12 lg:pb-24 lg:pt-32">
             <div className="editorial-eyebrow text-background/70 fade-in">
               Runway · Brand · Income
             </div>
@@ -76,11 +76,11 @@ function HomePage() {
             <img
               src={heroImage}
               alt="Grazia cover image featuring Alek in an editorial gown"
-              className="absolute inset-0 size-full object-cover object-center opacity-90 lg:object-contain lg:object-center"
+              className="absolute inset-0 size-full object-cover object-center opacity-95 lg:object-contain lg:object-center"
               width={819}
               height={1024}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/55 to-transparent lg:from-foreground lg:via-foreground/15 lg:to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-foreground/35 to-transparent lg:from-foreground/70 lg:via-foreground/10 lg:to-transparent" />
           </div>
         </div>
 
