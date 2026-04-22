@@ -26,6 +26,7 @@ export function SiteFooter() {
             <div className="editorial-eyebrow mb-5">Explore</div>
             <ul className="space-y-3 text-sm">
               <li><Link to="/services" className="hover:underline">Services</Link></li>
+              <li><Link to="/portfolio" className="hover:underline">Portfolio</Link></li>
               <li><Link to="/booking" className="hover:underline">Booking</Link></li>
               <li><Link to="/resources" className="hover:underline">Resources</Link></li>
               <li><Link to="/blog" className="hover:underline">Journal</Link></li>

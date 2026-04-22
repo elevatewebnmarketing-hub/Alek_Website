@@ -58,28 +58,22 @@ function AboutPage() {
             <h2 className="display-lg mt-6">A coach who builds careers, not just walks.</h2>
             <div className="mt-8 space-y-6 text-base leading-relaxed text-muted-foreground">
               <p>
-                Alek is a dedicated model coach. She cares deeply about helping
-                aspiring and professional models build confidence, develop a
-                personal brand they believe in, and move forward in fashion and
-                commercial work.
+                I'm a model coach helping aspiring models break into the
+                industry with clarity, confidence, and strategy.
               </p>
               <p>
-                She brings experience across posing, runway, photoshoots, and
-                what the industry actually expects. She works closely with each
-                model to draw out their strengths and presence on camera and on
-                the runway.
+                After facing consistent rejection in my own modelling journey,
+                I learned how the industry really works-what agencies look for,
+                what they don't say, and why good models still get overlooked.
               </p>
               <p>
-                Her coaching goes beyond technique. Alek focuses on mindset,
-                professionalism, and confidence so models feel prepared and
-                expressive, not just photogenic, when castings and paid work
-                are on the line.
+                Now I help new models avoid the same mistakes, handle rejection
+                without losing confidence, and position themselves in a way
+                that actually gets attention.
               </p>
               <p>
-                Whether you are just starting out or refining what you already
-                do, her approach is personalised for the long haul: clear
-                direction, honest feedback, and strategies for real growth,
-                not quick fixes that fall apart next week.
+                This isn't about perfection-it's about understanding the game
+                and playing it smart.
               </p>
             </div>
             <Link

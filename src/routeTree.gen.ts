@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BookingRouteImport } from './routes/booking'
@@ -32,6 +33,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/booking': typeof BookingRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/portfolio': typeof PortfolioRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/booking': typeof BookingRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/portfolio': typeof PortfolioRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/booking': typeof BookingRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/portfolio': typeof PortfolioRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/booking'
     | '/contact'
     | '/faq'
+    | '/portfolio'
     | '/resources'
     | '/services'
     | '/testimonials'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/booking'
     | '/contact'
     | '/faq'
+    | '/portfolio'
     | '/resources'
     | '/services'
     | '/testimonials'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/booking'
     | '/contact'
     | '/faq'
+    | '/portfolio'
     | '/resources'
     | '/services'
     | '/testimonials'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   BookingRoute: typeof BookingRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
+  PortfolioRoute: typeof PortfolioRoute
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRoute
   TestimonialsRoute: typeof TestimonialsRoute
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   BookingRoute: BookingRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
+  PortfolioRoute: PortfolioRoute,
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRoute,
   TestimonialsRoute: TestimonialsRoute,

@@ -6,6 +6,7 @@ import siteLogo from "@/assets/runway-refined-logo.png";
 const NAV = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
+  { to: "/portfolio", label: "Portfolio" },
   { to: "/services", label: "Services" },
   { to: "/booking", label: "Booking" },
   { to: "/resources", label: "Resources" },
