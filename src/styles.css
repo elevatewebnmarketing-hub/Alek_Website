@@ -177,4 +177,20 @@
     from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  /* Portfolio video: no cropping; browser fullscreen shows full frame, not a zoomed crop */
+  .portfolio-carousel-video {
+    object-fit: contain;
+  }
+}
+
+/* Fullscreen: keep contain so picture is not stretched/zoomed past native aspect */
+video.portfolio-carousel-video:fullscreen,
+video.portfolio-carousel-video:-webkit-full-screen {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  background: #000;
 }

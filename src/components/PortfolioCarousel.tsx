@@ -8,6 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+import { portfolioCarouselOverlayNextClass, portfolioCarouselOverlayPrevClass } from "@/lib/portfolioCarouselNav";
 
 type PortfolioCarouselProps = {
   children: React.ReactNode;
@@ -51,10 +52,14 @@ export function PortfolioCarousel({ children, className }: PortfolioCarouselProp
         opts={{ align: "start", loop: true }}
       >
         <CarouselContent className="-ml-2 md:-ml-4">{children}</CarouselContent>
-        <div className="mt-6 flex items-center justify-center gap-3">
-          <CarouselPrevious className="static left-auto top-auto translate-y-0" />
-          <CarouselNext className="static right-auto top-auto translate-y-0" />
-        </div>
+        <CarouselPrevious
+          className={portfolioCarouselOverlayPrevClass()}
+          variant="ghost"
+        />
+        <CarouselNext
+          className={portfolioCarouselOverlayNextClass()}
+          variant="ghost"
+        />
       </Carousel>
     </div>
   );

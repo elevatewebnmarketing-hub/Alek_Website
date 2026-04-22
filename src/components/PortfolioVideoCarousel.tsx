@@ -7,6 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { portfolioCarouselOverlayNextClass, portfolioCarouselOverlayPrevClass } from "@/lib/portfolioCarouselNav";
 import { cn } from "@/lib/utils";
 import type { PortfolioVideoSlide } from "@/lib/portfolio/types";
 
@@ -54,7 +55,7 @@ export function PortfolioVideoCarousel({ slides, className }: PortfolioVideoCaro
     <div ref={containerRef}>
       <Carousel
         setApi={setApi}
-        className={cn("mx-auto w-full max-w-3xl", className)}
+        className={cn("mx-auto w-full max-w-[min(22.5rem,100%)]", className)}
         opts={{ align: "start", loop: true }}
       >
         <CarouselContent className="-ml-2 md:-ml-4">
@@ -63,13 +64,23 @@ export function PortfolioVideoCarousel({ slides, className }: PortfolioVideoCaro
             return (
               <CarouselItem key={video.src} className="pl-2 md:pl-4">
                 <div className="border border-border bg-secondary/20 p-4 md:p-5">
-                  <video
-                    src={isActive ? video.src : undefined}
-                    controls
-                    playsInline
-                    preload="none"
-                    className="portfolio-carousel-video aspect-[9/16] w-full bg-black object-cover"
-                  />
+                  <div className="relative w-full">
+                    <video
+                      src={isActive ? video.src : undefined}
+                      controls
+                      playsInline
+                      preload="none"
+                      className="portfolio-carousel-video aspect-[9/16] w-full bg-black object-contain"
+                    />
+                    <CarouselPrevious
+                      className={portfolioCarouselOverlayPrevClass()}
+                      variant="ghost"
+                    />
+                    <CarouselNext
+                      className={portfolioCarouselOverlayNextClass()}
+                      variant="ghost"
+                    />
+                  </div>
                   <h3 className="mt-4 font-serif text-2xl">{video.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{video.note}</p>
                   <a
@@ -85,10 +96,6 @@ export function PortfolioVideoCarousel({ slides, className }: PortfolioVideoCaro
             );
           })}
         </CarouselContent>
-        <div className="mt-6 flex items-center justify-center gap-3">
-          <CarouselPrevious className="static left-auto top-auto translate-y-0" />
-          <CarouselNext className="static right-auto top-auto translate-y-0" />
-        </div>
       </Carousel>
     </div>
   );
