@@ -8,7 +8,7 @@ export const Route = createFileRoute("/blog")({
     meta: pageMeta({
       title: "Journal · Runway Refined by Alek",
       description:
-        "Trend notes, runway guidance, and model growth ideas from Alek Deng Malek.",
+        "Fashion industry trend notes, runway guidance, and market insights from Alek Deng Malek.",
       path: "/blog",
     }),
   }),
@@ -34,10 +34,10 @@ const POSTS = [
   },
   {
     slug: "social-content-that-converts",
-    category: "Content Strategy",
-    title: "How Models Can Turn Social Media Content Into Paying Work",
+    category: "Industry Trends",
+    title: "How Social Trends Are Reshaping Model Demand and Income",
     excerpt:
-      "The structure, consistency, and positioning that helps online visibility turn into real client enquiries.",
+      "What is changing in platform behaviour, audience expectations, and brand casting so models can adapt early.",
     date: "Coming soon",
   },
   {
@@ -56,7 +56,7 @@ function BlogPage() {
       <PageHero
         eyebrow="The Journal"
         title="Fashion trends, strategy, and model growth insights."
-        intro="Short reads on what is shifting in fashion and how you can adapt, grow, and get paid."
+        intro="Short reads focused on fashion industry trends and what they mean for model growth, bookings, and long-term positioning."
       />
 
       <Section className="border-b border-border">

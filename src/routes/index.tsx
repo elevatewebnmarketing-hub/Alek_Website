@@ -10,9 +10,9 @@ import { ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: pageMeta({
-      title: "Runway Refined by Alek · Refine Your Walk. Build Your Brand.",
+      title: "Runway Refined by Alek · UK-Based Coaching Worldwide",
       description:
-        "Personalised coaching with Alek for models who want to build confidence, create stronger content, and turn social media attention into paying clients.",
+        "UK-based model coaching by Alek for clients worldwide. Build confidence, create stronger content, and turn social media attention into paying clients.",
       image: heroImage,
       path: "/",
     }),
@@ -87,7 +87,7 @@ function HomePage() {
 
         <div className="border-t border-background/15">
           <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-4 px-6 py-5 text-[0.65rem] uppercase tracking-[0.3em] text-background/60 lg:px-12">
-            <span>Coaching Worldwide</span>
+            <span>UK Based · Coaching Worldwide</span>
             <span className="hidden md:inline">Runway · Content · Personal Brand</span>
             <span>Built for long-term model growth</span>
           </div>
@@ -180,7 +180,7 @@ function HomePage() {
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-background/15 pt-8">
               {[
                 ["1:1", "Tailored coaching"],
-                ["UK", "Based · Coaching worldwide"],
+                ["UK", "Based · Serving worldwide"],
                 ["∞", "Long-term results"],
               ].map(([k, v]) => (
                 <div key={v}>

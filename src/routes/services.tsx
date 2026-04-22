@@ -24,7 +24,7 @@ function ServicesPage() {
       <PageHero
         eyebrow="Services"
         title="Coaching, refined to where you are."
-        intro="Each service matches your level and what you are working toward. Prices are in GBP and each listing shows a clear band."
+        intro="Each service matches your level and what you are working toward. Prices are in GBP, from £30 for analysis up to £700 per month for mentorship."
       />
 
       <Section className="border-b border-border pt-0">

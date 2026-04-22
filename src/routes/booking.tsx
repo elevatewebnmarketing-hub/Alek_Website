@@ -16,7 +16,7 @@ export const Route = createFileRoute("/booking")({
     meta: pageMeta({
       title: "Book a Session · Runway Refined by Alek",
       description:
-        "Reserve your coaching session and choose your service. Booking automation is almost ready.",
+        "Reserve your coaching session and choose your service. Stripe checkout, Calendly scheduling, and confirmation emails are in setup.",
       path: "/booking",
     }),
   }),
@@ -25,9 +25,9 @@ export const Route = createFileRoute("/booking")({
 
 const STEPS = [
   { n: "01", t: "Choose a service", d: "Pick what matches your level and your next goal." },
-  { n: "02", t: "Pay securely", d: "Stripe checkout in GBP (finishing touches in progress)." },
-  { n: "03", t: "Schedule with Calendly", d: "Your booking link goes live as soon as setup is complete." },
-  { n: "04", t: "Show up and grow", d: "Confirmation emails will run automatically at launch." },
+  { n: "02", t: "Pay securely", d: "Stripe checkout in GBP is currently in setup." },
+  { n: "03", t: "Schedule with Calendly", d: "Calendly redirect is enabled after setup is complete." },
+  { n: "04", t: "Show up and grow", d: "Email confirmations will be sent automatically once setup is finished." },
 ];
 
 function BookingPage() {
@@ -45,7 +45,7 @@ function BookingPage() {
       return;
     }
     alert(
-      "Stripe checkout will be wired up next. For now, you'll be taken to Calendly to schedule.",
+      "Stripe checkout is still in setup. For now, you will be taken to Calendly to schedule.",
     );
     window.open(CALENDLY_URL, "_blank", "noreferrer");
   };
@@ -55,7 +55,7 @@ function BookingPage() {
       <PageHero
         eyebrow="Booking"
         title="Reserve your session."
-        intro="Choose what fits where you are. Stripe and Calendly are being finalised before launch."
+        intro="Choose what fits where you are. Stripe checkout, Calendly scheduling, and email confirmation are currently being finalised."
       />
 
       <Section className="border-b border-border">

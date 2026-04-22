@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Mail } from "lucide-react";
+import { Instagram, Mail, Phone } from "lucide-react";
 import siteLogo from "@/assets/runway-refined-logo.png";
 
 export function SiteFooter() {
@@ -17,8 +17,8 @@ export function SiteFooter() {
               height={683}
             />
             <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Personalised coaching for models who want a career that lasts.
-              Runway, branding, mindset, refined.
+              UK-based coaching for models worldwide. Runway, branding,
+              mindset, refined.
             </p>
           </div>
 
@@ -46,6 +46,14 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
+                  href="tel:+447778523990"
+                  className="inline-flex items-center gap-2 hover:underline"
+                >
+                  <Phone className="size-4" /> +44 7778 523990
+                </a>
+              </li>
+              <li>
+                <a
                   href="https://www.instagram.com/alek_maleek?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                   target="_blank"
                   rel="noreferrer"
@@ -60,7 +68,7 @@ export function SiteFooter() {
 
         <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-border pt-8 text-xs uppercase tracking-[0.18em] text-muted-foreground md:flex-row md:items-center">
           <div>© {new Date().getFullYear()} Runway Refined by Alek</div>
-          <div>Worldwide · Coaching in English</div>
+          <div>UK Based · Coaching Worldwide</div>
         </div>
       </div>
     </footer>

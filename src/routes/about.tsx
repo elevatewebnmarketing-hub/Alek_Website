@@ -7,9 +7,9 @@ import { ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: pageMeta({
-      title: "About Alek Deng Malek · Model Coach",
+      title: "About Alek Deng Malek · Runway Refined by Alek",
       description:
-        "Meet Alek Deng Malek: a model coach who helps aspiring and professional models build confidence, refine their craft, and grow in fashion and commercial work.",
+        "Meet Alek Deng Malek, the coach behind Runway Refined by Alek. UK-based coaching for aspiring and professional models worldwide.",
       image: portrait,
       path: "/about",
     }),
@@ -38,7 +38,7 @@ function AboutPage() {
       <PageHero
         eyebrow="About"
         title="Alek Deng Malek · model coach for confident, consistent growth."
-        intro="Alek works with aspiring and professional models to build confidence, sharpen runway and camera presence, and grow a personal brand that opens real doors."
+        intro="Alek is based in the UK and coaches aspiring and professional models worldwide to build confidence, sharpen runway and camera presence, and grow a personal brand that opens real doors."
       />
 
       <Section className="border-b border-border">

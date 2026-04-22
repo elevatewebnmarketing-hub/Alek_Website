@@ -32,11 +32,11 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Runway Refined by Alek · Model & Runway Coaching" },
+      { title: "Runway Refined by Alek · UK Model & Runway Coaching" },
       {
         name: "description",
         content:
-          "Personalised model coaching with Alek Deng Malek. Refine your walk, build your brand, turn attention into income.",
+          "Runway Refined by Alek offers UK-based model coaching for clients worldwide. Refine your walk, build your brand, and turn attention into income.",
       },
       { name: "author", content: "Alek Deng Malek" },
       {
@@ -44,10 +44,10 @@ export const Route = createRootRoute({
         content:
           "runway coach, model coach, catwalk training, fashion model coaching, supermodel training",
       },
-      { property: "og:title", content: "Runway Refined by Alek" },
+      { property: "og:title", content: "Runway Refined by Alek · UK-Based Coaching" },
       {
         property: "og:description",
-        content: "Luxury model coaching: runway, branding, mindset.",
+        content: "Luxury model coaching from the UK for models worldwide: runway, branding, mindset.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

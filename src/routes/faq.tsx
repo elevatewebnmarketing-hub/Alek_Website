@@ -28,7 +28,7 @@ const FAQS = [
   },
   {
     q: "How do sessions work?",
-    a: "Most sessions are one-to-one on video. In person is sometimes possible depending on where you are. You pick a service and send a booking request. Stripe and Calendly are being wired up for launch.",
+    a: "Most sessions are one-to-one on video. In person is sometimes possible depending on where you are. You choose a service first, then complete booking once Stripe checkout, Calendly scheduling, and confirmation email setup is finished.",
   },
   {
     q: "How much does it cost?",

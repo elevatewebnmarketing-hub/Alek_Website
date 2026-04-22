@@ -2,14 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
-import { ArrowRight, Instagram, Mail } from "lucide-react";
+import { ArrowRight, Instagram, Mail, Phone } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: pageMeta({
-      title: "Contact · Runway Refined by Alek",
+      title: "Contact · Runway Refined by Alek (UK)",
       description:
-        "Reach Alek Deng Malek for model coaching questions, collaborations, or anything on your mind.",
+        "Reach Alek Deng Malek at Runway Refined by Alek. UK-based coaching for aspiring and professional models worldwide.",
       path: "/contact",
     }),
   }),
@@ -100,6 +100,14 @@ function ContactPage() {
               </li>
               <li>
                 <a
+                  href="tel:+447778523990"
+                  className="inline-flex items-center gap-3 hover:underline"
+                >
+                  <Phone className="size-5" /> +44 7778 523990
+                </a>
+              </li>
+              <li>
+                <a
                   href="https://www.instagram.com/alek_maleek?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                   target="_blank"
                   rel="noreferrer"
@@ -112,9 +120,9 @@ function ContactPage() {
             <div className="mt-12 border-t border-border pt-8">
               <div className="editorial-eyebrow">Coverage</div>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                Online coaching is available worldwide. In-person sessions can
-                be arranged from the United Kingdom base when it makes sense.
-                Share your location and we will go from there.
+                Based in the UK. Online coaching is available worldwide, and
+                in-person sessions are arranged by request when location and
+                schedule align.
               </p>
             </div>
           </aside>
