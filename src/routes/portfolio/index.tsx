@@ -60,18 +60,23 @@ function PortfolioIndexPage() {
       />
 
       <Section className="border-b border-border">
-        <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="grid auto-rows-fr gap-5 sm:gap-6 md:grid-cols-2 xl:grid-cols-3 xl:gap-8">
           {PROJECTS.map((p) => (
             <Link
               key={p.to}
               to={p.to}
-              className="group flex flex-col bg-background p-8 transition-colors hover:bg-secondary lg:p-10"
+              className="group flex h-full min-h-[280px] flex-col border border-border bg-background p-10 transition-[box-shadow,background-color,border-color] hover:border-foreground/20 hover:bg-secondary/30 hover:shadow-md sm:min-h-[300px] sm:p-12 lg:min-h-0 lg:p-14"
             >
               <div className="editorial-eyebrow">{p.eyebrow}</div>
-              <h2 className="font-serif text-2xl mt-6 leading-tight lg:text-3xl">{p.title}</h2>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
-              <span className="mt-8 inline-flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.22em]">
-                View project <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
+              <h2 className="font-serif mt-7 text-3xl leading-[1.12] sm:text-[2rem] sm:leading-[1.1] lg:mt-8 lg:text-4xl lg:leading-[1.08]">
+                {p.title}
+              </h2>
+              <p className="mt-6 max-w-md flex-1 text-base leading-[1.65] text-muted-foreground sm:text-[1.0625rem] sm:leading-[1.7] lg:mt-7">
+                {p.body}
+              </p>
+              <span className="mt-10 inline-flex items-center gap-2.5 border-t border-border pt-8 text-[0.78rem] font-medium uppercase tracking-[0.22em] text-foreground/90 transition-colors group-hover:border-foreground/15 group-hover:text-foreground lg:pt-9">
+                View project{" "}
+                <ArrowRight className="size-4 shrink-0 transition-transform group-hover:translate-x-1" />
               </span>
             </Link>
           ))}
