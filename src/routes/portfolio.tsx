@@ -137,16 +137,22 @@ function PortfolioPage() {
           {RUNWAY_VIDEOS.map((video) => (
             <article key={video.src} className="border border-border bg-secondary/20 p-5">
               <video
+                src={video.src}
                 controls
                 playsInline
                 preload="metadata"
                 className="aspect-[9/16] w-full bg-black object-cover"
-              >
-                <source src={video.src} type="video/quicktime" />
-                Your browser does not support this video format.
-              </video>
+              />
               <h3 className="mt-4 font-serif text-2xl">{video.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{video.note}</p>
+              <a
+                href={video.src}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-4 inline-flex text-[0.72rem] font-medium uppercase tracking-[0.2em] underline-offset-8 hover:underline"
+              >
+                Open video
+              </a>
             </article>
           ))}
         </div>
@@ -163,15 +169,21 @@ function PortfolioPage() {
           {BTS_VIDEOS.map((video) => (
             <article key={video.src} className="border border-border bg-secondary/20 p-4">
               <video
+                src={video.src}
                 controls
                 playsInline
                 preload="metadata"
                 className="aspect-[9/16] w-full bg-black object-cover"
-              >
-                <source src={video.src} type="video/quicktime" />
-                Your browser does not support this video format.
-              </video>
+              />
               <h3 className="mt-4 font-serif text-xl">{video.title}</h3>
+              <a
+                href={video.src}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 inline-flex text-[0.72rem] font-medium uppercase tracking-[0.2em] underline-offset-8 hover:underline"
+              >
+                Open video
+              </a>
             </article>
           ))}
         </div>
