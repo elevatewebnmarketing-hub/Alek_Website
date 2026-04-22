@@ -10,4 +10,21 @@ export default defineConfig({
   resolve: {
     dedupe: ["react", "react-dom"],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules/react-dom/") || id.includes("node_modules/react/")) {
+            return "react-vendor";
+          }
+          if (id.includes("node_modules/@tanstack/react-router") || id.includes("node_modules/@tanstack/router-core")) {
+            return "tanstack-router";
+          }
+          if (id.includes("node_modules/embla-carousel")) {
+            return "embla";
+          }
+        },
+      },
+    },
+  },
 });

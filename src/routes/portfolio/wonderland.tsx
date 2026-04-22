@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
 import { PortfolioCarousel, CarouselItem } from "@/components/PortfolioCarousel";
-import { WONDERLAND_IMAGE_SLIDES, wonderlandCover } from "@/lib/portfolioData";
+import { WONDERLAND_IMAGE_SLIDES, wonderlandCover } from "@/lib/portfolio/wonderland";
 
 const AHLUWALIA_WONDERLAND_URL =
   "https://ahluwalia.world/blogs/our-world/wonderland-magazine";

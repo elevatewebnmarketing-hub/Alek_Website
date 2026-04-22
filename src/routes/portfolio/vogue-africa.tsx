@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
 import { PortfolioCarousel, CarouselItem } from "@/components/PortfolioCarousel";
-import { VOGUE_AFRICA_IMAGE_SLIDES, vogueAfricaCover } from "@/lib/portfolioData";
+import { VOGUE_AFRICA_IMAGE_SLIDES, vogueAfricaCover } from "@/lib/portfolio/vogueAfrica";
 
 export const Route = createFileRoute("/portfolio/vogue-africa")({
   head: () => ({

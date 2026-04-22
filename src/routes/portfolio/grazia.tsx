@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
 import { PortfolioCarousel, CarouselItem } from "@/components/PortfolioCarousel";
-import { GRAZIA_IMAGE_SLIDES, graziaCover } from "@/lib/portfolioData";
+import { GRAZIA_IMAGE_SLIDES, graziaCover } from "@/lib/portfolio/grazia";
 
 export const Route = createFileRoute("/portfolio/grazia")({
   head: () => ({

@@ -2,8 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
-import { PortfolioCarousel, CarouselItem } from "@/components/PortfolioCarousel";
-import { BTS_VIDEO_SLIDES, graziaCover } from "@/lib/portfolioData";
+import { PortfolioVideoCarousel } from "@/components/PortfolioVideoCarousel";
+import { BTS_VIDEO_SLIDES } from "@/lib/portfolio/btsVideos";
+import { graziaCover } from "@/lib/portfolio/grazia";
 
 export const Route = createFileRoute("/portfolio/bts")({
   head: () => ({
@@ -49,31 +50,7 @@ function PortfolioBtsPage() {
         </div>
 
         <div className="mt-14">
-          <PortfolioCarousel>
-            {BTS_VIDEO_SLIDES.map((video) => (
-              <CarouselItem key={video.src} className="pl-2 md:pl-4">
-                <div className="border border-border bg-secondary/20 p-4 md:p-5">
-                  <video
-                    src={video.src}
-                    controls
-                    playsInline
-                    preload="metadata"
-                    className="portfolio-carousel-video aspect-[9/16] w-full bg-black object-cover"
-                  />
-                  <h3 className="mt-4 font-serif text-2xl">{video.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{video.note}</p>
-                  <a
-                    href={video.src}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-4 inline-flex text-[0.72rem] font-medium uppercase tracking-[0.2em] underline-offset-8 hover:underline"
-                  >
-                    Open video
-                  </a>
-                </div>
-              </CarouselItem>
-            ))}
-          </PortfolioCarousel>
+          <PortfolioVideoCarousel slides={BTS_VIDEO_SLIDES} />
         </div>
       </Section>
 

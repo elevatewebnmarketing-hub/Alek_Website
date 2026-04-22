@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
-import { graziaCover } from "@/lib/portfolioData";
+import { graziaCover } from "@/lib/portfolio/grazia";
 
 export const Route = createFileRoute("/portfolio/")({
   head: () => ({
