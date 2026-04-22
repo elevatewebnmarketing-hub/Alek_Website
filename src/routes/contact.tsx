@@ -100,12 +100,12 @@ function ContactPage() {
               </li>
               <li>
                 <a
-                  href="https://instagram.com/"
+                  href="https://www.instagram.com/alek_maleek?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-3 hover:underline"
                 >
-                  <Instagram className="size-5" /> Instagram (link placeholder)
+                  <Instagram className="size-5" /> @alek_maleek
                 </a>
               </li>
             </ul>

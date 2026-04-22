@@ -46,12 +46,12 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href="https://instagram.com/"
+                  href="https://www.instagram.com/alek_maleek?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 hover:underline"
                 >
-                  <Instagram className="size-4" /> Instagram (placeholder)
+                  <Instagram className="size-4" /> @alek_maleek
                 </a>
               </li>
             </ul>

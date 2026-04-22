@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import heroImage from "@/assets/hero-runway.jpg";
+import heroImage from "@/assets/hero-grazia.png";
 import transformationImage from "@/assets/transformation.jpg";
 import portraitImage from "@/assets/alek-home-portrait.png";
 import { Section } from "@/components/Section";
@@ -41,7 +41,7 @@ function HomePage() {
       {/* HERO */}
       <section className="relative isolate overflow-hidden border-b border-border bg-foreground text-background">
         <div className="relative grid min-h-[88vh] grid-cols-1 lg:grid-cols-12">
-          <div className="z-10 flex flex-col justify-end px-6 pb-16 pt-20 lg:col-span-6 lg:px-12 lg:pb-24 lg:pt-32">
+          <div className="z-10 flex flex-col justify-end bg-foreground/95 px-6 pb-16 pt-20 lg:col-span-6 lg:px-12 lg:pb-24 lg:pt-32">
             <div className="editorial-eyebrow text-background/70 fade-in">
               Runway · Brand · Income
             </div>
@@ -75,12 +75,12 @@ function HomePage() {
           <div className="absolute inset-0 lg:relative lg:col-span-6">
             <img
               src={heroImage}
-              alt="Editorial runway photograph of a model walking under a single spotlight"
-              className="absolute inset-0 size-full object-cover object-right opacity-90 lg:object-cover"
-              width={1080}
-              height={1920}
+              alt="Grazia cover image featuring Alek in an editorial gown"
+              className="absolute inset-0 size-full object-cover object-center opacity-90 lg:object-contain lg:object-center"
+              width={819}
+              height={1024}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/40 to-transparent lg:from-foreground/80 lg:via-transparent lg:to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/55 to-transparent lg:from-foreground lg:via-foreground/15 lg:to-transparent" />
           </div>
         </div>
 
