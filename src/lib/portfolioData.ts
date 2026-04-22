@@ -1,0 +1,96 @@
+import graziaLook1 from "@/assets/portfolio/grazia-look-1.png";
+import graziaLook2 from "@/assets/portfolio/grazia-look-2.png";
+import graziaLook3 from "@/assets/portfolio/grazia-look-3.png";
+import graziaCover from "@/assets/portfolio/grazia-cover.png";
+import giorgioArmaniRunway from "../../Videos/Giorgio Armani.mov";
+import runwayFeature from "../../Videos/Modeling on the Runway.mov";
+import runwayWalk1 from "../../Videos/Model Walking 1.mov";
+import runwayWalk2 from "../../Videos/Model walking 2.mov";
+import runwayWalk3 from "../../Videos/Model Walking 3.mov";
+import runwayWalk4 from "../../Videos/Model walking.mov";
+import bts1 from "../../Videos/BTS 1.mov";
+import bts2 from "../../Videos/BTS 2.mov";
+import bts3 from "../../Videos/BTS 3.mov";
+
+export type PortfolioImageSlide = {
+  src: string;
+  alt: string;
+};
+
+export type PortfolioVideoSlide = {
+  src: string;
+  title: string;
+  note: string;
+};
+
+export const GRAZIA_IMAGE_SLIDES: PortfolioImageSlide[] = [
+  {
+    src: graziaCover,
+    alt: "Grazia cover feature with Alek in an editorial white and black gown",
+  },
+  {
+    src: graziaLook1,
+    alt: "Alek in a Grazia editorial look with circular halo set design",
+  },
+  {
+    src: graziaLook2,
+    alt: "Alek in Grazia editorial collaboration with another model in studio",
+  },
+  {
+    src: graziaLook3,
+    alt: "Alek in a black and magenta editorial dress from the Grazia shoot",
+  },
+];
+
+export const RUNWAY_VIDEO_SLIDES: PortfolioVideoSlide[] = [
+  {
+    src: giorgioArmaniRunway,
+    title: "Giorgio Armani Runway",
+    note: "A featured runway moment showcasing clean pacing, posture, and controlled transitions.",
+  },
+  {
+    src: runwayFeature,
+    title: "Modeling on the Runway",
+    note: "Runway footage focused on presence, confidence, and floor command.",
+  },
+  {
+    src: runwayWalk1,
+    title: "Model Walking 1",
+    note: "Practice-to-performance runway progression clip.",
+  },
+  {
+    src: runwayWalk2,
+    title: "Model Walking 2",
+    note: "Additional runway segment focused on consistency in movement.",
+  },
+  {
+    src: runwayWalk3,
+    title: "Model Walking 3",
+    note: "Runway clip highlighting controlled rhythm and presentation.",
+  },
+  {
+    src: runwayWalk4,
+    title: "Model Walking",
+    note: "Editorial runway walk variation captured in live conditions.",
+  },
+];
+
+export const BTS_VIDEO_SLIDES: PortfolioVideoSlide[] = [
+  {
+    src: bts1,
+    title: "BTS 1",
+    note: "Behind-the-scenes from set: preparation and direction before the final frame.",
+  },
+  {
+    src: bts2,
+    title: "BTS 2",
+    note: "Production moments that show how polished imagery comes together.",
+  },
+  {
+    src: bts3,
+    title: "BTS 3",
+    note: "On-set rhythm, styling, and the work behind the shot.",
+  },
+];
+
+export { graziaCover };

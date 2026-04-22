@@ -12,13 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResourcesRouteImport } from './routes/resources'
-import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BookingRouteImport } from './routes/booking'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PortfolioIndexRouteImport } from './routes/portfolio/index'
+import { Route as PortfolioRunwayRouteImport } from './routes/portfolio/runway'
+import { Route as PortfolioGraziaRouteImport } from './routes/portfolio/grazia'
+import { Route as PortfolioBtsRouteImport } from './routes/portfolio/bts'
 
 const TestimonialsRoute = TestimonialsRouteImport.update({
   id: '/testimonials',
@@ -33,11 +36,6 @@ const ServicesRoute = ServicesRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PortfolioRoute = PortfolioRouteImport.update({
-  id: '/portfolio',
-  path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -70,6 +68,26 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortfolioIndexRoute = PortfolioIndexRouteImport.update({
+  id: '/portfolio/',
+  path: '/portfolio/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRunwayRoute = PortfolioRunwayRouteImport.update({
+  id: '/portfolio/runway',
+  path: '/portfolio/runway',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioGraziaRoute = PortfolioGraziaRouteImport.update({
+  id: '/portfolio/grazia',
+  path: '/portfolio/grazia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioBtsRoute = PortfolioBtsRouteImport.update({
+  id: '/portfolio/bts',
+  path: '/portfolio/bts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -78,10 +96,13 @@ export interface FileRoutesByFullPath {
   '/booking': typeof BookingRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
-  '/portfolio': typeof PortfolioRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
+  '/portfolio/bts': typeof PortfolioBtsRoute
+  '/portfolio/grazia': typeof PortfolioGraziaRoute
+  '/portfolio/runway': typeof PortfolioRunwayRoute
+  '/portfolio/': typeof PortfolioIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -90,10 +111,13 @@ export interface FileRoutesByTo {
   '/booking': typeof BookingRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
-  '/portfolio': typeof PortfolioRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
+  '/portfolio/bts': typeof PortfolioBtsRoute
+  '/portfolio/grazia': typeof PortfolioGraziaRoute
+  '/portfolio/runway': typeof PortfolioRunwayRoute
+  '/portfolio': typeof PortfolioIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -103,10 +127,13 @@ export interface FileRoutesById {
   '/booking': typeof BookingRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
-  '/portfolio': typeof PortfolioRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
+  '/portfolio/bts': typeof PortfolioBtsRoute
+  '/portfolio/grazia': typeof PortfolioGraziaRoute
+  '/portfolio/runway': typeof PortfolioRunwayRoute
+  '/portfolio/': typeof PortfolioIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -117,10 +144,13 @@ export interface FileRouteTypes {
     | '/booking'
     | '/contact'
     | '/faq'
-    | '/portfolio'
     | '/resources'
     | '/services'
     | '/testimonials'
+    | '/portfolio/bts'
+    | '/portfolio/grazia'
+    | '/portfolio/runway'
+    | '/portfolio/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -129,10 +159,13 @@ export interface FileRouteTypes {
     | '/booking'
     | '/contact'
     | '/faq'
-    | '/portfolio'
     | '/resources'
     | '/services'
     | '/testimonials'
+    | '/portfolio/bts'
+    | '/portfolio/grazia'
+    | '/portfolio/runway'
+    | '/portfolio'
   id:
     | '__root__'
     | '/'
@@ -141,10 +174,13 @@ export interface FileRouteTypes {
     | '/booking'
     | '/contact'
     | '/faq'
-    | '/portfolio'
     | '/resources'
     | '/services'
     | '/testimonials'
+    | '/portfolio/bts'
+    | '/portfolio/grazia'
+    | '/portfolio/runway'
+    | '/portfolio/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -154,10 +190,13 @@ export interface RootRouteChildren {
   BookingRoute: typeof BookingRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
-  PortfolioRoute: typeof PortfolioRoute
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRoute
   TestimonialsRoute: typeof TestimonialsRoute
+  PortfolioBtsRoute: typeof PortfolioBtsRoute
+  PortfolioGraziaRoute: typeof PortfolioGraziaRoute
+  PortfolioRunwayRoute: typeof PortfolioRunwayRoute
+  PortfolioIndexRoute: typeof PortfolioIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -181,13 +220,6 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/portfolio': {
-      id: '/portfolio'
-      path: '/portfolio'
-      fullPath: '/portfolio'
-      preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -232,6 +264,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portfolio/': {
+      id: '/portfolio/'
+      path: '/portfolio'
+      fullPath: '/portfolio/'
+      preLoaderRoute: typeof PortfolioIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio/runway': {
+      id: '/portfolio/runway'
+      path: '/portfolio/runway'
+      fullPath: '/portfolio/runway'
+      preLoaderRoute: typeof PortfolioRunwayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio/grazia': {
+      id: '/portfolio/grazia'
+      path: '/portfolio/grazia'
+      fullPath: '/portfolio/grazia'
+      preLoaderRoute: typeof PortfolioGraziaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio/bts': {
+      id: '/portfolio/bts'
+      path: '/portfolio/bts'
+      fullPath: '/portfolio/bts'
+      preLoaderRoute: typeof PortfolioBtsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -242,10 +302,13 @@ const rootRouteChildren: RootRouteChildren = {
   BookingRoute: BookingRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
-  PortfolioRoute: PortfolioRoute,
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRoute,
   TestimonialsRoute: TestimonialsRoute,
+  PortfolioBtsRoute: PortfolioBtsRoute,
+  PortfolioGraziaRoute: PortfolioGraziaRoute,
+  PortfolioRunwayRoute: PortfolioRunwayRoute,
+  PortfolioIndexRoute: PortfolioIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
