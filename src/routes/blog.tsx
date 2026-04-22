@@ -6,9 +6,9 @@ import { ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/blog")({
   head: () => ({
     meta: pageMeta({
-      title: "Journal — Runway Refined by Alek",
+      title: "Journal · Runway Refined by Alek",
       description:
-        "Fashion industry trend insights, runway guidance, and model growth strategy from Alek Deng Malek.",
+        "Trend notes, runway guidance, and model growth ideas from Alek Deng Malek.",
       path: "/blog",
     }),
   }),
@@ -56,7 +56,7 @@ function BlogPage() {
       <PageHero
         eyebrow="The Journal"
         title="Fashion trends, strategy, and model growth insights."
-        intro="A trend-led journal focused on what is changing in the fashion industry and how models can adapt, grow, and earn consistently."
+        intro="Short reads on what is shifting in fashion and how you can adapt, grow, and get paid."
       />
 
       <Section className="border-b border-border">

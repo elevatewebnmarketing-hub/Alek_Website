@@ -6,9 +6,9 @@ import { ArrowRight, Clock3 } from "lucide-react";
 export const Route = createFileRoute("/testimonials")({
   head: () => ({
     meta: pageMeta({
-      title: "Testimonials — Runway Refined by Alek",
+      title: "Testimonials · Runway Refined by Alek",
       description:
-        "Client testimonials and transformation stories from Runway Refined coaching clients.",
+        "Client stories and transformations from Runway Refined coaching.",
       path: "/testimonials",
     }),
   }),
@@ -21,7 +21,7 @@ function TestimonialsPage() {
       <PageHero
         eyebrow="Testimonials"
         title="Client stories are coming soon."
-        intro="As new clients complete sessions and mentorship programmes, their testimonials and progress stories will be published here."
+        intro="As clients finish sessions and programmes, their words will land here first."
       />
 
       <Section className="border-b border-border">
@@ -29,9 +29,8 @@ function TestimonialsPage() {
           <Clock3 className="mx-auto size-8 text-muted-foreground/60" />
           <h2 className="display-lg mt-6">No public testimonials yet.</h2>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-            This page is reserved for verified client feedback. If you work
-            with Alek now, your transformation story could be one of the first
-            shared here.
+            This space is for real client voices only. If you are working with
+            Alek now, yours might be among the first we publish.
           </p>
         </div>
       </Section>

@@ -14,9 +14,9 @@ export const Route = createFileRoute("/booking")({
   validateSearch: searchSchema,
   head: () => ({
     meta: pageMeta({
-      title: "Book a Session — Runway Refined by Alek",
+      title: "Book a Session · Runway Refined by Alek",
       description:
-        "Reserve your coaching session and choose your service. Booking automation setup is currently being finalised.",
+        "Reserve your coaching session and choose your service. Booking automation is almost ready.",
       path: "/booking",
     }),
   }),
@@ -24,10 +24,10 @@ export const Route = createFileRoute("/booking")({
 });
 
 const STEPS = [
-  { n: "01", t: "Choose a service", d: "Pick the coaching that fits where you are." },
-  { n: "02", t: "Pay securely", d: "Stripe checkout in GBP (integration setup in progress)." },
-  { n: "03", t: "Schedule with Calendly", d: "Calendly link will be added once final setup is complete." },
-  { n: "04", t: "Show up and grow", d: "Confirmation email automation will be enabled at launch." },
+  { n: "01", t: "Choose a service", d: "Pick what matches your level and your next goal." },
+  { n: "02", t: "Pay securely", d: "Stripe checkout in GBP (finishing touches in progress)." },
+  { n: "03", t: "Schedule with Calendly", d: "Your booking link goes live as soon as setup is complete." },
+  { n: "04", t: "Show up and grow", d: "Confirmation emails will run automatically at launch." },
 ];
 
 function BookingPage() {
@@ -55,7 +55,7 @@ function BookingPage() {
       <PageHero
         eyebrow="Booking"
         title="Reserve your session."
-        intro="Pick the service that fits where you are. Stripe and Calendly automation are currently being finalised before launch."
+        intro="Choose what fits where you are. Stripe and Calendly are being finalised before launch."
       />
 
       <Section className="border-b border-border">
@@ -74,7 +74,7 @@ function BookingPage() {
       <Section className="border-b border-border">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <div className="editorial-eyebrow">Step 01 — Select</div>
+            <div className="editorial-eyebrow">Step 01 · Select</div>
             <h2 className="display-lg mt-6">Choose your session.</h2>
             <div className="mt-10 grid gap-px bg-border sm:grid-cols-2">
               {SERVICES.map((s) => {

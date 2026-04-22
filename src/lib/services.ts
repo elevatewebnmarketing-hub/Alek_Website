@@ -12,37 +12,37 @@ export const SERVICES: Service[] = [
     slug: "runway-1to1",
     name: "1:1 Runway Coaching",
     priceRange: "£80 – £150",
-    tagline: "Personalised coaching to improve your walk and runway presence.",
+    tagline: "One-to-one time to lift your walk and your presence on the runway.",
     description:
-      "A personalised session focused on improving your walk, posture, and overall runway presence with practical direction you can apply immediately.",
+      "A focused session on your walk, posture, and how you read on the runway. You leave with notes you can rehearse the same day.",
     includes: [
       "45–60 minute live video session",
       "Posture correction and walk training",
-      "Personalised feedback with actionable next steps",
-      "Clear practice focus between sessions",
+      "Feedback you can act on before the next session",
+      "A clear practice focus between calls",
     ],
   },
   {
     slug: "beginner-foundations",
     name: "Beginner Model Foundations (Runway Basics)",
     priceRange: "£120 – £300",
-    tagline: "Designed for new models building a strong foundation.",
+    tagline: "A calm runway foundation if you are new and want to feel ready sooner.",
     description:
-      "A beginner-focused programme for new models who want to learn runway fundamentals and build confidence before castings and shoots.",
+      "For newer models who want the basics down before castings and shoots: fundamentals, confidence, and what the room expects from you.",
     includes: [
       "60 minute runway basics session",
       "How to walk in heels, posture, and clean turns",
       "Facial expression and body awareness",
-      "Basic industry expectations for new models",
+      "What new models are usually expected to know",
     ],
   },
   {
     slug: "advanced-runway",
     name: "Advanced Runway Training",
     priceRange: "£150 – £350",
-    tagline: "For models who want to refine and elevate their runway walk.",
+    tagline: "For when you already walk well and want a signature that travels.",
     description:
-      "Advanced coaching for experienced models who want a stronger signature walk and better adaptability across different runway briefs.",
+      "For experienced models who want a stronger signature walk and the flexibility to adapt when the brief changes.",
     includes: [
       "60 minute advanced runway coaching session",
       "Signature walk development and transitions",
@@ -54,23 +54,23 @@ export const SERVICES: Service[] = [
     slug: "walk-analysis",
     name: "Walk Analysis & Feedback",
     priceRange: "£30 – £80",
-    tagline: "Detailed critique to improve your walk quickly.",
+    tagline: "Send a clip. Get a clear read on what to fix first.",
     description:
-      "Submit your runway or practice video and receive a focused analysis highlighting what to improve and how to improve it.",
+      "Upload a runway or practice clip and get a tight review of what is working, what is not, and what to drill next.",
     includes: [
       "10–15 minute pre-recorded review",
       "Detailed video feedback",
       "Voice note or written feedback",
-      "Specific corrections to apply in practice",
+      "Specific corrections to take into practice",
     ],
   },
   {
     slug: "casting-prep",
     name: "Casting Preparation Coaching",
     priceRange: "£60 – £120",
-    tagline: "Prepare to show up confidently and professionally at castings.",
+    tagline: "Walk in clear-headed and leave them with a strong impression.",
     description:
-      "Targeted preparation for castings so you can present yourself clearly, confidently, and in line with what agencies are looking for.",
+      "Targeted prep so you can present yourself cleanly and confidently, in line with what agencies and clients scan for.",
     includes: [
       "45 minute casting preparation session",
       "How to enter and exit professionally",
@@ -82,23 +82,23 @@ export const SERVICES: Service[] = [
     slug: "confidence-presence",
     name: "Confidence & Presence Training",
     priceRange: "£60 – £120",
-    tagline: "Mindset and body language coaching for stronger presence.",
+    tagline: "Mindset and body language when stiffness or nerves get in the way.",
     description:
-      "Focused mindset and presence coaching for models who want to eliminate stiffness, feel more natural, and own the runway.",
+      "Mindset and presence work for models who want to feel more natural on the runway and less stuck in their head.",
     includes: [
       "45 minute confidence coaching session",
       "Body language and stage presence training",
-      "Techniques to reduce nerves and stiffness",
-      "Practical confidence exercises for consistency",
+      "Ways to ease nerves and physical stiffness",
+      "Confidence drills you can repeat on your own",
     ],
   },
   {
     slug: "monthly-mentorship",
     name: "Monthly Mentorship Programme",
     priceRange: "£250 – £700 / month",
-    tagline: "Ongoing support for models serious about long-term growth.",
+    tagline: "Steady support when you are serious about compounding progress.",
     description:
-      "A long-term coaching partnership built for consistent improvement in runway, confidence, content direction, and career progress.",
+      "An ongoing partnership for runway, confidence, content direction, and career moves, with room to adjust as you grow.",
     includes: [
       "Weekly 45–60 minute coaching calls",
       "Regular progress tracking and check-ins",

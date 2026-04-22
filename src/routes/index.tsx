@@ -10,9 +10,9 @@ import { ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: pageMeta({
-      title: "Runway Refined by Alek — Refine Your Walk. Build Your Brand.",
+      title: "Runway Refined by Alek · Refine Your Walk. Build Your Brand.",
       description:
-        "Personalised model coaching helping models build confidence, create stronger content, and turn social media attention into paying clients.",
+        "Personalised coaching with Alek for models who want to build confidence, create stronger content, and turn social media attention into paying clients.",
       image: heroImage,
       path: "/",
     }),
@@ -23,15 +23,15 @@ export const Route = createFileRoute("/")({
 const AUDIENCES = [
   {
     label: "Beginner models",
-    body: "New to modelling and ready for clear direction on runway basics, confidence, and building your online presence.",
+    body: "New to modelling and ready for straight talk on runway basics, confidence, and a profile that feels like you.",
   },
   {
     label: "Intermediate models",
-    body: "Already practicing and now focused on stronger content, better positioning, and more consistent paid opportunities.",
+    body: "You have mileage and now want sharper content, clearer positioning, and paid work that shows up more often.",
   },
   {
     label: "Experienced models",
-    body: "Working models looking to scale income, increase reach, and refine how they present across castings and social media.",
+    body: "Working models who want to grow income and reach, and to show up with polish at castings and online.",
   },
 ];
 
@@ -53,9 +53,8 @@ function HomePage() {
               <em className="italic text-background/80">Turn Attention Into Income.</em>
             </h1>
             <p className="mt-8 max-w-md text-base leading-relaxed text-background/75 fade-up">
-              Personalised strategy for models who want more than generic
-              advice. We focus on runway, confidence, content quality, and
-              consistent long-term growth.
+              For models who are tired of generic tips. We work on runway,
+              confidence, content that holds up, and growth you can sustain.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4 fade-up">
               <Link
@@ -173,10 +172,9 @@ function HomePage() {
               From hesitant walks to <em className="italic">paid bookings.</em>
             </h2>
             <p className="mt-6 text-base leading-relaxed text-background/75">
-              Many models struggle to market themselves, create engaging
-              content, and convert visibility into paying work. This coaching
-              gives you a personalised strategy, clear direction, and
-              consistent support to grow with confidence.
+              Plenty of models know how to be seen but not how to get booked.
+              Here you get a plan that fits you, honest feedback, and support
+              while you build real momentum.
             </p>
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-background/15 pt-8">
               {[
@@ -212,13 +210,13 @@ function HomePage() {
           <div className="md:col-span-7 md:pl-8">
             <div className="editorial-eyebrow">About the coach</div>
             <h2 className="display-lg mt-6">
-              Alek Deng Malek — model coach.
+              Alek Deng Malek · model coach.
             </h2>
             <p className="mt-8 text-base leading-relaxed text-muted-foreground">
-              Alek helps aspiring and professional models build confidence,
-              sharpen their runway presence, and grow a personal brand that
-              attracts paying clients. His coaching combines technique,
-              strategy, and honest feedback tailored to each client.
+              Alek works with aspiring and professional models to build
+              confidence, sharpen runway presence, and grow a personal brand
+              that attracts paying clients. Her coaching weaves together
+              technique, strategy, and honest feedback tailored to you.
             </p>
             <Link
               to="/about"
@@ -239,7 +237,7 @@ function HomePage() {
           </h2>
           <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-background/75">
             Book a session and start building the model career you actually
-            want — with personal direction every step of the way.
+            want. You will have personal direction at every step.
           </p>
           <Link
             to="/booking"

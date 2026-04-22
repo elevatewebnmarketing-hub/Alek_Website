@@ -7,9 +7,9 @@ import { ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: pageMeta({
-      title: "About Alek Deng Malek — Model Coach",
+      title: "About Alek Deng Malek · Model Coach",
       description:
-        "Meet Alek Deng Malek, a model coach helping aspiring and professional models build confidence, refine their craft, and grow in fashion and commercial work.",
+        "Meet Alek Deng Malek: a model coach who helps aspiring and professional models build confidence, refine their craft, and grow in fashion and commercial work.",
       image: portrait,
       path: "/about",
     }),
@@ -20,15 +20,15 @@ export const Route = createFileRoute("/about")({
 const PILLARS = [
   {
     label: "Runway craft",
-    body: "Posture, stride, turns, pacing, and runway presence built around your level and goals.",
+    body: "Posture, stride, turns, pacing, and runway presence shaped around where you are now and where you want to go.",
   },
   {
     label: "Mindset & professionalism",
-    body: "Confidence, body language, preparation, and professional habits that help you perform under pressure.",
+    body: "Confidence, body language, preparation, and habits that hold up when the pressure is on.",
   },
   {
     label: "Brand & content",
-    body: "Personalised strategy to improve content quality, strengthen your online presence, and convert attention into paying clients.",
+    body: "A personal plan for stronger content, a clearer online presence, and turning attention into real bookings.",
   },
 ];
 
@@ -37,8 +37,8 @@ function AboutPage() {
     <>
       <PageHero
         eyebrow="About"
-        title="Alek Deng Malek — model coach for confident, consistent growth."
-        intro="Alek helps aspiring and professional models build confidence, improve their runway and camera presence, and grow a personal brand that leads to real opportunities."
+        title="Alek Deng Malek · model coach for confident, consistent growth."
+        intro="Alek works with aspiring and professional models to build confidence, sharpen runway and camera presence, and grow a personal brand that opens real doors."
       />
 
       <Section className="border-b border-border">
@@ -58,28 +58,28 @@ function AboutPage() {
             <h2 className="display-lg mt-6">A coach who builds careers, not just walks.</h2>
             <div className="mt-8 space-y-6 text-base leading-relaxed text-muted-foreground">
               <p>
-                Alek is a dedicated model coach with a passion for helping
-                aspiring and professional models build confidence, develop
-                their personal brand, and succeed in the fashion and
-                commercial industries.
+                Alek is a dedicated model coach. She cares deeply about helping
+                aspiring and professional models build confidence, develop a
+                personal brand they believe in, and move forward in fashion and
+                commercial work.
               </p>
               <p>
-                With experience across posing, runway, photoshoots, and
-                industry expectations, he works closely with each model to
-                bring out their strengths and presence in front of the camera
-                and on the runway.
+                She brings experience across posing, runway, photoshoots, and
+                what the industry actually expects. She works closely with each
+                model to draw out their strengths and presence on camera and on
+                the runway.
               </p>
               <p>
-                His coaching goes beyond technique. Alek focuses on mindset,
-                professionalism, and confidence so models are not only
-                photogenic, but prepared, expressive, and ready to perform at
-                castings and paid opportunities.
+                Her coaching goes beyond technique. Alek focuses on mindset,
+                professionalism, and confidence so models feel prepared and
+                expressive, not just photogenic, when castings and paid work
+                are on the line.
               </p>
               <p>
-                Whether you are just starting out or refining existing skills,
-                his approach is personalised for long-term progress: clear
-                direction, honest feedback, and strategies built for real
-                growth instead of quick, unsustainable tactics.
+                Whether you are just starting out or refining what you already
+                do, her approach is personalised for the long haul: clear
+                direction, honest feedback, and strategies for real growth,
+                not quick fixes that fall apart next week.
               </p>
             </div>
             <Link

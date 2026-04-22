@@ -12,9 +12,9 @@ import { ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: pageMeta({
-      title: "FAQ — Runway Refined by Alek",
+      title: "FAQ · Runway Refined by Alek",
       description:
-        "Answers to the most common questions about Alek's model coaching: who it's for, how sessions work, pricing, and what results to expect.",
+        "Answers to common questions about Alek's model coaching: who it is for, how sessions work, pricing, and what results to expect.",
       path: "/faq",
     }),
   }),
@@ -24,59 +24,59 @@ export const Route = createFileRoute("/faq")({
 const FAQS = [
   {
     q: "Who is this coaching for?",
-    a: "Beginner models taking their first steps, intermediate models building visibility, and advanced models scaling income and opportunities. If you're serious about modelling as a long-term career, this is for you.",
+    a: "Beginners finding their feet, intermediates building visibility, and advanced models pushing income and opportunities. If modelling is a real career goal for you, you are in the right place.",
   },
   {
     q: "How do sessions work?",
-    a: "Most sessions are 1:1 over video call, with in-person sessions available depending on location. You'll choose a service and submit your booking request. Stripe and Calendly automation are currently being finalised for launch.",
+    a: "Most sessions are one-to-one on video. In person is sometimes possible depending on where you are. You pick a service and send a booking request. Stripe and Calendly are being wired up for launch.",
   },
   {
     q: "How much does it cost?",
-    a: "Pricing ranges from £30 for a walk analysis to £700/month for full mentorship. Each service has a clear price band on the Services page so you can choose what fits your budget and stage.",
+    a: "From about £30 for a walk analysis up to £700 a month for full mentorship. Each service lists a clear band on the Services page so you can match spend to your stage.",
   },
   {
     q: "What results should I expect?",
-    a: "Results compound. Most clients see noticeable improvement in confidence and walk quality within the first few sessions. Real career growth — bookings, agency interest, paid work — is the product of consistent, refined effort over months.",
+    a: "Wins stack over time. Many people feel a shift in confidence and walk quality within the first few sessions. Bookings, agency interest, and paid jobs tend to follow when you keep showing up and refining the work.",
   },
   {
     q: "Are sessions online or in person?",
-    a: "Both are available. Online coaching works worldwide and is the most flexible. In-person sessions can be arranged depending on location and availability.",
+    a: "Both. Online reaches anywhere and is usually easiest to schedule. In person depends on location and availability.",
   },
   {
     q: "What's your refund policy?",
-    a: "If you need to reschedule, just let us know at least 24 hours in advance. Refunds are handled case-by-case — get in touch and we'll find a fair solution.",
+    a: "Need to move a session? Give us at least 24 hours' notice when you can. Refunds are looked at case by case. Message us and we will find something fair.",
   },
   {
     q: "Do you work with male and non-binary models?",
-    a: "Yes — coaching is open to models of every gender. The work is personalised, never one-size-fits-all.",
+    a: "Yes. Coaching is open to models of every gender. Nothing here is one-size-fits-all.",
   },
   {
     q: "How should I prepare before my first session?",
-    a: "Wear fitted clothing you can move in, bring heels if your session includes runway work, and be ready to share your current goals. If you've done any practice videos, bring those too so feedback is more precise.",
+    a: "Wear something fitted you can move in, bring heels if runway is on the plan, and come ready to talk goals. If you have practice clips, share them so feedback can be specific.",
   },
   {
     q: "Can I switch services after booking?",
-    a: "Yes, in most cases. If your goals change, we can move you to a more suitable service and apply your payment fairly based on session value and timing.",
+    a: "Usually, yes. If your goals shift, we can move you to a better fit and adjust what you have already paid in a fair way.",
   },
   {
     q: "How often should I train to see progress?",
-    a: "Most models improve fastest with weekly or bi-weekly sessions plus consistent practice between calls. Mentorship clients typically follow a structured weekly rhythm for best results.",
+    a: "Weekly or fortnightly sessions plus practice between calls is what most people find works. Mentorship clients often keep a steady weekly rhythm.",
   },
   {
     q: "Do you help with social media and personal branding?",
-    a: "Yes. Alongside runway and confidence work, coaching can include content direction, profile positioning, and brand strategy so your visibility supports real paid opportunities.",
+    a: "Yes. Alongside runway and confidence, we can cover content direction, how you position your profile, and brand choices that support paid work.",
   },
   {
     q: "What do I get after a coaching session?",
-    a: "You'll leave with clear feedback and practical next steps. Depending on your service, this can include correction points, drills, and structured actions to work on before your next session.",
+    a: "You leave with clear notes and next steps. Depending on the service, that might mean correction points, drills, or a short plan to carry until the next call.",
   },
   {
     q: "What happens if I miss a session?",
-    a: "If something urgent comes up, contact us as soon as possible. Rescheduling is easiest with advance notice, and missed-session handling is reviewed case-by-case with fairness in mind.",
+    a: "Life happens. Message us as soon as you can. Rescheduling is simpler with notice, and missed sessions are handled fairly one case at a time.",
   },
   {
     q: "Can I book if I'm outside the UK?",
-    a: "Absolutely. Coaching is available worldwide through online sessions, and time slots can be arranged across different time zones.",
+    a: "Yes. Online coaching runs worldwide, and we can find times that work across zones.",
   },
 ];
 
@@ -86,7 +86,7 @@ function FaqPage() {
       <PageHero
         eyebrow="FAQ"
         title="The questions, answered."
-        intro="A quick guide to how the coaching works. Anything else, get in touch."
+        intro="Straight answers on how coaching works here. If yours is not listed, just ask."
       />
 
       <Section className="border-b border-border">
@@ -109,7 +109,7 @@ function FaqPage() {
       <Section>
         <div className="mx-auto max-w-2xl text-center">
           <div className="editorial-eyebrow">Still wondering?</div>
-          <h2 className="display-lg mt-6">Send a message — we'll reply.</h2>
+          <h2 className="display-lg mt-6">Send a message. We will reply.</h2>
           <Link
             to="/contact"
             className="mt-8 inline-flex items-center gap-3 border border-foreground px-6 py-3.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] hover:bg-foreground hover:text-background"

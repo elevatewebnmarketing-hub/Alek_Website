@@ -32,11 +32,11 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Runway Refined by Alek — Model & Runway Coaching" },
+      { title: "Runway Refined by Alek · Model & Runway Coaching" },
       {
         name: "description",
         content:
-          "Personalised model coaching with Alek Deng Malek. Refine your walk, build your brand, and turn fashion attention into income.",
+          "Personalised model coaching with Alek Deng Malek. Refine your walk, build your brand, turn attention into income.",
       },
       { name: "author", content: "Alek Deng Malek" },
       {
@@ -47,7 +47,7 @@ export const Route = createRootRoute({
       { property: "og:title", content: "Runway Refined by Alek" },
       {
         property: "og:description",
-        content: "Luxury model coaching — runway, branding, mindset.",
+        content: "Luxury model coaching: runway, branding, mindset.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

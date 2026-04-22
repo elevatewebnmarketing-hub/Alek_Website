@@ -7,9 +7,9 @@ import { ArrowRight, Instagram, Mail } from "lucide-react";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: pageMeta({
-      title: "Contact — Runway Refined by Alek",
+      title: "Contact · Runway Refined by Alek",
       description:
-        "Get in touch with Alek Deng Malek for model coaching enquiries, collaborations, and questions.",
+        "Reach Alek Deng Malek for model coaching questions, collaborations, or anything on your mind.",
       path: "/contact",
     }),
   }),
@@ -36,7 +36,7 @@ function ContactPage() {
       <PageHero
         eyebrow="Contact"
         title="Let's start the conversation."
-        intro="Tell Alek where you are in your modelling journey and what support you need. Beginner, intermediate, and experienced models are all welcome."
+        intro="Tell Alek where you are on your modelling path and what would help. Every stage is welcome."
       />
 
       <Section className="border-b border-border">
@@ -112,9 +112,9 @@ function ContactPage() {
             <div className="mt-12 border-t border-border pt-8">
               <div className="editorial-eyebrow">Coverage</div>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                Online coaching available worldwide. In-person sessions
-                arranged on request from the United Kingdom base — let us know
-                your location.
+                Online coaching is available worldwide. In-person sessions can
+                be arranged from the United Kingdom base when it makes sense.
+                Share your location and we will go from there.
               </p>
             </div>
           </aside>

@@ -17,8 +17,8 @@ export function SiteFooter() {
               height={683}
             />
             <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Personalised model coaching for those building a long-term career
-              in fashion. Runway, branding, mindset — refined.
+              Personalised coaching for models who want a career that lasts.
+              Runway, branding, mindset, refined.
             </p>
           </div>
 

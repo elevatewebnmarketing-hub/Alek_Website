@@ -8,9 +8,9 @@ import { ArrowRight, Download } from "lucide-react";
 export const Route = createFileRoute("/resources")({
   head: () => ({
     meta: pageMeta({
-      title: "Free Resources — Runway Refined by Alek",
+      title: "Free Resources · Runway Refined by Alek",
       description:
-        "Free runway, branding, and casting resources for models. Join the list to get new tools as they are released.",
+        "Free runway, branding, and casting resources for models. Join the list for new drops.",
       image: resourcesImage,
       path: "/resources",
     }),
@@ -37,7 +37,7 @@ const RESOURCES = [
   {
     type: "Video",
     title: "Walk Analysis Walkthrough",
-    desc: "How to film a usable walk video for analysis — the right angle, light and length.",
+    desc: "How to film a walk video that is actually useful for feedback: angle, light, and length.",
   },
 ];
 
@@ -57,7 +57,7 @@ function ResourcesPage() {
       <PageHero
         eyebrow="Resources"
         title="Free tools to grow your model career."
-        intro="A growing library of practical resources focused on runway development, personal branding, and better content strategy."
+        intro="Practical downloads and guides for runway, branding, and content that earns attention."
       />
 
       <Section className="border-b border-border pt-0">
@@ -98,8 +98,8 @@ function ResourcesPage() {
             Join the list. New tools, no spam.
           </h2>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-            Drop your email and you'll be notified as soon as new resources are
-            released. Resource delivery automation is being finalised.
+            Leave your email and we will let you know when something new is
+            ready. Delivery automation is still being finalised.
           </p>
           <form
             onSubmit={onSubmit}
@@ -122,8 +122,8 @@ function ResourcesPage() {
           </form>
           {sent && (
             <p className="mt-4 text-sm text-muted-foreground">
-              Thank you — you're on the list. New resources will be shared here
-              and via email updates.
+              Thank you. You are on the list. New resources will show up here
+              and in your inbox.
             </p>
           )}
         </div>
