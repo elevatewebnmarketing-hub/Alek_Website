@@ -41,7 +41,7 @@ function HomePage() {
       {/* HERO */}
       <section className="relative isolate overflow-hidden border-b border-border bg-foreground text-background">
         <div className="relative grid min-h-[88vh] grid-cols-1 lg:grid-cols-12">
-          <div className="z-10 flex flex-col justify-end bg-foreground/80 px-6 pb-16 pt-20 lg:col-span-6 lg:bg-foreground/85 lg:px-12 lg:pb-24 lg:pt-32">
+          <div className="z-10 flex flex-col justify-end bg-foreground/70 px-6 pb-16 pt-20 lg:col-span-6 lg:bg-foreground/82 lg:px-12 lg:pb-24 lg:pt-32">
             <div className="editorial-eyebrow text-background/70 fade-in">
               Runway · Brand · Income
             </div>
@@ -80,7 +80,8 @@ function HomePage() {
               width={819}
               height={1024}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-foreground/35 to-transparent lg:from-foreground/70 lg:via-foreground/10 lg:to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/22 to-transparent lg:from-foreground/72 lg:via-foreground/14 lg:to-transparent" />
+            <div className="absolute inset-0 hidden lg:block bg-[radial-gradient(circle_at_center,transparent_52%,rgba(0,0,0,0.42)_100%)]" />
           </div>
         </div>
 
