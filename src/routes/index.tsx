@@ -80,8 +80,8 @@ function HomePage() {
               width={819}
               height={1024}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/22 to-transparent lg:from-foreground/72 lg:via-foreground/14 lg:to-transparent" />
-            <div className="absolute inset-0 hidden lg:block bg-[radial-gradient(circle_at_center,transparent_52%,rgba(0,0,0,0.42)_100%)]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/22 to-transparent lg:from-foreground/88 lg:via-foreground/42 lg:to-foreground/74" />
+            <div className="absolute inset-0 hidden lg:block bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.02)_38%,rgba(0,0,0,0.82)_100%)]" />
           </div>
         </div>
 
