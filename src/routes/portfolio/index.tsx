@@ -9,7 +9,7 @@ export const Route = createFileRoute("/portfolio/")({
     meta: pageMeta({
       title: "Portfolio · Runway Refined by Alek",
       description:
-        "Editorial (Grazia, Vogue Africa), runway, and behind-the-scenes portfolio work by Alek Deng Malek.",
+        "Editorial (Grazia, Vogue Africa, Wonderland × Ahluwalia), runway, and behind-the-scenes portfolio work by Alek Deng Malek.",
       image: graziaCover,
       path: "/portfolio",
     }),
@@ -29,6 +29,12 @@ const PROJECTS = [
     eyebrow: "Editorial",
     title: "Vogue Africa",
     body: "Cover-style concepts with bold colour, masthead styling, and portrait direction.",
+  },
+  {
+    to: "/portfolio/wonderland" as const,
+    eyebrow: "Editorial",
+    title: "Wonderland × Ahluwalia",
+    body: "SS24 Acknowledgements story on a red seamless set—knit, patchwork boots, and tailoring.",
   },
   {
     to: "/portfolio/runway" as const,
@@ -54,7 +60,7 @@ function PortfolioIndexPage() {
       />
 
       <Section className="border-b border-border">
-        <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {PROJECTS.map((p) => (
             <Link
               key={p.to}

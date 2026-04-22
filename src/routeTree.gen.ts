@@ -19,6 +19,7 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortfolioIndexRouteImport } from './routes/portfolio/index'
+import { Route as PortfolioWonderlandRouteImport } from './routes/portfolio/wonderland'
 import { Route as PortfolioVogueAfricaRouteImport } from './routes/portfolio/vogue-africa'
 import { Route as PortfolioRunwayRouteImport } from './routes/portfolio/runway'
 import { Route as PortfolioGraziaRouteImport } from './routes/portfolio/grazia'
@@ -74,6 +75,11 @@ const PortfolioIndexRoute = PortfolioIndexRouteImport.update({
   path: '/portfolio/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortfolioWonderlandRoute = PortfolioWonderlandRouteImport.update({
+  id: '/portfolio/wonderland',
+  path: '/portfolio/wonderland',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortfolioVogueAfricaRoute = PortfolioVogueAfricaRouteImport.update({
   id: '/portfolio/vogue-africa',
   path: '/portfolio/vogue-africa',
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/portfolio/grazia': typeof PortfolioGraziaRoute
   '/portfolio/runway': typeof PortfolioRunwayRoute
   '/portfolio/vogue-africa': typeof PortfolioVogueAfricaRoute
+  '/portfolio/wonderland': typeof PortfolioWonderlandRoute
   '/portfolio/': typeof PortfolioIndexRoute
 }
 export interface FileRoutesByTo {
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/portfolio/grazia': typeof PortfolioGraziaRoute
   '/portfolio/runway': typeof PortfolioRunwayRoute
   '/portfolio/vogue-africa': typeof PortfolioVogueAfricaRoute
+  '/portfolio/wonderland': typeof PortfolioWonderlandRoute
   '/portfolio': typeof PortfolioIndexRoute
 }
 export interface FileRoutesById {
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/portfolio/grazia': typeof PortfolioGraziaRoute
   '/portfolio/runway': typeof PortfolioRunwayRoute
   '/portfolio/vogue-africa': typeof PortfolioVogueAfricaRoute
+  '/portfolio/wonderland': typeof PortfolioWonderlandRoute
   '/portfolio/': typeof PortfolioIndexRoute
 }
 export interface FileRouteTypes {
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/portfolio/grazia'
     | '/portfolio/runway'
     | '/portfolio/vogue-africa'
+    | '/portfolio/wonderland'
     | '/portfolio/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/portfolio/grazia'
     | '/portfolio/runway'
     | '/portfolio/vogue-africa'
+    | '/portfolio/wonderland'
     | '/portfolio'
   id:
     | '__root__'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/portfolio/grazia'
     | '/portfolio/runway'
     | '/portfolio/vogue-africa'
+    | '/portfolio/wonderland'
     | '/portfolio/'
   fileRoutesById: FileRoutesById
 }
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   PortfolioGraziaRoute: typeof PortfolioGraziaRoute
   PortfolioRunwayRoute: typeof PortfolioRunwayRoute
   PortfolioVogueAfricaRoute: typeof PortfolioVogueAfricaRoute
+  PortfolioWonderlandRoute: typeof PortfolioWonderlandRoute
   PortfolioIndexRoute: typeof PortfolioIndexRoute
 }
 
@@ -284,6 +297,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portfolio/wonderland': {
+      id: '/portfolio/wonderland'
+      path: '/portfolio/wonderland'
+      fullPath: '/portfolio/wonderland'
+      preLoaderRoute: typeof PortfolioWonderlandRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portfolio/vogue-africa': {
       id: '/portfolio/vogue-africa'
       path: '/portfolio/vogue-africa'
@@ -329,6 +349,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortfolioGraziaRoute: PortfolioGraziaRoute,
   PortfolioRunwayRoute: PortfolioRunwayRoute,
   PortfolioVogueAfricaRoute: PortfolioVogueAfricaRoute,
+  PortfolioWonderlandRoute: PortfolioWonderlandRoute,
   PortfolioIndexRoute: PortfolioIndexRoute,
 }
 export const routeTree = rootRouteImport

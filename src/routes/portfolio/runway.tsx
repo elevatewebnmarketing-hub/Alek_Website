@@ -81,10 +81,10 @@ function PortfolioRunwayPage() {
       <Section>
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <Link
-            to="/portfolio/vogue-africa"
+            to="/portfolio/wonderland"
             className="inline-flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.22em] hover:underline"
           >
-            <ArrowLeft className="size-4" /> Vogue Africa
+            <ArrowLeft className="size-4" /> Wonderland × Ahluwalia
           </Link>
           <Link
             to="/portfolio/bts"

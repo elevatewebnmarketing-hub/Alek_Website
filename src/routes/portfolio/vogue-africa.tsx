@@ -83,10 +83,10 @@ function PortfolioVogueAfricaPage() {
             <ArrowLeft className="size-4" /> Grazia feature
           </Link>
           <Link
-            to="/portfolio/runway"
+            to="/portfolio/wonderland"
             className="inline-flex items-center gap-3 border border-foreground px-6 py-3.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] hover:bg-foreground hover:text-background"
           >
-            Runway highlights <ArrowRight className="size-4" />
+            Wonderland × Ahluwalia <ArrowRight className="size-4" />
           </Link>
         </div>
       </Section>
