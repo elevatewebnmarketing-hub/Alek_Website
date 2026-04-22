@@ -78,10 +78,10 @@ function PortfolioGraziaPage() {
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div>
             <div className="editorial-eyebrow">Next</div>
-            <h2 className="font-serif text-2xl mt-4">Runway highlights</h2>
+            <h2 className="font-serif text-2xl mt-4">Vogue Africa</h2>
           </div>
           <Link
-            to="/portfolio/runway"
+            to="/portfolio/vogue-africa"
             className="inline-flex items-center gap-3 border border-foreground px-6 py-3.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] hover:bg-foreground hover:text-background"
           >
             Continue <ArrowRight className="size-4" />

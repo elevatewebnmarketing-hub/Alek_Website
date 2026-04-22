@@ -2,6 +2,8 @@ import graziaLook1 from "@/assets/portfolio/grazia-look-1.png";
 import graziaLook2 from "@/assets/portfolio/grazia-look-2.png";
 import graziaLook3 from "@/assets/portfolio/grazia-look-3.png";
 import graziaCover from "@/assets/portfolio/grazia-cover.png";
+import vogueAfricaCoverYellow from "@/assets/portfolio/vogue-africa-cover-yellow.png";
+import vogueAfricaCoverProfile from "@/assets/portfolio/vogue-africa-cover-profile.png";
 import giorgioArmaniRunway from "../../Videos/Giorgio Armani.mov";
 import runwayFeature from "../../Videos/Modeling on the Runway.mov";
 import runwayWalk1 from "../../Videos/Model Walking 1.mov";
@@ -39,6 +41,17 @@ export const GRAZIA_IMAGE_SLIDES: PortfolioImageSlide[] = [
   {
     src: graziaLook3,
     alt: "Alek in a black and magenta editorial dress from the Grazia shoot",
+  },
+];
+
+export const VOGUE_AFRICA_IMAGE_SLIDES: PortfolioImageSlide[] = [
+  {
+    src: vogueAfricaCoverYellow,
+    alt: "Editorial Vogue Africa cover concept: model in magenta tailoring and headwrap against a yellow field with masthead typography",
+  },
+  {
+    src: vogueAfricaCoverProfile,
+    alt: "Editorial Vogue Africa cover concept: profile portrait with floral and leaf statement earring in warm directional light",
   },
 ];
 
@@ -92,5 +105,7 @@ export const BTS_VIDEO_SLIDES: PortfolioVideoSlide[] = [
     note: "On-set rhythm, styling, and the work behind the shot.",
   },
 ];
+
+export const vogueAfricaCover = vogueAfricaCoverYellow;
 
 export { graziaCover };

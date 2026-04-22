@@ -19,6 +19,7 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortfolioIndexRouteImport } from './routes/portfolio/index'
+import { Route as PortfolioVogueAfricaRouteImport } from './routes/portfolio/vogue-africa'
 import { Route as PortfolioRunwayRouteImport } from './routes/portfolio/runway'
 import { Route as PortfolioGraziaRouteImport } from './routes/portfolio/grazia'
 import { Route as PortfolioBtsRouteImport } from './routes/portfolio/bts'
@@ -73,6 +74,11 @@ const PortfolioIndexRoute = PortfolioIndexRouteImport.update({
   path: '/portfolio/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortfolioVogueAfricaRoute = PortfolioVogueAfricaRouteImport.update({
+  id: '/portfolio/vogue-africa',
+  path: '/portfolio/vogue-africa',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortfolioRunwayRoute = PortfolioRunwayRouteImport.update({
   id: '/portfolio/runway',
   path: '/portfolio/runway',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/portfolio/bts': typeof PortfolioBtsRoute
   '/portfolio/grazia': typeof PortfolioGraziaRoute
   '/portfolio/runway': typeof PortfolioRunwayRoute
+  '/portfolio/vogue-africa': typeof PortfolioVogueAfricaRoute
   '/portfolio/': typeof PortfolioIndexRoute
 }
 export interface FileRoutesByTo {
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/portfolio/bts': typeof PortfolioBtsRoute
   '/portfolio/grazia': typeof PortfolioGraziaRoute
   '/portfolio/runway': typeof PortfolioRunwayRoute
+  '/portfolio/vogue-africa': typeof PortfolioVogueAfricaRoute
   '/portfolio': typeof PortfolioIndexRoute
 }
 export interface FileRoutesById {
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/portfolio/bts': typeof PortfolioBtsRoute
   '/portfolio/grazia': typeof PortfolioGraziaRoute
   '/portfolio/runway': typeof PortfolioRunwayRoute
+  '/portfolio/vogue-africa': typeof PortfolioVogueAfricaRoute
   '/portfolio/': typeof PortfolioIndexRoute
 }
 export interface FileRouteTypes {
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/portfolio/bts'
     | '/portfolio/grazia'
     | '/portfolio/runway'
+    | '/portfolio/vogue-africa'
     | '/portfolio/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/portfolio/bts'
     | '/portfolio/grazia'
     | '/portfolio/runway'
+    | '/portfolio/vogue-africa'
     | '/portfolio'
   id:
     | '__root__'
@@ -180,6 +191,7 @@ export interface FileRouteTypes {
     | '/portfolio/bts'
     | '/portfolio/grazia'
     | '/portfolio/runway'
+    | '/portfolio/vogue-africa'
     | '/portfolio/'
   fileRoutesById: FileRoutesById
 }
@@ -196,6 +208,7 @@ export interface RootRouteChildren {
   PortfolioBtsRoute: typeof PortfolioBtsRoute
   PortfolioGraziaRoute: typeof PortfolioGraziaRoute
   PortfolioRunwayRoute: typeof PortfolioRunwayRoute
+  PortfolioVogueAfricaRoute: typeof PortfolioVogueAfricaRoute
   PortfolioIndexRoute: typeof PortfolioIndexRoute
 }
 
@@ -271,6 +284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portfolio/vogue-africa': {
+      id: '/portfolio/vogue-africa'
+      path: '/portfolio/vogue-africa'
+      fullPath: '/portfolio/vogue-africa'
+      preLoaderRoute: typeof PortfolioVogueAfricaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portfolio/runway': {
       id: '/portfolio/runway'
       path: '/portfolio/runway'
@@ -308,6 +328,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortfolioBtsRoute: PortfolioBtsRoute,
   PortfolioGraziaRoute: PortfolioGraziaRoute,
   PortfolioRunwayRoute: PortfolioRunwayRoute,
+  PortfolioVogueAfricaRoute: PortfolioVogueAfricaRoute,
   PortfolioIndexRoute: PortfolioIndexRoute,
 }
 export const routeTree = rootRouteImport
