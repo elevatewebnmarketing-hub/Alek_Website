@@ -1,0 +1,38 @@
+import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Layout } from "./components/Layout";
+import { DashboardPage } from "./pages/DashboardPage";
+import { JournalEditPage } from "./pages/JournalEditPage";
+import { JournalListPage } from "./pages/JournalListPage";
+import { LeadsPage } from "./pages/LeadsPage";
+import { PortfolioEditPage } from "./pages/PortfolioEditPage";
+import { PortfolioListPage } from "./pages/PortfolioListPage";
+import { ResourcesPage } from "./pages/ResourcesPage";
+import { SettingsPage } from "./pages/SettingsPage";
+import { TestimonialsPage } from "./pages/TestimonialsPage";
+
+export default function App() {
+  return (
+    <>
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
+      <SignedIn>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route index element={<DashboardPage />} />
+            <Route path="leads" element={<LeadsPage />} />
+            <Route path="portfolio" element={<PortfolioListPage />} />
+            <Route path="portfolio/:id" element={<PortfolioEditPage />} />
+            <Route path="journal" element={<JournalListPage />} />
+            <Route path="journal/:id" element={<JournalEditPage />} />
+            <Route path="resources" element={<ResourcesPage />} />
+            <Route path="testimonials" element={<TestimonialsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Route>
+        </Routes>
+      </SignedIn>
+    </>
+  );
+}

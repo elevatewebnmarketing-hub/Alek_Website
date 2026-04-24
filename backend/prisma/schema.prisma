@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LeadSource {
+  contact
+  resources
+  booking
+  other
+}
+
+enum JournalStatus {
+  draft
+  published
+}
+
+enum PaymentStatus {
+  pending
+  succeeded
+  failed
+  refunded
+}
+
+model Lead {
+  id        String     @id @default(cuid())
+  name      String
+  email     String
+  message   String?    @db.Text
+  source    LeadSource @default(contact)
+  createdAt DateTime   @default(now())
+  utmSource String?
+  utmMedium String?
+  utmCampaign String?
+
+  @@index([createdAt])
+  @@index([source])
+}
+
+model PortfolioProject {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  eyebrow     String
+  title       String
+  intro       String   @db.Text
+  body        String   @db.Text
+  heroImage   String?
+  content     Json     // { imageSlides: [], videoSlides: [] }
+  sortOrder   Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, sortOrder])
+}
+
+model JournalPost {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  category    String
+  title       String
+  excerpt     String        @db.Text
+  body        String        @db.Text
+  status      JournalStatus @default(draft)
+  publishedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status])
+  @@index([publishedAt])
+}
+
+model ResourceItem {
+  id          String   @id @default(cuid())
+  type        String
+  title       String
+  description String   @db.Text
+  linkUrl     String?
+  sortOrder   Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, sortOrder])
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  quote       String   @db.Text
+  name        String
+  role        String?
+  imageUrl    String?
+  sortOrder   Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, sortOrder])
+}
+
+model PaymentRecord {
+  id              String        @id @default(cuid())
+  stripePaymentId String?       @unique
+  stripeSessionId String?       @unique
+  amountCents     Int
+  currency        String        @default("gbp")
+  status          PaymentStatus @default(pending)
+  customerEmail   String?
+  description     String?
+  createdAt       DateTime      @default(now())
+  metadata        Json?
+
+  @@index([createdAt])
+  @@index([status])
+}

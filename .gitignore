@@ -9,6 +9,8 @@ lerna-debug.log*
 
 node_modules
 dist
+admin/dist
+backend/dist
 dist-ssr
 .output
 .vinxi
@@ -16,6 +18,11 @@ dist-ssr
 .nitro
 .vercel/
 *.local
+
+# Environment (secrets)
+.env
+.env.*
+!.env.example
 
 # Wrangler / Cloudflare
 .wrangler/
