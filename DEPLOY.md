@@ -27,6 +27,15 @@ Environment variables:
 | `CORS_ORIGINS` | Comma-separated browser origins, e.g. `https://runwayrefinedbyalek.com,https://admin.runwayrefinedbyalek.com` |
 | `PORT` | Local port (default `3001`) |
 
+### Render (Web Service)
+
+- **Root directory:** `backend`
+- **Build command:** `bun install && bunx prisma migrate deploy && bun run build`  
+  (`build` runs `prisma generate`; migrate needs `DATABASE_URL` in the service env.)
+- **Start command:** `bun run start`  
+  (`start` runs `tsx src/index.ts` so the service does not rely on a pre-built `dist/`—avoids `Cannot find module .../dist/index.js` when the compile step is skipped or misconfigured.)
+- **Optional:** run `bun run build:compile` locally to emit `dist/` and use `node dist/index.js` only if you add a custom start that points at the compiled file.
+
 Deploy to Railway, Render, Fly.io, or any Node host. Health check: `GET /health`.
 
 Public routes:
