@@ -61,23 +61,20 @@ Admin routes (Bearer Clerk session token):
 
 ## 3. Marketing site (`frontend/`)
 
-- **Vercel**: set the project **root directory** to `frontend`.
+- **Vercel (npm workspaces):** use the **repository root** as the Vercel project **Root Directory** (not `frontend/`), so `npm install` at the monorepo root can hoist dependencies correctly. Set **Build Command** to `npm run build -w frontend` (or `cd frontend && npm run build` after a root `npm install`). The repo includes `vercel.json` with `installCommand: npm install --include=optional` to avoid Rollup’s missing `@rollup/rollup-linux-x64-gnu` on Linux builders.
+- If you insist on Root Directory = `frontend` only, you must run install from the parent (workspaces) or you will get broken / incomplete `node_modules` and Rollup errors.
 - Env:
   - `VITE_SITE_URL` — canonical site URL (OG URLs).
   - `VITE_PUBLIC_API_URL` — public base URL of the deployed API (no trailing slash).
 
-Build: `npm run build` (from `frontend/` or `npm run build -w frontend` from root).
-
 ## 4. Admin dashboard (`admin/`)
 
-- **Vercel** (recommended): new project, root directory `admin`, domain **`admin.runwayrefinedbyalek.com`**.
+- **Vercel** (recommended): new project, same monorepo repo; **Root Directory = repository root** and build command `npm run build -w admin`, or mirror the marketing setup above. Custom domain **`admin.runwayrefinedbyalek.com`**.
 - Env:
   - `VITE_CLERK_PUBLISHABLE_KEY` — Clerk **publishable** key (matches the same Clerk instance as the backend secret).
   - `VITE_PUBLIC_API_URL` — same API base as the marketing site.
 
 In the [Clerk Dashboard](https://dashboard.clerk.com), restrict sign-ups or allowlist emails for your team.
-
-Build: `npm run build -w admin`.
 
 ## 5. DNS
 
