@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
 import { ArrowRight, Clock3 } from "lucide-react";
-import { getPublicApiBase } from "@/lib/publicApi";
+import { safePublicFetch } from "@/lib/publicApi";
 
 type T = {
   id: string;
@@ -14,11 +14,8 @@ type T = {
 
 export const Route = createFileRoute("/testimonials")({
   loader: async () => {
-    const base = getPublicApiBase();
-    if (!base) return { items: [] as T[], offline: true as const };
-    const r = await fetch(`${base}/api/public/testimonials`);
-    if (!r.ok) return { items: [] as T[], offline: true as const };
-    const j = (await r.json()) as { items: T[] };
+    const j = await safePublicFetch<{ items: T[] }>("/api/public/testimonials");
+    if (!j) return { items: [] as T[], offline: true as const };
     return { items: j.items, offline: false as const };
   },
   head: () => ({

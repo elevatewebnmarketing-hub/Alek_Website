@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
-import { getPublicApiBase } from "@/lib/publicApi";
+import { safePublicFetchDetail } from "@/lib/publicApi";
 
 type JournalDetail = {
   slug: string;
@@ -15,12 +15,10 @@ type JournalDetail = {
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ params }) => {
-    const base = getPublicApiBase();
-    if (!base) return null;
-    const r = await fetch(`${base}/api/public/journal/${params.slug}`);
-    if (r.status === 404) throw notFound();
-    if (!r.ok) throw new Error("Failed to load article");
-    return (await r.json()) as JournalDetail;
+    const res = await safePublicFetchDetail<JournalDetail>(`/api/public/journal/${params.slug}`);
+    if (res.kind === "notFound") throw notFound();
+    if (res.kind === "unavailable") return null;
+    return res.data;
   },
   head: ({ loaderData, params }) => {
     const path = `/blog/${params.slug}`;
@@ -50,8 +48,11 @@ function JournalArticlePage() {
   if (!data) {
     return (
       <Section>
-        <p className="text-muted-foreground">
-          Set <code className="text-foreground">VITE_PUBLIC_API_URL</code> to load journal posts.
+        <p className="max-w-xl text-muted-foreground">
+          We couldn&rsquo;t load this post. If you&rsquo;re the site owner, set{" "}
+          <code className="text-foreground">VITE_PUBLIC_API_URL</code> in Vercel, confirm the API is
+          up, and allow this site&rsquo;s origin in the API <code className="text-foreground">CORS</code>{" "}
+          settings.
         </p>
       </Section>
     );

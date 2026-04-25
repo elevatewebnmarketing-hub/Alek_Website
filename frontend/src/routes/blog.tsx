@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
 import { ArrowRight } from "lucide-react";
-import { getPublicApiBase } from "@/lib/publicApi";
+import { safePublicFetch } from "@/lib/publicApi";
 
 type JournalListItem = {
   slug: string;
@@ -14,11 +14,8 @@ type JournalListItem = {
 
 export const Route = createFileRoute("/blog")({
   loader: async () => {
-    const base = getPublicApiBase();
-    if (!base) return { items: [] as JournalListItem[], offline: true as const };
-    const r = await fetch(`${base}/api/public/journal`);
-    if (!r.ok) return { items: [] as JournalListItem[], offline: true as const };
-    const j = (await r.json()) as { items: JournalListItem[] };
+    const j = await safePublicFetch<{ items: JournalListItem[] }>("/api/public/journal");
+    if (!j) return { items: [] as JournalListItem[], offline: true as const };
     return { items: j.items, offline: false as const };
   },
   head: () => ({

@@ -4,7 +4,7 @@ import { PageHero, Section } from "@/components/Section";
 import { PortfolioCarousel, CarouselItem } from "@/components/PortfolioCarousel";
 import { PortfolioVideoCarousel } from "@/components/PortfolioVideoCarousel";
 import { pageMeta } from "@/components/PageMeta";
-import { getPublicApiBase } from "@/lib/publicApi";
+import { safePublicFetchDetail } from "@/lib/publicApi";
 import type { PortfolioVideoSlide } from "@/lib/portfolio/types";
 
 type PortfolioDetail = {
@@ -22,12 +22,10 @@ type PortfolioDetail = {
 
 export const Route = createFileRoute("/portfolio/$slug")({
   loader: async ({ params }) => {
-    const base = getPublicApiBase();
-    if (!base) return null;
-    const r = await fetch(`${base}/api/public/portfolio/${params.slug}`);
-    if (r.status === 404) throw notFound();
-    if (!r.ok) throw new Error("Failed to load portfolio");
-    return (await r.json()) as PortfolioDetail;
+    const res = await safePublicFetchDetail<PortfolioDetail>(`/api/public/portfolio/${params.slug}`);
+    if (res.kind === "notFound") throw notFound();
+    if (res.kind === "unavailable") return null;
+    return res.data;
   },
   head: ({ loaderData, params }) => {
     const siteUrl = import.meta.env.VITE_SITE_URL?.replace(/\/$/, "");
@@ -62,8 +60,8 @@ function PortfolioProjectPage() {
     return (
       <Section>
         <p className="max-w-xl text-muted-foreground">
-          Content API is not configured. Set <code className="text-foreground">VITE_PUBLIC_API_URL</code>{" "}
-          and ensure the backend is running.
+          We couldn&rsquo;t load this project. Set <code className="text-foreground">VITE_PUBLIC_API_URL</code>{" "}
+          in Vercel, ensure the API is up, and allow this site&rsquo;s origin in the API CORS settings.
         </p>
       </Section>
     );

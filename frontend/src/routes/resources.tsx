@@ -4,7 +4,7 @@ import resourcesImage from "@/assets/resources.jpg";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
 import { ArrowRight, Download } from "lucide-react";
-import { getPublicApiBase, postLead } from "@/lib/publicApi";
+import { postLead, safePublicFetch } from "@/lib/publicApi";
 
 type ResourceRow = {
   id: string;
@@ -16,11 +16,8 @@ type ResourceRow = {
 
 export const Route = createFileRoute("/resources")({
   loader: async () => {
-    const base = getPublicApiBase();
-    if (!base) return { items: [] as ResourceRow[], offline: true as const };
-    const r = await fetch(`${base}/api/public/resources`);
-    if (!r.ok) return { items: [] as ResourceRow[], offline: true as const };
-    const j = (await r.json()) as { items: ResourceRow[] };
+    const j = await safePublicFetch<{ items: ResourceRow[] }>("/api/public/resources");
+    if (!j) return { items: [] as ResourceRow[], offline: true as const };
     return { items: j.items, offline: false as const };
   },
   head: () => ({

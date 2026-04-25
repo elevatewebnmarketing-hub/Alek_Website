@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
-import { getPublicApiBase } from "@/lib/publicApi";
+import { safePublicFetch } from "@/lib/publicApi";
 import graziaCover from "@/assets/portfolio/grazia-cover.png";
 
 type PortfolioListItem = {
@@ -15,11 +15,8 @@ type PortfolioListItem = {
 
 export const Route = createFileRoute("/portfolio/")({
   loader: async () => {
-    const base = getPublicApiBase();
-    if (!base) return { items: [] as PortfolioListItem[], offline: true as const };
-    const r = await fetch(`${base}/api/public/portfolio`);
-    if (!r.ok) return { items: [] as PortfolioListItem[], offline: true as const };
-    const j = (await r.json()) as { items: PortfolioListItem[] };
+    const j = await safePublicFetch<{ items: PortfolioListItem[] }>("/api/public/portfolio");
+    if (!j) return { items: [] as PortfolioListItem[], offline: true as const };
     return { items: j.items, offline: false as const };
   },
   head: () => ({
