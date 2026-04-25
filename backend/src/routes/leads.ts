@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { leadCreateSchema } from "../schemas.js";
 import { prisma } from "../db.js";
+import { sendLeadNotification } from "../services/resend.js";
 
 export const leadsRoute = new Hono();
 
@@ -28,6 +29,23 @@ leadsRoute.post("/", async (c) => {
       utmCampaign: parsed.data.utmCampaign,
     },
   });
+
+  // Persisting the lead is the primary action. Email notifications are best-effort.
+  try {
+    await sendLeadNotification({
+      id: lead.id,
+      name: lead.name,
+      email: lead.email,
+      source: lead.source,
+      message: lead.message,
+      utmSource: lead.utmSource,
+      utmMedium: lead.utmMedium,
+      utmCampaign: lead.utmCampaign,
+      createdAt: lead.createdAt.toISOString(),
+    });
+  } catch (error) {
+    console.error("[resend] Failed to send lead notification:", error);
+  }
 
   return c.json({ id: lead.id }, 201);
 });

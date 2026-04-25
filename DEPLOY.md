@@ -26,6 +26,9 @@ Environment variables:
 | `CLERK_SECRET_KEY` | Clerk **secret** key for verifying admin JWTs (required for `/api/admin/*`) |
 | `CORS_ORIGINS` | Comma-separated browser origins, e.g. `https://runwayrefinedbyalek.com,https://admin.runwayrefinedbyalek.com` |
 | `PORT` | Local port (default `3001`) |
+| `RESEND_API_KEY` | Resend API key for lead notification emails (optional) |
+| `RESEND_FROM_EMAIL` | Verified sender identity in Resend, e.g. `Runway Refined <hello@runwayrefinedbyalek.com>` |
+| `RESEND_TO_EMAIL` | Inbox that should receive contact/resource/booking lead notifications |
 
 ### Render (Web Service)
 
@@ -56,7 +59,7 @@ Admin routes (Bearer Clerk session token):
 
 ### Resend & Calendly
 
-- **Resend**: send mail from the API after `POST /api/leads` or booking events (env `RESEND_API_KEY`).
+- **Resend**: enabled for `POST /api/leads`. When `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, and `RESEND_TO_EMAIL` are set, each lead sends a notification email from the API.
 - **Calendly**: keep using the marketing `/booking` flow; optional Calendly webhooks can post into the API later for analytics.
 
 ## 3. Marketing site (`frontend/`)
