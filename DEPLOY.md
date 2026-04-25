@@ -29,6 +29,10 @@ Environment variables:
 | `RESEND_API_KEY` | Resend API key for lead notification emails (optional) |
 | `RESEND_FROM_EMAIL` | Verified sender identity in Resend, e.g. `Runway Refined <hello@runwayrefinedbyalek.com>` |
 | `RESEND_TO_EMAIL` | Inbox that should receive contact/resource/booking lead notifications |
+| `ADMIN_ALLOWED_EMAILS` | Comma-separated emails allowed to use `/api/admin/*` (required; Clerk user primary email must match) |
+| `STRIPE_SECRET_KEY` | Stripe secret key (test or live) for checkout + webhooks |
+| `STRIPE_WEBHOOK_SECRET` | Signing secret for `POST /webhooks/stripe` |
+| `SITE_URL` | Public marketing site origin (no trailing slash), used for Stripe Checkout return URLs |
 
 ### Render (Web Service)
 
@@ -46,7 +50,7 @@ Public routes:
 - `GET /api/public/portfolio`, `GET /api/public/portfolio/:slug`
 - `GET /api/public/journal`, `GET /api/public/journal/:slug`
 - `GET /api/public/resources`, `GET /api/public/testimonials`
-- `POST /api/public/booking-intent` (Calendly-first package and payment scope; no card yet)
+- `POST /api/public/checkout-session` (Stripe Checkout from package selection)
 - `POST /api/leads`
 
 Admin routes (Bearer Clerk session token):
@@ -61,7 +65,7 @@ Admin routes (Bearer Clerk session token):
 ### Resend & Calendly
 
 - **Resend**: enabled for `POST /api/leads`. When `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, and `RESEND_TO_EMAIL` are set, each lead sends a notification email from the API.
-- **Calendly**: keep using the marketing `/booking` flow; optional Calendly webhooks can post into the API later for analytics.
+- **Calendly**: linked from package pages and `/checkout/success` after payment.
 
 ## 3. Marketing site (`frontend/`)
 
@@ -77,8 +81,9 @@ Admin routes (Bearer Clerk session token):
 - Env:
   - `VITE_CLERK_PUBLISHABLE_KEY`: Clerk **publishable** key (matches the same Clerk instance as the backend secret).
   - `VITE_PUBLIC_API_URL`: same API base as the marketing site.
+  - `VITE_ADMIN_ALLOWED_EMAILS`: comma-separated list of authorised admin emails (must match `ADMIN_ALLOWED_EMAILS` on the API).
 
-In the [Clerk Dashboard](https://dashboard.clerk.com), restrict sign-ups or allowlist emails for your team.
+In the [Clerk Dashboard](https://dashboard.clerk.com): **disable public sign-ups** for this application, turn off unused **social/OAuth** providers so only your chosen sign-in method remains, and keep your production admin user as an invited or existing account only. The app and API still enforce the email allowlist.
 
 ## 5. DNS
 
@@ -94,7 +99,7 @@ npm run dev -w backend
 # Terminal 2: marketing (optional: .env with VITE_PUBLIC_API_URL=http://localhost:3001)
 npm run dev -w frontend
 
-# Terminal 3: admin (VITE_PUBLIC_API_URL + VITE_CLERK_PUBLISHABLE_KEY)
+# Terminal 3: admin (VITE_PUBLIC_API_URL + VITE_CLERK_PUBLISHABLE_KEY + VITE_ADMIN_ALLOWED_EMAILS)
 npm run dev -w admin
 ```
 

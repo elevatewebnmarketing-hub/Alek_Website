@@ -1,6 +1,7 @@
 import { useAuth } from "@clerk/clerk-react";
 import type React from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { Activity, CreditCard, Sparkles } from "lucide-react";
 import {
@@ -193,11 +194,18 @@ export function DashboardPage() {
       </div>
 
       <div className="rounded-2xl border border-dashed border-zinc-700 bg-zinc-900/30 p-6">
-        <h2 className="text-sm font-semibold text-zinc-200">Payments & Stripe</h2>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-sm font-semibold text-zinc-200">Payments & Stripe</h2>
+          <Link
+            to="/payments"
+            className="text-sm font-medium text-violet-300 hover:text-violet-200 hover:underline"
+          >
+            Open payments →
+          </Link>
+        </div>
         <p className="mt-2 max-w-2xl text-sm text-zinc-500">
-          {data.payments.connected
-            ? "Stripe is connected."
-            : "Next step: add a Stripe webhook to POST /webhooks/stripe on this API. Successful charges will populate PaymentRecord and unlock revenue charts here."}
+          Stripe webhooks populate <code className="rounded bg-zinc-800 px-1 text-xs">PaymentRecord</code>. Use the
+          Payments page for success vs unsuccessful charts and full row details.
         </p>
         {data.payments.recent.length > 0 ? (
           <ul className="mt-4 space-y-2 text-sm text-zinc-400">
@@ -209,7 +217,7 @@ export function DashboardPage() {
             ))}
           </ul>
         ) : (
-          <p className="mt-4 text-sm text-zinc-600">No payment rows yet.</p>
+          <p className="mt-4 text-sm text-zinc-600">No payment rows in the last 14 days snapshot.</p>
         )}
       </div>
     </div>

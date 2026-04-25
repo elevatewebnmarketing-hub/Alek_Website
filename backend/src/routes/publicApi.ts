@@ -37,9 +37,11 @@ publicApiRoute.post("/checkout-session", async (c) => {
   }
 
   const siteUrl = (process.env.SITE_URL ?? "http://localhost:5173").replace(/\/$/, "");
+  // Stripe replaces {CHECKOUT_SESSION_ID} in the redirect URL; keep it literal (do not URL-encode the braces).
+  const successUrl = `${siteUrl}/checkout/success?package=${encodeURIComponent(d.packageSlug)}&session_id={CHECKOUT_SESSION_ID}`;
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
-    success_url: `${siteUrl}/packages/${d.packageSlug}?checkout=success`,
+    success_url: successUrl,
     cancel_url: `${siteUrl}/packages/${d.packageSlug}?checkout=cancel`,
     customer_email: d.customerEmail ?? undefined,
     line_items: [

@@ -53,9 +53,9 @@ function HomePage() {
               <em className="italic text-background/80">Turn Attention Into Income.</em>
             </h1>
             <p className="mt-8 max-w-md text-base leading-relaxed text-background/75 fade-up">
-              This isn’t for models looking for surface-level tips. We refine
-              your runway presence, build real confidence, create content that
-              holds attention, and position you for long-term growth.
+              This is not surface-level advice. We refine runway and casting presence, strengthen how you hold a room,
+              shape content that reads on a booker&apos;s screen, and build positioning that supports paid bookings over
+              time.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4 fade-up">
               <Link

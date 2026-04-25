@@ -1,4 +1,4 @@
-import type { Prisma } from "@prisma/client";
+import type { PaymentStatus, Prisma } from "@prisma/client";
 import { Hono } from "hono";
 import { prisma } from "../db.js";
 import {
@@ -13,6 +13,19 @@ import {
 } from "../schemas.js";
 
 export const adminApiRoute = new Hono();
+
+const PAYMENT_STATUSES: PaymentStatus[] = ["pending", "succeeded", "failed", "refunded"];
+
+function parseDateQuery(value: string | undefined, fallback: Date): Date {
+  if (!value) return fallback;
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? fallback : d;
+}
+
+/** YYYY-MM-DD in UTC */
+function toUtcDateKey(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
 
 adminApiRoute.get("/dashboard/summary", async (c) => {
   const now = new Date();
@@ -103,6 +116,119 @@ adminApiRoute.delete("/leads/:id", async (c) => {
   const id = c.req.param("id");
   await prisma.lead.delete({ where: { id } });
   return c.json({ ok: true });
+});
+
+adminApiRoute.get("/payments", async (c) => {
+  const now = new Date();
+  const defaultFrom = new Date(now);
+  defaultFrom.setUTCDate(defaultFrom.getUTCDate() - 30);
+
+  const from = parseDateQuery(c.req.query("from"), defaultFrom);
+  const to = parseDateQuery(c.req.query("to"), now);
+  const statusParam = c.req.query("status");
+  const statusFilter: { status?: PaymentStatus } =
+    statusParam && PAYMENT_STATUSES.includes(statusParam as PaymentStatus)
+      ? { status: statusParam as PaymentStatus }
+      : {};
+
+  const items = await prisma.paymentRecord.findMany({
+    where: {
+      createdAt: { gte: from, lte: to },
+      ...statusFilter,
+    },
+    orderBy: { createdAt: "desc" },
+    take: 500,
+  });
+
+  return c.json({
+    items,
+    range: { from: from.toISOString(), to: to.toISOString() },
+  });
+});
+
+adminApiRoute.get("/payments/summary", async (c) => {
+  const now = new Date();
+  const defaultFrom = new Date(now);
+  defaultFrom.setUTCDate(defaultFrom.getUTCDate() - 30);
+
+  const from = parseDateQuery(c.req.query("from"), defaultFrom);
+  const to = parseDateQuery(c.req.query("to"), now);
+
+  const rows = await prisma.paymentRecord.findMany({
+    where: { createdAt: { gte: from, lte: to } },
+    select: { status: true, amountCents: true, createdAt: true },
+  });
+
+  let succeeded = 0;
+  let failed = 0;
+  let refunded = 0;
+  let pending = 0;
+  let succeededCents = 0;
+
+  const perDay = new Map<
+    string,
+    { succeeded: number; unsuccessful: number; pending: number; succeededCents: number }
+  >();
+
+  const ensureDay = (key: string) => {
+    if (!perDay.has(key)) {
+      perDay.set(key, { succeeded: 0, unsuccessful: 0, pending: 0, succeededCents: 0 });
+    }
+    return perDay.get(key)!;
+  };
+
+  for (const row of rows) {
+    const key = toUtcDateKey(row.createdAt);
+    const bucket = ensureDay(key);
+    if (row.status === "succeeded") {
+      succeeded += 1;
+      succeededCents += row.amountCents;
+      bucket.succeeded += 1;
+      bucket.succeededCents += row.amountCents;
+    } else if (row.status === "pending") {
+      pending += 1;
+      bucket.pending += 1;
+    } else {
+      failed += row.status === "failed" ? 1 : 0;
+      refunded += row.status === "refunded" ? 1 : 0;
+      bucket.unsuccessful += 1;
+    }
+  }
+
+  const daily: {
+    date: string;
+    succeeded: number;
+    unsuccessful: number;
+    pending: number;
+    succeededCents: number;
+  }[] = [];
+
+  const cursor = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate()));
+  const end = new Date(Date.UTC(to.getUTCFullYear(), to.getUTCMonth(), to.getUTCDate()));
+  while (cursor <= end) {
+    const key = toUtcDateKey(cursor);
+    const b = perDay.get(key) ?? { succeeded: 0, unsuccessful: 0, pending: 0, succeededCents: 0 };
+    daily.push({
+      date: key,
+      succeeded: b.succeeded,
+      unsuccessful: b.unsuccessful,
+      pending: b.pending,
+      succeededCents: b.succeededCents,
+    });
+    cursor.setUTCDate(cursor.getUTCDate() + 1);
+  }
+
+  return c.json({
+    range: { from: from.toISOString(), to: to.toISOString() },
+    totals: {
+      succeeded,
+      failed,
+      refunded,
+      pending,
+      succeededCents,
+    },
+    daily,
+  });
 });
 
 adminApiRoute.get("/portfolio", async (c) => {

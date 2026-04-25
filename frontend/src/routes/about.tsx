@@ -38,7 +38,7 @@ function AboutPage() {
       <PageHero
         eyebrow="About"
         title="Alek Deng Malek · model coach for confident, consistent growth."
-        intro="Alek is based in the UK and coaches aspiring and professional models worldwide to build confidence, sharpen runway and camera presence, and grow a personal brand that opens real doors."
+        intro="UK-based coach to models worldwide: runway and casting craft, composure under brief, and a clearer path from visibility to booked work."
       />
 
       <Section className="border-b border-border">

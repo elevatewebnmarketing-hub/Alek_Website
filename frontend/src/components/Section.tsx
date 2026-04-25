@@ -5,13 +5,15 @@ export function Section({
   children,
   className,
   as: Tag = "section",
+  id,
 }: {
   children: ReactNode;
   className?: string;
   as?: "section" | "div" | "article";
+  id?: string;
 }) {
   return (
-    <Tag className={cn("px-6 py-20 lg:px-12 lg:py-28", className)}>
+    <Tag id={id} className={cn("px-6 py-20 lg:px-12 lg:py-28", className)}>
       <div className="mx-auto max-w-[1600px]">{children}</div>
     </Tag>
   );

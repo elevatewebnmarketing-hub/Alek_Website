@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { z } from "zod";
 import { Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
 import {
@@ -12,9 +13,14 @@ import {
   type PaymentScope,
 } from "@/lib/services";
 import { createCheckoutSession } from "@/lib/publicApi";
-import { ArrowLeft, ArrowRight, Check, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, Check, ShieldCheck, Sparkles } from "lucide-react";
+
+const packageSearchSchema = z.object({
+  checkout: z.enum(["cancel"]).optional(),
+});
 
 export const Route = createFileRoute("/packages/$slug")({
+  validateSearch: packageSearchSchema,
   loader: ({ params }) => {
     const p = getPackageBySlug(params.slug);
     if (!p) throw notFound();
@@ -50,7 +56,22 @@ function PackageDetailPage() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const search = Route.useSearch() as { checkout?: "success" | "cancel" };
+  const search = Route.useSearch();
+  const paySentinelRef = useRef<HTMLDivElement>(null);
+  const [showPayBar, setShowPayBar] = useState(false);
+
+  useEffect(() => {
+    const el = paySentinelRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setShowPayBar(!entry.isIntersecting);
+      },
+      { root: null, rootMargin: "-72px 0px 0px 0px", threshold: 0 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [p.slug]);
 
   const pricing = useMemo(() => getScopePricing(p, selectedScope), [p, selectedScope]);
   const instalment = useMemo(() => getInstalmentBreakdown(p), [p]);
@@ -99,8 +120,9 @@ function PackageDetailPage() {
             <h1 className="display-lg mt-5">{p.name}</h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">{p.tagline}</p>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              Start by choosing exactly what you want below. Your total updates immediately, then you
-              continue to secure Stripe checkout.
+              You book and pay on this page: choose your option, watch the total update, then continue to secure Stripe
+              checkout. Use the guide on the right and the sticky bar when you scroll—it points you straight to the
+              payment block.
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               <div className="border border-border bg-secondary/30 p-4">
@@ -132,30 +154,66 @@ function PackageDetailPage() {
               </Link>
             </div>
           </div>
-          <div className="lg:col-span-7 border border-border p-6 lg:p-8">
+          <div id="package-flow" className="lg:col-span-7 scroll-mt-28 border border-border p-6 lg:p-8">
             <div className="editorial-eyebrow">How this page works</div>
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              On this page you move from context to commitment: read outcomes and structure, understand pricing, then
+              scroll to the payment section to select your option and pay. Jump links below match each block.
+            </p>
+            <nav
+              className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border border-border bg-secondary/10 px-3 py-3 text-[0.65rem] font-medium uppercase tracking-[0.14em]"
+              aria-label="On this page"
+            >
+              <a href="#package-outcomes" className="text-foreground/80 underline-offset-4 hover:text-foreground hover:underline">
+                Outcomes
+              </a>
+              <span className="text-muted-foreground/40" aria-hidden>
+                ·
+              </span>
+              <a href="#package-pricing" className="text-foreground/80 underline-offset-4 hover:text-foreground hover:underline">
+                Pricing
+              </a>
+              <span className="text-muted-foreground/40" aria-hidden>
+                ·
+              </span>
+              <a href="#package-pay" className="text-foreground/80 underline-offset-4 hover:text-foreground hover:underline">
+                Select &amp; pay
+              </a>
+              <span className="text-muted-foreground/40" aria-hidden>
+                ·
+              </span>
+              <a href="#checkout" className="text-foreground underline-offset-4 hover:underline">
+                Payment
+              </a>
+            </nav>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               <div className="border border-border bg-secondary/20 p-4">
                 <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground">01</div>
-                <h2 className="mt-2 font-serif text-xl">Pick your option</h2>
-                <p className="mt-2 text-sm text-muted-foreground">Click one option to set your exact path.</p>
+                <h2 className="mt-2 font-serif text-lg leading-snug">Outcomes &amp; deliverables</h2>
+                <p className="mt-2 text-sm text-muted-foreground">What you leave with and what is included.</p>
               </div>
               <div className="border border-border bg-secondary/20 p-4">
                 <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground">02</div>
-                <h2 className="mt-2 font-serif text-xl">Review pricing</h2>
-                <p className="mt-2 text-sm text-muted-foreground">See what is due now and what is left.</p>
+                <h2 className="mt-2 font-serif text-lg leading-snug">Structure &amp; session arc</h2>
+                <p className="mt-2 text-sm text-muted-foreground">How the coaching block is built.</p>
               </div>
               <div className="border border-border bg-secondary/20 p-4">
                 <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground">03</div>
-                <h2 className="mt-2 font-serif text-xl">Checkout</h2>
-                <p className="mt-2 text-sm text-muted-foreground">Pay securely in Stripe to confirm.</p>
+                <h2 className="mt-2 font-serif text-lg leading-snug">Pricing logic</h2>
+                <p className="mt-2 text-sm text-muted-foreground">One-time item vs full package and instalments.</p>
+              </div>
+              <div className="border border-border bg-secondary/20 p-4">
+                <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground">04</div>
+                <h2 className="mt-2 font-serif text-lg leading-snug">Pay on this page</h2>
+                <p className="mt-2 text-sm text-muted-foreground">Select an option, then Stripe checkout.</p>
               </div>
             </div>
           </div>
         </div>
+        <div ref={paySentinelRef} className="h-px w-full" aria-hidden />
       </Section>
 
-      <Section className="border-b border-border">
+      <Section id="package-outcomes" className="scroll-mt-28 border-b border-border">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <div className="inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
@@ -171,7 +229,7 @@ function PackageDetailPage() {
           </div>
           <aside className="lg:col-span-5">
             <div className="border border-border p-6">
-              <div className="text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">Whats included</div>
+              <div className="text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">What&apos;s included</div>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
                 {p.includes.map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm">
@@ -187,8 +245,8 @@ function PackageDetailPage() {
 
       <Section className="border-b border-border">
         <div className="grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <div className="editorial-eyebrow">How its structured</div>
+          <div className="lg:col-span-7 scroll-mt-28">
+            <div className="editorial-eyebrow">How it&apos;s structured</div>
             <div className="mt-8 space-y-8">
               {p.detailSections.map((d, index) => (
                 <div key={d.title} className="grid gap-3 md:grid-cols-[56px_1fr]">
@@ -205,7 +263,7 @@ function PackageDetailPage() {
               ))}
             </div>
           </div>
-          <aside className="lg:col-span-5">
+          <aside id="package-pricing" className="lg:col-span-5 scroll-mt-28">
             <div className="border border-border p-6">
               <div className="editorial-eyebrow">How pricing works</div>
               <div className="mt-5 space-y-4">
@@ -245,13 +303,14 @@ function PackageDetailPage() {
         </div>
       </Section>
 
-      <Section className="border-b border-border">
+      <Section id="package-pay" className="scroll-mt-28 border-b border-border">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <div className="editorial-eyebrow">Choose your option</div>
             <h2 className="display-lg mt-5">Select exactly what you want to pay for</h2>
             <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              This is the action step. Click one option below and your checkout total updates instantly.
+              This is the commitment step on this page. Tap one option—your summary and due-now total update
+              immediately in the payment panel on the right (or below on small screens). Then continue to Stripe.
             </p>
 
             <div className="mt-8 grid gap-3">
@@ -304,7 +363,7 @@ function PackageDetailPage() {
           </div>
 
           <aside className="lg:col-span-5">
-            <div className="sticky top-28 border border-border p-6">
+            <div id="checkout" className="sticky top-28 scroll-mt-28 border border-border p-6">
               <div className="editorial-eyebrow">Checkout summary</div>
               <h3 className="mt-3 font-serif text-2xl">{pricing.headline}</h3>
               <div className="mt-5 border border-border bg-secondary/20 p-4">
@@ -340,9 +399,6 @@ function PackageDetailPage() {
                 <ArrowRight className="size-4" />
               </button>
               {checkoutMessage && <p className="mt-3 text-xs text-muted-foreground">{checkoutMessage}</p>}
-              {search.checkout === "success" && (
-                <p className="mt-3 text-xs text-emerald-700">Payment successful. We will contact you with next steps.</p>
-              )}
               {search.checkout === "cancel" && (
                 <p className="mt-3 text-xs text-amber-700">Checkout canceled. You can choose another option and try again.</p>
               )}
@@ -402,6 +458,27 @@ function PackageDetailPage() {
           ))}
         </div>
       </Section>
+
+      <div
+        className={`fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-4 py-3 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] backdrop-blur-md transition-transform duration-300 md:px-8 ${
+          showPayBar ? "translate-y-0" : "pointer-events-none translate-y-full"
+        }`}
+        role="region"
+        aria-label="Jump to payment"
+      >
+        <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-3">
+          <p className="max-w-xl text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">Payment is on this page.</span> Scroll to the panel marked
+            Payment, or jump directly to checkout.
+          </p>
+          <a
+            href="#checkout"
+            className="inline-flex shrink-0 items-center gap-2 border border-foreground bg-foreground px-5 py-2.5 text-[0.68rem] font-medium uppercase tracking-[0.2em] text-background hover:bg-background hover:text-foreground"
+          >
+            Jump to payment <ArrowDown className="size-4" />
+          </a>
+        </div>
+      </div>
     </>
   );
 }

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/services")({
     meta: pageMeta({
       title: "Model Coaching Services · Runway, Casting, Confidence, Mentorship",
       description:
-        "One-to-one runway coaching, beginner and advanced training, walk analysis, casting prep, confidence work, and monthly mentorship. Priced in GBP.",
+        "Runway, casting, walk analysis, presence, and mentorship—1:1 coaching for models worldwide. Transparent GBP pricing; book and pay per package page.",
       image: walkImage,
       path: "/services",
     }),
@@ -24,7 +24,7 @@ function ServicesPage() {
       <PageHero
         eyebrow="Services"
         title="Coaching, refined to where you are."
-        intro="Each package matches your level and what you are working toward. One-time item amounts and full package fees are in GBP. Open a package to choose your option, see dynamic pricing, and checkout directly."
+        intro="Each package aligns with where you are in your career—runway line, casting floor, analysis from footage, or ongoing mentorship. Amounts are in GBP: open a package to compare options, preview your total, and complete secure checkout on the same page."
       />
 
       <Section className="border-b border-border pt-0">

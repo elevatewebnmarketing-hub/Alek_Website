@@ -1,6 +1,7 @@
 import { UserButton } from "@clerk/clerk-react";
 import {
   BookOpen,
+  CreditCard,
   FolderKanban,
   LayoutDashboard,
   MessageSquareQuote,
@@ -13,6 +14,7 @@ import { cn } from "@/lib/cn";
 
 const nav = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, end: true },
+  { to: "/payments", label: "Payments", icon: CreditCard },
   { to: "/leads", label: "Leads", icon: Users },
   { to: "/portfolio", label: "Portfolio", icon: FolderKanban },
   { to: "/journal", label: "Journal", icon: BookOpen },
