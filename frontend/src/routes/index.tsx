@@ -59,10 +59,10 @@ function HomePage() {
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4 fade-up">
               <Link
-                to="/booking"
+                to="/services"
                 className="inline-flex items-center gap-3 border border-background bg-background px-7 py-4 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-foreground transition-colors hover:bg-transparent hover:text-background"
               >
-                Book a Session <ArrowRight className="size-4" />
+                Choose a Package <ArrowRight className="size-4" />
               </Link>
               <Link
                 to="/services"
@@ -243,10 +243,10 @@ function HomePage() {
             want. You will have personal direction at every step.
           </p>
           <Link
-            to="/booking"
+            to="/services"
             className="mt-10 inline-flex items-center gap-3 border border-background bg-background px-8 py-4 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-foreground hover:bg-transparent hover:text-background"
           >
-            Book a Session <ArrowRight className="size-4" />
+            Choose a Package <ArrowRight className="size-4" />
           </Link>
         </div>
       </section>

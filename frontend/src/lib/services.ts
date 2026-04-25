@@ -12,6 +12,11 @@ export type PackageSlug =
   | "confidence-presence"
   | "monthly-mentorship";
 
+export type PaymentScope =
+  | "one_time_item"
+  | "full_package_full"
+  | "full_package_instalments";
+
 export type FullPackagePrice = {
   /** e.g. "£150" or "£250 to £700 / month" */
   display: string;
@@ -378,5 +383,62 @@ export function getPackageSnapshotForApi(slug: string): {
     oneTimeMaxGbp: p.oneTimeItem.maxGbp ?? p.oneTimeItem.singleServiceCapGbp ?? null,
     fullPackageAmountGbp: p.fullPackage.maxAmountGbp ?? p.fullPackage.amountGbp,
     allowsInstalments: p.allowsInstalmentsForFullPackage,
+  };
+}
+
+export function formatGbp(amount: number): string {
+  return `£${amount.toLocaleString("en-GB")}`;
+}
+
+export function getFullPackageAmountGbp(p: Package): number {
+  return p.fullPackage.maxAmountGbp ?? p.fullPackage.amountGbp;
+}
+
+export function getInstalmentBreakdown(p: Package): {
+  totalGbp: number;
+  dueNowGbp: number;
+  remainingGbp: number;
+} {
+  const totalGbp = getFullPackageAmountGbp(p);
+  const dueNowGbp = Math.ceil(totalGbp / 2);
+  const remainingGbp = totalGbp - dueNowGbp;
+  return { totalGbp, dueNowGbp, remainingGbp };
+}
+
+export function getScopePricing(
+  p: Package,
+  scope: PaymentScope,
+): {
+  headline: string;
+  dueNowLabel: string;
+  dueNowGbp: number;
+  note: string;
+} {
+  if (scope === "one_time_item") {
+    const dueNowGbp = p.oneTimeItem.maxGbp ?? p.oneTimeItem.singleServiceCapGbp ?? p.oneTimeItem.minGbp ?? 0;
+    return {
+      headline: "One-time item",
+      dueNowLabel: p.oneTimeItem.display,
+      dueNowGbp,
+      note: p.oneTimeItem.notes ?? "Single service payment.",
+    };
+  }
+
+  if (scope === "full_package_full") {
+    const dueNowGbp = getFullPackageAmountGbp(p);
+    return {
+      headline: "Full package (pay in full)",
+      dueNowLabel: p.fullPackage.display,
+      dueNowGbp,
+      note: p.fullPackage.notes ?? "One payment for the full package.",
+    };
+  }
+
+  const instalment = getInstalmentBreakdown(p);
+  return {
+    headline: "Full package (instalments)",
+    dueNowLabel: `${formatGbp(instalment.dueNowGbp)} due now`,
+    dueNowGbp: instalment.dueNowGbp,
+    note: `${formatGbp(instalment.remainingGbp)} remaining after checkout.`,
   };
 }

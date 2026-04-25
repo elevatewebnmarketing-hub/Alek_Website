@@ -1,9 +1,18 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { PageHero, Section } from "@/components/Section";
+import { useMemo, useState } from "react";
+import { Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
-import { getCalendlyForPackage, getPackageBySlug, PACKAGES, type Package } from "@/lib/services";
-import { getPackageMedia } from "@/lib/packageImages";
-import { ArrowLeft, ArrowRight, Check, Sparkles } from "lucide-react";
+import {
+  formatGbp,
+  getInstalmentBreakdown,
+  getPackageBySlug,
+  getScopePricing,
+  PACKAGES,
+  type Package,
+  type PaymentScope,
+} from "@/lib/services";
+import { createCheckoutSession } from "@/lib/publicApi";
+import { ArrowLeft, ArrowRight, Check, ShieldCheck, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/packages/$slug")({
   loader: ({ params }) => {
@@ -36,9 +45,35 @@ export const Route = createFileRoute("/packages/$slug")({
 
 function PackageDetailPage() {
   const p = Route.useLoaderData() as Package;
-  const calendly = getCalendlyForPackage(p.slug);
-  const media = getPackageMedia(p.slug);
   const related = PACKAGES.filter((item) => item.slug !== p.slug).slice(0, 3);
+  const [selectedScope, setSelectedScope] = useState<PaymentScope>("one_time_item");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const search = Route.useSearch() as { checkout?: "success" | "cancel" };
+
+  const pricing = useMemo(() => getScopePricing(p, selectedScope), [p, selectedScope]);
+  const instalment = useMemo(() => getInstalmentBreakdown(p), [p]);
+
+  const runCheckout = async () => {
+    setIsRedirecting(true);
+    setCheckoutMessage(null);
+    const response = await createCheckoutSession({
+      packageSlug: p.slug,
+      paymentScope: selectedScope,
+      customerEmail: customerEmail || undefined,
+    });
+    setIsRedirecting(false);
+
+    if (!response.ok || !response.checkoutUrl) {
+      setCheckoutMessage(
+        response.error ??
+          "Checkout session could not be created. Please try again in a moment.",
+      );
+      return;
+    }
+    window.location.href = response.checkoutUrl;
+  };
 
   return (
     <>
@@ -63,6 +98,10 @@ function PackageDetailPage() {
             <div className="editorial-eyebrow">Package</div>
             <h1 className="display-lg mt-5">{p.name}</h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">{p.tagline}</p>
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              Start by choosing exactly what you want below. Your total updates immediately, then you
+              continue to secure Stripe checkout.
+            </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               <div className="border border-border bg-secondary/30 p-4">
                 <div className="text-[0.62rem] uppercase tracking-[0.2em] text-muted-foreground">Duration</div>
@@ -80,11 +119,10 @@ function PackageDetailPage() {
             )}
             <div className="mt-10 flex flex-wrap gap-3">
               <Link
-                to="/booking"
-                search={{ service: p.slug, package: p.slug }}
+                to="/services"
                 className="inline-flex items-center justify-center gap-2 border border-foreground bg-foreground px-6 py-3.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-background hover:bg-background hover:text-foreground"
               >
-                Book with Calendly <ArrowRight className="size-4" />
+                View all packages <ArrowRight className="size-4" />
               </Link>
               <Link
                 to="/contact"
@@ -94,18 +132,24 @@ function PackageDetailPage() {
               </Link>
             </div>
           </div>
-
-          <div className="lg:col-span-7">
-            <img
-              src={media.hero}
-              alt={media.alt}
-              className="aspect-[16/10] w-full object-cover"
-              width={1600}
-              height={1000}
-              loading="eager"
-            />
-            <div className="border border-t-0 border-border px-4 py-3 text-xs uppercase tracking-[0.16em] text-muted-foreground">
-              Editorial reference visual for this package
+          <div className="lg:col-span-7 border border-border p-6 lg:p-8">
+            <div className="editorial-eyebrow">How this page works</div>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              <div className="border border-border bg-secondary/20 p-4">
+                <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground">01</div>
+                <h2 className="mt-2 font-serif text-xl">Pick your option</h2>
+                <p className="mt-2 text-sm text-muted-foreground">Click one option to set your exact path.</p>
+              </div>
+              <div className="border border-border bg-secondary/20 p-4">
+                <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground">02</div>
+                <h2 className="mt-2 font-serif text-xl">Review pricing</h2>
+                <p className="mt-2 text-sm text-muted-foreground">See what is due now and what is left.</p>
+              </div>
+              <div className="border border-border bg-secondary/20 p-4">
+                <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground">03</div>
+                <h2 className="mt-2 font-serif text-xl">Checkout</h2>
+                <p className="mt-2 text-sm text-muted-foreground">Pay securely in Stripe to confirm.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -139,17 +183,6 @@ function PackageDetailPage() {
             </div>
           </aside>
         </div>
-      </Section>
-
-      <Section className="border-b border-border pt-0">
-        <img
-          src={media.detail}
-          alt={media.alt}
-          className="aspect-[16/7] w-full object-cover"
-          width={1800}
-          height={900}
-          loading="lazy"
-        />
       </Section>
 
       <Section className="border-b border-border">
@@ -190,7 +223,7 @@ function PackageDetailPage() {
                   {p.fullPackage.notes && <p className="mt-2 text-sm text-muted-foreground">{p.fullPackage.notes}</p>}
                   {p.allowsInstalmentsForFullPackage && (
                     <p className="mt-2 text-sm text-foreground/85">
-                      Full package can be paid in full or in instalments.
+                      Instalment plan: first payment is half of the larger full-package fee.
                     </p>
                   )}
                 </div>
@@ -213,6 +246,115 @@ function PackageDetailPage() {
       </Section>
 
       <Section className="border-b border-border">
+        <div className="grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <div className="editorial-eyebrow">Choose your option</div>
+            <h2 className="display-lg mt-5">Select exactly what you want to pay for</h2>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              This is the action step. Click one option below and your checkout total updates instantly.
+            </p>
+
+            <div className="mt-8 grid gap-3">
+              <button
+                type="button"
+                onClick={() => setSelectedScope("one_time_item")}
+                className={`border px-5 py-4 text-left transition-colors ${
+                  selectedScope === "one_time_item"
+                    ? "border-foreground bg-secondary/30"
+                    : "border-border hover:border-foreground/40"
+                }`}
+              >
+                <div className="text-sm font-medium">One-time item</div>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  {p.oneTimeItem.display} · Best when you only want one focused service.
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedScope("full_package_full")}
+                className={`border px-5 py-4 text-left transition-colors ${
+                  selectedScope === "full_package_full"
+                    ? "border-foreground bg-secondary/30"
+                    : "border-border hover:border-foreground/40"
+                }`}
+              >
+                <div className="text-sm font-medium">Full package · pay in full</div>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  {p.fullPackage.display} · Best if you want complete support in one payment.
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedScope("full_package_instalments")}
+                disabled={!p.allowsInstalmentsForFullPackage}
+                className={`border px-5 py-4 text-left transition-colors disabled:opacity-50 ${
+                  selectedScope === "full_package_instalments"
+                    ? "border-foreground bg-secondary/30"
+                    : "border-border hover:border-foreground/40"
+                }`}
+              >
+                <div className="text-sm font-medium">Full package · instalments</div>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  {formatGbp(instalment.dueNowGbp)} due now, {formatGbp(instalment.remainingGbp)} remaining.
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <aside className="lg:col-span-5">
+            <div className="sticky top-28 border border-border p-6">
+              <div className="editorial-eyebrow">Checkout summary</div>
+              <h3 className="mt-3 font-serif text-2xl">{pricing.headline}</h3>
+              <div className="mt-5 border border-border bg-secondary/20 p-4">
+                <div className="text-[0.64rem] uppercase tracking-[0.18em] text-muted-foreground">Due now</div>
+                <div className="mt-2 font-serif text-3xl">{formatGbp(pricing.dueNowGbp)}</div>
+                <p className="mt-2 text-sm text-muted-foreground">{pricing.note}</p>
+              </div>
+              <div className="mt-4 border border-border p-4 text-sm">
+                <p><span className="font-medium">Selected option:</span> {pricing.dueNowLabel}</p>
+                <p className="mt-2">
+                  <span className="font-medium">Instalment rule:</span> first payment is half of the larger fee.
+                </p>
+              </div>
+
+              <label className="mt-5 block text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                Email for receipt (optional)
+              </label>
+              <input
+                type="email"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="mt-2 w-full border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground"
+              />
+
+              <button
+                type="button"
+                onClick={runCheckout}
+                disabled={isRedirecting}
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 border border-foreground bg-foreground px-5 py-3.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-background hover:bg-background hover:text-foreground disabled:opacity-60"
+              >
+                {isRedirecting ? "Redirecting..." : "Continue to secure checkout"}
+                <ArrowRight className="size-4" />
+              </button>
+              {checkoutMessage && <p className="mt-3 text-xs text-muted-foreground">{checkoutMessage}</p>}
+              {search.checkout === "success" && (
+                <p className="mt-3 text-xs text-emerald-700">Payment successful. We will contact you with next steps.</p>
+              )}
+              {search.checkout === "cancel" && (
+                <p className="mt-3 text-xs text-amber-700">Checkout canceled. You can choose another option and try again.</p>
+              )}
+              <p className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                <ShieldCheck className="size-4" /> Secure Stripe checkout in GBP.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </Section>
+
+      <Section className="border-b border-border">
         <div className="grid gap-8 lg:grid-cols-12">
           <div className="lg:col-span-8">
             <div className="editorial-eyebrow">Who this is for</div>
@@ -224,16 +366,13 @@ function PackageDetailPage() {
             )}
           </div>
           <div className="lg:col-span-4 border border-border p-6">
-            <div className="text-[0.64rem] uppercase tracking-[0.18em] text-muted-foreground">Calendly slot</div>
-            <div className="mt-2 text-lg">{calendly.label}</div>
-            <a
-              href={calendly.url}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-5 inline-flex items-center gap-2 border border-foreground bg-foreground px-5 py-3 text-[0.68rem] uppercase tracking-[0.2em] text-background hover:bg-background hover:text-foreground"
-            >
-              Open Calendly <ArrowRight className="size-4" />
-            </a>
+            <div className="text-[0.64rem] uppercase tracking-[0.18em] text-muted-foreground">Before you checkout</div>
+            <div className="mt-2 text-lg">What happens after payment</div>
+            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+              <li>We confirm your selected option and payment receipt.</li>
+              <li>You receive onboarding details and next-step guidance.</li>
+              <li>Your coaching timeline starts with clear deliverables.</li>
+            </ul>
           </div>
         </div>
       </Section>

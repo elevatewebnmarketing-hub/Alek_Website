@@ -77,10 +77,10 @@ function AboutPage() {
               </p>
             </div>
             <Link
-              to="/booking"
+              to="/services"
               className="mt-10 inline-flex items-center gap-3 border border-foreground px-6 py-3.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] hover:bg-foreground hover:text-background"
             >
-              Work with Alek <ArrowRight className="size-4" />
+              Explore Services <ArrowRight className="size-4" />
             </Link>
           </div>
         </div>

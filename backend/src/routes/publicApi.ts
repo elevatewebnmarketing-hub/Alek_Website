@@ -1,31 +1,96 @@
 import { Hono } from "hono";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "../db.js";
-import { bookingIntentCreateSchema } from "../schemas.js";
+import { checkoutSessionCreateSchema } from "../schemas.js";
+import { checkoutAmountForScope } from "../lib/pricing.js";
+import Stripe from "stripe";
 
 export const publicApiRoute = new Hono();
 
-/** Calendly-first: record which package and payment scope the user chose; checkout comes later. */
-publicApiRoute.post("/booking-intent", async (c) => {
+const stripeSecret = process.env.STRIPE_SECRET_KEY;
+const stripe = stripeSecret ? new Stripe(stripeSecret) : null;
+
+publicApiRoute.post("/checkout-session", async (c) => {
+  if (!stripe) {
+    return c.json(
+      { error: "stripe_not_configured", message: "Set STRIPE_SECRET_KEY to enable checkout." },
+      500,
+    );
+  }
+
   const raw = await c.req.json().catch(() => null);
-  const parsed = bookingIntentCreateSchema.safeParse(raw);
+  const parsed = checkoutSessionCreateSchema.safeParse(raw);
   if (!parsed.success) {
     return c.json(
       { error: "validation_error", details: parsed.error.flatten() },
       400,
     );
   }
+
   const d = parsed.data;
-  const row = await prisma.bookingIntent.create({
-    data: {
+  const amount = checkoutAmountForScope(d.packageSlug, d.paymentScope);
+  if (!amount) {
+    return c.json(
+      { error: "invalid_package_or_scope", message: "Package or payment option is not available." },
+      400,
+    );
+  }
+
+  const siteUrl = (process.env.SITE_URL ?? "http://localhost:5173").replace(/\/$/, "");
+  const session = await stripe.checkout.sessions.create({
+    mode: "payment",
+    success_url: `${siteUrl}/packages/${d.packageSlug}?checkout=success`,
+    cancel_url: `${siteUrl}/packages/${d.packageSlug}?checkout=cancel`,
+    customer_email: d.customerEmail ?? undefined,
+    line_items: [
+      {
+        quantity: 1,
+        price_data: {
+          currency: "gbp",
+          unit_amount: amount.amountGbp * 100,
+          product_data: {
+            name: `Runway Refined · ${d.packageSlug}`,
+            description:
+              d.paymentScope === "full_package_instalments"
+                ? `First instalment collected now. Remaining balance: £${amount.instalmentRemainingGbp}.`
+                : `Payment option: ${d.paymentScope.replaceAll("_", " ")}.`,
+          },
+        },
+      },
+    ],
+    metadata: {
       packageSlug: d.packageSlug,
       paymentScope: d.paymentScope,
-      contactEmail: d.contactEmail ?? null,
-      notes: d.notes ?? null,
-      pricingSnapshot: (d.pricingSnapshot as Prisma.InputJsonValue | undefined) ?? undefined,
+      amountGbp: String(amount.amountGbp),
+      fullPackageGbp: String(amount.fullPackageGbp),
+      instalmentDueNowGbp: String(amount.instalmentDueNowGbp),
+      instalmentRemainingGbp: String(amount.instalmentRemainingGbp),
     },
   });
-  return c.json({ id: row.id });
+
+  const paymentRecord = await prisma.paymentRecord.create({
+    data: {
+      stripeSessionId: session.id,
+      amountCents: amount.amountGbp * 100,
+      currency: "gbp",
+      status: "pending",
+      customerEmail: d.customerEmail ?? null,
+      description: `Checkout for ${d.packageSlug} (${d.paymentScope})`,
+      metadata: {
+        packageSlug: d.packageSlug,
+        paymentScope: d.paymentScope,
+        fullPackageGbp: amount.fullPackageGbp,
+        instalmentDueNowGbp: amount.instalmentDueNowGbp,
+        instalmentRemainingGbp: amount.instalmentRemainingGbp,
+      } as Prisma.InputJsonValue,
+    },
+  });
+
+  return c.json({
+    sessionId: session.id,
+    checkoutUrl: session.url,
+    paymentRecordId: paymentRecord.id,
+  });
 });
 
 publicApiRoute.get("/portfolio", async (c) => {

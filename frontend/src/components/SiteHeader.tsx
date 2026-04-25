@@ -8,7 +8,6 @@ const NAV = [
   { to: "/about", label: "About" },
   { to: "/portfolio", label: "Portfolio" },
   { to: "/services", label: "Services" },
-  { to: "/booking", label: "Booking" },
   { to: "/resources", label: "Resources" },
   { to: "/blog", label: "Journal" },
   { to: "/testimonials", label: "Testimonials" },
@@ -52,10 +51,10 @@ export function SiteHeader() {
 
         <div className="hidden 2xl:block">
           <Link
-            to="/booking"
+            to="/services"
             className="inline-flex items-center border border-foreground bg-foreground px-5 py-2.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-background transition-colors hover:bg-background hover:text-foreground"
           >
-            Book a Session
+            Get Started
           </Link>
         </div>
 
@@ -85,11 +84,11 @@ export function SiteHeader() {
               </Link>
             ))}
             <Link
-              to="/booking"
+              to="/services"
               onClick={() => setOpen(false)}
               className="mt-6 inline-flex items-center justify-center border border-foreground bg-foreground px-5 py-3 text-xs font-medium uppercase tracking-[0.22em] text-background"
             >
-              Book a Session
+              Get Started
             </Link>
           </nav>
         </div>

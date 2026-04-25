@@ -60,10 +60,10 @@ function TestimonialsPage() {
             <div className="editorial-eyebrow">Be the next story</div>
             <h2 className="display-lg mt-6">Your refinement starts here.</h2>
             <Link
-              to="/booking"
+              to="/services"
               className="mt-8 inline-flex items-center gap-3 border border-foreground px-6 py-3.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] hover:bg-foreground hover:text-background"
             >
-              Book a Session <ArrowRight className="size-4" />
+              Explore Services <ArrowRight className="size-4" />
             </Link>
           </div>
         </Section>
@@ -97,10 +97,10 @@ function TestimonialsPage() {
       <Section>
         <div className="mx-auto max-w-2xl text-center">
           <Link
-            to="/booking"
+            to="/services"
             className="inline-flex items-center gap-3 border border-foreground px-6 py-3.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] hover:bg-foreground hover:text-background"
           >
-            Book a Session <ArrowRight className="size-4" />
+            Explore Services <ArrowRight className="size-4" />
           </Link>
         </div>
       </Section>

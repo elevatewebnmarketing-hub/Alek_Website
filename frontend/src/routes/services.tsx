@@ -24,7 +24,7 @@ function ServicesPage() {
       <PageHero
         eyebrow="Services"
         title="Coaching, refined to where you are."
-        intro="Each package matches your level and what you are working toward. One-time item amounts and full package fees are in GBP. See each package page for full detail, images, and how instalments will work after Calendly."
+        intro="Each package matches your level and what you are working toward. One-time item amounts and full package fees are in GBP. Open a package to choose your option, see dynamic pricing, and checkout directly."
       />
 
       <Section className="border-b border-border pt-0">
@@ -84,11 +84,11 @@ function ServicesPage() {
                   View package <ArrowRight className="size-4" />
                 </Link>
                 <Link
-                  to="/booking"
-                  search={{ service: s.slug, package: s.slug }}
+                  to="/packages/$slug"
+                  params={{ slug: s.slug }}
                   className="inline-flex items-center gap-3 self-start text-[0.72rem] font-medium uppercase tracking-[0.2em] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
                 >
-                  Book now
+                  Choose option
                 </Link>
               </div>
             </article>
@@ -107,10 +107,10 @@ function ServicesPage() {
             next practical steps in between.
           </p>
           <Link
-            to="/booking"
+            to="/services"
             className="mt-10 inline-flex items-center gap-3 border border-background bg-background px-7 py-4 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-foreground hover:bg-transparent hover:text-background"
           >
-            Book a Session <ArrowRight className="size-4" />
+            Explore Packages <ArrowRight className="size-4" />
           </Link>
         </div>
       </section>

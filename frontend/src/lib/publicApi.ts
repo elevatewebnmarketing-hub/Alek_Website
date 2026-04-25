@@ -63,27 +63,19 @@ export async function postLead(payload: {
   }
 }
 
-export type BookingIntentPayload = {
+export type CheckoutSessionPayload = {
   packageSlug: string;
-  /** What the client is committing to for the full-package side (payment gateway later) */
   paymentScope: "one_time_item" | "full_package_full" | "full_package_instalments";
-  contactEmail?: string;
-  notes?: string;
-  /** Server-side snapshot; optional client echo for reconciliation */
-  pricingSnapshot?: Record<string, unknown>;
+  customerEmail?: string;
 };
 
-/**
- * Record a booking intent (Calendly-first; no card charge here).
- * Returns ok: false if API is not configured or the request failed.
- */
-export async function postBookingIntent(
-  payload: BookingIntentPayload,
-): Promise<{ ok: boolean; id?: string; error?: string }> {
+export async function createCheckoutSession(
+  payload: CheckoutSessionPayload,
+): Promise<{ ok: boolean; checkoutUrl?: string; sessionId?: string; error?: string }> {
   const base = getPublicApiBase();
   if (!base) return { ok: false, error: "API is not configured (VITE_PUBLIC_API_URL)." };
   try {
-    const r = await fetch(`${base}/api/public/booking-intent`, {
+    const r = await fetch(`${base}/api/public/checkout-session`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -92,8 +84,8 @@ export async function postBookingIntent(
       const t = await r.text();
       return { ok: false, error: t || r.statusText };
     }
-    const data = (await r.json()) as { id: string };
-    return { ok: true, id: data.id };
+    const data = (await r.json()) as { checkoutUrl: string; sessionId: string };
+    return { ok: true, checkoutUrl: data.checkoutUrl, sessionId: data.sessionId };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "Network error" };
   }
