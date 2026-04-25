@@ -3,16 +3,14 @@
  * Walk analysis has special rules (see `walkAnalysisNotes` on that package).
  */
 
-export type PackageImageKey =
-  | "walk"
-  | "runway"
-  | "portrait"
-  | "about"
-  | "home"
-  | "transformation"
-  | "resources"
-  | "grazia"
-  | "wonderland";
+export type PackageSlug =
+  | "runway-1to1"
+  | "beginner-foundations"
+  | "advanced-runway"
+  | "walk-analysis"
+  | "casting-prep"
+  | "confidence-presence"
+  | "monthly-mentorship";
 
 export type FullPackagePrice = {
   /** e.g. "£150" or "£250 to £700 / month" */
@@ -36,7 +34,7 @@ export type OneTimeItemPrice = {
 };
 
 export type Package = {
-  slug: string;
+  slug: PackageSlug;
   name: string;
   /** Shown on cards and listings */
   priceSummary: string;
@@ -49,9 +47,14 @@ export type Package = {
   allowsInstalmentsForFullPackage: boolean;
   /** Longer copy blocks for the package detail page */
   detailSections: { title: string; body: string }[];
-  /** Keys into `packageImages.PACKAGE_IMAGE_URLS` */
-  heroImageKey: PackageImageKey;
-  galleryImageKeys: PackageImageKey[];
+  /** What clients leave with (used in package detail hero section). */
+  outcomes: string[];
+  /** Short audience-fit copy for package page. */
+  whoFor: string;
+  /** Optional counter-positioning copy. */
+  notFor?: string;
+  /** Small metadata chips in package hero blocks. */
+  keyStats: { duration: string; format: string; cadence?: string };
   /** If set, show extra walk analysis pricing callouts */
   walkAnalysisNotes?: { singleService: string; bundle: string };
 };
@@ -90,8 +93,16 @@ export const PACKAGES: Package[] = [
         "The one-time item amount covers a single, defined deliverable. The full package is the larger fee for the full coaching block: you can pay it in one go or split it into instalments as agreed at booking (payment gateway coming after Calendly is live).",
       ),
     ],
-    heroImageKey: "walk",
-    galleryImageKeys: ["runway", "wonderland", "portrait"],
+    outcomes: [
+      "You walk out with precise posture corrections tailored to your gait.",
+      "You know exactly what to drill before your next casting or runway call.",
+      "You get a cleaner signature runway presence, not generic advice.",
+    ],
+    whoFor:
+      "Models who want direct correction and faster improvements in runway confidence, timing, and line.",
+    notFor:
+      "Not ideal if you want passive feedback only without structured practice between sessions.",
+    keyStats: { duration: "45 to 60 minutes", format: "Live 1:1 video coaching", cadence: "Single or repeat blocks" },
   },
   {
     slug: "beginner-foundations",
@@ -116,8 +127,16 @@ export const PACKAGES: Package[] = [
       ),
       section("Pricing structure", "Pay the smaller item amount once. For the full programme, the full package price applies, payable in full or in instalments."),
     ],
-    heroImageKey: "wonderland",
-    galleryImageKeys: ["walk", "runway", "transformation"],
+    outcomes: [
+      "You build runway fundamentals that hold up under pressure.",
+      "You improve turns, transitions, and heel control with confidence.",
+      "You understand what casting rooms expect from entry-level talent.",
+    ],
+    whoFor:
+      "Newer models who want runway basics done properly before stepping into bigger opportunities.",
+    notFor:
+      "Not suited to experienced talent only looking for micro-level style refinements.",
+    keyStats: { duration: "60 minutes", format: "Live runway basics session", cadence: "Foundation track" },
   },
   {
     slug: "advanced-runway",
@@ -141,8 +160,16 @@ export const PACKAGES: Package[] = [
         "We push past generic confidence into a walk that is memorable for the right reasons, with flexibility when the art direction changes.",
       ),
     ],
-    heroImageKey: "grazia",
-    galleryImageKeys: ["wonderland", "walk", "runway"],
+    outcomes: [
+      "You sharpen your personal walk signature with strategic variation.",
+      "You improve rhythm and pacing across different runway briefs.",
+      "You gain stronger brand adaptability while maintaining identity.",
+    ],
+    whoFor:
+      "Experienced or fast-progressing models ready for higher-level runway refinement.",
+    notFor:
+      "Not the right fit if you still need first-time runway basics.",
+    keyStats: { duration: "60 minutes", format: "Advanced 1:1 session", cadence: "Performance-oriented blocks" },
   },
   {
     slug: "walk-analysis",
@@ -182,8 +209,14 @@ export const PACKAGES: Package[] = [
       section("How the £20 to £60 item works", "The entry is from £20. The cap is £60 when walk analysis and feedback is the only service you are booking."),
       section("The £150 bundle", "If you are booking everything together, the all-in bundle is £150. Payment gateway splits for full or instalment pay will follow the Calendly go-live."),
     ],
-    heroImageKey: "transformation",
-    galleryImageKeys: ["walk", "portrait", "home"],
+    outcomes: [
+      "You get a prioritized correction list from your actual clip footage.",
+      "You know what to fix first and what can wait.",
+      "You leave with targeted drills for your next recording or live walk.",
+    ],
+    whoFor:
+      "Models who want fast, specific feedback from real runway or practice footage.",
+    keyStats: { duration: "10 to 15 minute analysis", format: "Recorded feedback + notes", cadence: "On-demand" },
   },
   {
     slug: "casting-prep",
@@ -202,8 +235,14 @@ export const PACKAGES: Package[] = [
     fullPackage: { display: "£120", amountGbp: 120, notes: "Full casting package. Instalments on the full amount if you choose the full package." },
     allowsInstalmentsForFullPackage: true,
     detailSections: [section("Casting with intention", "We work on the first look, the walk-in, and how to leave the room on a high note without overplaying.")],
-    heroImageKey: "home",
-    galleryImageKeys: ["wonderland", "runway", "portrait"],
+    outcomes: [
+      "You improve first impressions from the moment you enter the room.",
+      "You present cleaner body language and stronger confidence cues.",
+      "You reduce guesswork around what agencies and clients are scanning for.",
+    ],
+    whoFor:
+      "Models preparing for castings, agency meetings, and brand-facing opportunities.",
+    keyStats: { duration: "45 minutes", format: "Focused coaching session", cadence: "Before key castings" },
   },
   {
     slug: "confidence-presence",
@@ -222,8 +261,14 @@ export const PACKAGES: Package[] = [
     fullPackage: { display: "£120", amountGbp: 120, notes: "Full package for deeper presence work. Instalments available for the full package price." },
     allowsInstalmentsForFullPackage: true,
     detailSections: [section("Presence, not performance anxiety", "We use small, repeatable tools so the body can stay available under pressure.")],
-    heroImageKey: "portrait",
-    galleryImageKeys: ["transformation", "walk", "wonderland"],
+    outcomes: [
+      "You develop calmer body language under attention and pressure.",
+      "You improve stage presence without forcing a persona.",
+      "You use repeatable confidence drills that transfer to real bookings.",
+    ],
+    whoFor:
+      "Models who feel talented but held back by nerves, stiffness, or overthinking.",
+    keyStats: { duration: "45 minutes", format: "Mindset and presence training", cadence: "Weekly or fortnightly" },
   },
   {
     slug: "monthly-mentorship",
@@ -244,8 +289,14 @@ export const PACKAGES: Package[] = [
     detailSections: [
       section("Long-game coaching", "We set direction for the month, then adjust with what real castings, bookings, and confidence data tell us."),
     ],
-    heroImageKey: "runway",
-    galleryImageKeys: ["home", "wonderland", "resources"],
+    outcomes: [
+      "You get ongoing runway and brand direction that compounds over time.",
+      "You track progress weekly with clear coaching priorities.",
+      "You receive strategic support between calls to stay consistent.",
+    ],
+    whoFor:
+      "Serious models ready to build long-term consistency, positioning, and results.",
+    keyStats: { duration: "45 to 60 minutes per call", format: "Weekly mentorship", cadence: "Monthly programme" },
   },
 ];
 
@@ -253,7 +304,7 @@ export function getPackageBySlug(slug: string): Package | undefined {
   return PACKAGES.find((p) => p.slug === slug);
 }
 
-export function getAllPackageSlugs(): string[] {
+export function getAllPackageSlugs(): PackageSlug[] {
   return PACKAGES.map((p) => p.slug);
 }
 

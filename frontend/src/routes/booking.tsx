@@ -10,8 +10,9 @@ import {
   getPackageSnapshotForApi,
   type Package,
 } from "@/lib/services";
+import { getPackageMedia } from "@/lib/packageImages";
 import { postBookingIntent } from "@/lib/publicApi";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, CalendarDays, CreditCard, Sparkles } from "lucide-react";
 
 const searchSchema = z.object({
   service: z.string().optional(),
@@ -32,10 +33,24 @@ export const Route = createFileRoute("/booking")({
 });
 
 const STEPS = [
-  { n: "01", t: "Choose a package", d: "Match your level and the kind of help you need." },
-  { n: "02", t: "Set payment scope", d: "One-time item, or the full package (pay in full or in instalments later; no card yet)." },
-  { n: "03", t: "Schedule in Calendly", d: "Book a time first. The payment gateway is added only after this step is set." },
-  { n: "04", t: "Complete payment later", d: "We will take payment in GBP once checkout is live." },
+  {
+    id: "01",
+    title: "Select package",
+    desc: "Choose the coaching package that matches your goal.",
+    icon: Sparkles,
+  },
+  {
+    id: "02",
+    title: "Set scope",
+    desc: "One-time item or full package now; card payment later.",
+    icon: CreditCard,
+  },
+  {
+    id: "03",
+    title: "Schedule",
+    desc: "Open the matching Calendly slot to lock in your session.",
+    icon: CalendarDays,
+  },
 ];
 
 type PaymentScope = "one_time_item" | "full_package_full" | "full_package_instalments";
@@ -66,6 +81,7 @@ function BookingPage() {
   const [selected, setSelected] = useState(initial);
   const p = getPackageBySlug(selected) ?? PACKAGES[0];
   const calendly = getCalendlyForPackage(p.slug);
+  const media = getPackageMedia(p.slug);
   const [paymentScope, setPaymentScope] = useState<PaymentScope>(() => defaultScopeForPackage(p));
   const [intentMessage, setIntentMessage] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -110,36 +126,51 @@ function BookingPage() {
     <>
       <PageHero
         eyebrow="Booking"
-        title="Start with a time, then we wire up payment."
-        intro="We are prioritising Calendly first. You choose a package and how the fee should work, then you schedule. Stripe checkout in GBP is added in a later pass once Calendly is set."
+        title="A cleaner booking flow, from package to session."
+        intro="Pick your package, choose your payment scope, and schedule in Calendly. Payment collection in GBP follows right after this scheduling step is complete."
       />
 
       <Section className="border-b border-border">
-        <div className="grid gap-px bg-border md:grid-cols-4">
-          {STEPS.map((s) => (
-            <div key={s.n} className="bg-background p-8">
-              <div className="font-serif text-4xl text-muted-foreground/60">{s.n}</div>
-              <div className="mt-5 font-serif text-xl">{s.t}</div>
-              <div className="rule mt-4" />
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{s.d}</p>
-            </div>
-          ))}
+        <div className="border border-border">
+          <div className="grid gap-px bg-border md:grid-cols-3">
+            {STEPS.map((step) => {
+              const Icon = step.icon;
+              return (
+                <div key={step.id} className="bg-background p-6">
+                  <div className="flex items-center justify-between">
+                    <Icon className="size-4 text-muted-foreground" />
+                    <span className="font-serif text-2xl text-muted-foreground/70">{step.id}</span>
+                  </div>
+                  <h3 className="mt-4 font-serif text-xl">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.desc}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </Section>
 
       <Section className="border-b border-border">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <div className="editorial-eyebrow">Step 01 · Select</div>
-            <h2 className="display-lg mt-6">Choose your package.</h2>
-            <div className="mt-10 grid gap-px bg-border sm:grid-cols-2">
+            <div className="editorial-eyebrow">Step 01</div>
+            <h2 className="display-lg mt-5">Choose your package</h2>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              Select the package you want to book right now. You can still open the full package page
+              for details before confirming your scope.
+            </p>
+
+            <div className="mt-10 grid gap-4 md:grid-cols-2">
               {PACKAGES.map((pkg) => {
-                const active = pkg.slug === selected;
+                const isActive = pkg.slug === selected;
+                const pkgMedia = getPackageMedia(pkg.slug);
                 return (
-                  <div
+                  <article
                     key={pkg.slug}
-                    className={`flex flex-col items-start bg-background p-6 text-left transition-colors ${
-                      active ? "ring-2 ring-foreground ring-inset" : ""
+                    className={`overflow-hidden border bg-background transition-all ${
+                      isActive
+                        ? "border-foreground ring-2 ring-foreground/20"
+                        : "border-border hover:border-foreground/40"
                     }`}
                   >
                     <button
@@ -147,89 +178,124 @@ function BookingPage() {
                       onClick={() => handleSelectPackage(pkg.slug)}
                       className="w-full text-left"
                     >
-                      <div className="editorial-eyebrow">{pkg.priceSummary}</div>
-                      <div className="mt-3 font-serif text-xl leading-tight">
-                        {pkg.name}
-                      </div>
-                      <div className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                        {pkg.tagline}
+                      <img
+                        src={pkgMedia.hero}
+                        alt={pkgMedia.alt}
+                        className="aspect-[4/3] w-full object-cover"
+                        width={900}
+                        height={675}
+                        loading="lazy"
+                      />
+                      <div className="p-5">
+                        <div className="text-[0.64rem] uppercase tracking-[0.18em] text-muted-foreground">
+                          {pkg.priceSummary}
+                        </div>
+                        <h3 className="mt-3 font-serif text-xl leading-tight">{pkg.name}</h3>
+                        <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{pkg.tagline}</p>
                       </div>
                     </button>
-                    <Link
-                      to="/packages/$slug"
-                      params={{ slug: pkg.slug }}
-                      className="mt-4 text-[0.65rem] font-medium uppercase tracking-[0.18em] text-foreground underline underline-offset-2"
-                    >
-                      More detail
-                    </Link>
-                  </div>
+                    <div className="border-t border-border px-5 py-3">
+                      <Link
+                        to="/packages/$slug"
+                        params={{ slug: pkg.slug }}
+                        className="text-[0.64rem] uppercase tracking-[0.18em] underline-offset-2 hover:underline"
+                      >
+                        More detail
+                      </Link>
+                    </div>
+                  </article>
                 );
               })}
             </div>
 
             <div className="mt-12 border border-border p-6">
-              <div className="editorial-eyebrow">Step 02 · Payment scope</div>
-              <h3 className="mt-3 font-serif text-2xl">How should the fee be treated?</h3>
-              <p className="mt-3 text-sm text-muted-foreground">
-                The smaller <span className="text-foreground/90">one-time item</span> amount is paid once for that item. The <span className="text-foreground/90">full package</span> is the larger fee, payable in one go or in instalments once checkout is on (after Calendly). No card is taken on this page yet.
+              <div className="editorial-eyebrow">Step 02</div>
+              <h3 className="mt-3 font-serif text-2xl">Set your payment scope</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Choose how this booking should be treated right now. The card payment step is still
+                deferred until after scheduling.
               </p>
-              <div className="mt-6 space-y-3">
-                <label className="flex cursor-pointer items-start gap-3 border border-border p-3 transition-colors has-[:checked]:border-foreground has-[:checked]:bg-secondary/30">
-                  <input
-                    type="radio"
-                    className="mt-1"
-                    name="scope"
-                    checked={paymentScope === "one_time_item"}
-                    onChange={() => setPaymentScope("one_time_item")}
-                  />
-                  <div>
-                    <div className="text-sm font-medium">One-time item only</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">{p.oneTimeItem.display}</div>
-                  </div>
-                </label>
-                <label className="flex cursor-pointer items-start gap-3 border border-border p-3 transition-colors has-[:checked]:border-foreground has-[:checked]:bg-secondary/30">
-                  <input
-                    type="radio"
-                    className="mt-1"
-                    name="scope"
-                    checked={paymentScope === "full_package_full"}
-                    onChange={() => setPaymentScope("full_package_full")}
-                  />
-                  <div>
-                    <div className="text-sm font-medium">Full package, pay in full</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">{p.fullPackage.display}{p.fullPackage.period ? ` ${p.fullPackage.period}` : ""}</div>
-                  </div>
-                </label>
-                <label
-                  className={`flex cursor-pointer items-start gap-3 border border-border p-3 transition-colors has-[:checked]:border-foreground has-[:checked]:bg-secondary/30 ${
-                    !p.allowsInstalmentsForFullPackage ? "pointer-events-none opacity-50" : ""
+              <div className="mt-6 grid gap-3 md:grid-cols-3">
+                <button
+                  type="button"
+                  onClick={() => setPaymentScope("one_time_item")}
+                  className={`border px-4 py-4 text-left transition-colors ${
+                    paymentScope === "one_time_item"
+                      ? "border-foreground bg-secondary/40"
+                      : "border-border hover:border-foreground/40"
                   }`}
                 >
-                  <input
-                    type="radio"
-                    className="mt-1"
-                    name="scope"
-                    disabled={!p.allowsInstalmentsForFullPackage}
-                    checked={paymentScope === "full_package_instalments"}
-                    onChange={() => setPaymentScope("full_package_instalments")}
-                  />
-                  <div>
-                    <div className="text-sm font-medium">Full package, pay in instalments</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">Same full package amount, agreed schedule when checkout is live</div>
+                  <div className="text-sm font-medium">One-time item</div>
+                  <div className="mt-1 text-xs text-muted-foreground">{p.oneTimeItem.display}</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPaymentScope("full_package_full")}
+                  className={`border px-4 py-4 text-left transition-colors ${
+                    paymentScope === "full_package_full"
+                      ? "border-foreground bg-secondary/40"
+                      : "border-border hover:border-foreground/40"
+                  }`}
+                >
+                  <div className="text-sm font-medium">Full package (full pay)</div>
+                  <div className="mt-1 text-xs text-muted-foreground">{p.fullPackage.display}</div>
+                </button>
+                <button
+                  type="button"
+                  disabled={!p.allowsInstalmentsForFullPackage}
+                  onClick={() => setPaymentScope("full_package_instalments")}
+                  className={`border px-4 py-4 text-left transition-colors disabled:opacity-50 ${
+                    paymentScope === "full_package_instalments"
+                      ? "border-foreground bg-secondary/40"
+                      : "border-border hover:border-foreground/40"
+                  }`}
+                >
+                  <div className="text-sm font-medium">Full package (instalments)</div>
+                  <div className="mt-1 text-xs text-muted-foreground">
+                    Same full amount split by agreement
                   </div>
-                </label>
+                </button>
+              </div>
+              <p className="mt-4 text-xs text-muted-foreground">
+                Selected: <span className="text-foreground/90">{scopeLabel(p, paymentScope)}</span>
+              </p>
+            </div>
+
+            <div className="mt-12 border border-border p-6">
+              <div className="editorial-eyebrow">After you schedule</div>
+              <div className="mt-5 space-y-4 text-sm">
+                <div className="flex gap-3">
+                  <span className="font-serif text-xl text-muted-foreground/70">01</span>
+                  <p>We confirm your package, scope, and session details.</p>
+                </div>
+                <div className="flex gap-3">
+                  <span className="font-serif text-xl text-muted-foreground/70">02</span>
+                  <p>You receive prep direction for your specific session goals.</p>
+                </div>
+                <div className="flex gap-3">
+                  <span className="font-serif text-xl text-muted-foreground/70">03</span>
+                  <p>Session happens, then follow-up notes and next actions are shared.</p>
+                </div>
               </div>
             </div>
           </div>
 
           <aside className="lg:col-span-5">
-            <div className="sticky top-28 border border-border bg-background p-8">
-              <div className="editorial-eyebrow">Step 03 · Calendly</div>
+            <div className="sticky top-28 border border-border bg-background p-7">
+              <img
+                src={media.hero}
+                alt={media.alt}
+                className="aspect-[4/3] w-full object-cover"
+                width={1200}
+                height={900}
+                loading="lazy"
+              />
+              <div className="mt-5 editorial-eyebrow">Step 03</div>
               <h3 className="mt-3 font-serif text-3xl">{p.name}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                <span className="text-foreground/80">You chose: </span>
-                {scopeLabel(p, paymentScope)}
-              </p>
+              <div className="mt-4 flex flex-wrap gap-2 text-[0.64rem] uppercase tracking-[0.18em]">
+                <span className="border border-border px-2 py-1">{calendly.label}</span>
+                <span className="border border-border px-2 py-1">{scopeLabel(p, paymentScope)}</span>
+              </div>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                 {p.description}
               </p>
@@ -253,7 +319,7 @@ function BookingPage() {
               <p className="mt-2 text-center text-xs text-muted-foreground">
                 Selected slot: {calendly.label}
               </p>
-              <p className="mt-4 text-center text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
+              <p className="mt-4 border-t border-border pt-4 text-center text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
                 GBP · Calendly first, then checkout
               </p>
             </div>
