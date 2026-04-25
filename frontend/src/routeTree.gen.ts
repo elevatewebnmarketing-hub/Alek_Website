@@ -20,6 +20,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortfolioIndexRouteImport } from './routes/portfolio/index'
 import { Route as PortfolioSlugRouteImport } from './routes/portfolio/$slug'
+import { Route as PackagesSlugRouteImport } from './routes/packages/$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 
 const TestimonialsRoute = TestimonialsRouteImport.update({
@@ -77,6 +78,11 @@ const PortfolioSlugRoute = PortfolioSlugRouteImport.update({
   path: '/portfolio/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PackagesSlugRoute = PackagesSlugRouteImport.update({
+  id: '/packages/$slug',
+  path: '/packages/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/packages/$slug': typeof PackagesSlugRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
   '/portfolio/': typeof PortfolioIndexRoute
 }
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/packages/$slug': typeof PackagesSlugRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
   '/portfolio': typeof PortfolioIndexRoute
 }
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/packages/$slug': typeof PackagesSlugRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
   '/portfolio/': typeof PortfolioIndexRoute
 }
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/testimonials'
     | '/blog/$slug'
+    | '/packages/$slug'
     | '/portfolio/$slug'
     | '/portfolio/'
   fileRoutesByTo: FileRoutesByTo
@@ -153,6 +163,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/testimonials'
     | '/blog/$slug'
+    | '/packages/$slug'
     | '/portfolio/$slug'
     | '/portfolio'
   id:
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/testimonials'
     | '/blog/$slug'
+    | '/packages/$slug'
     | '/portfolio/$slug'
     | '/portfolio/'
   fileRoutesById: FileRoutesById
@@ -181,6 +193,7 @@ export interface RootRouteChildren {
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRoute
   TestimonialsRoute: typeof TestimonialsRoute
+  PackagesSlugRoute: typeof PackagesSlugRoute
   PortfolioSlugRoute: typeof PortfolioSlugRoute
   PortfolioIndexRoute: typeof PortfolioIndexRoute
 }
@@ -264,6 +277,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/packages/$slug': {
+      id: '/packages/$slug'
+      path: '/packages/$slug'
+      fullPath: '/packages/$slug'
+      preLoaderRoute: typeof PackagesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/$slug': {
       id: '/blog/$slug'
       path: '/$slug'
@@ -294,6 +314,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRoute,
   TestimonialsRoute: TestimonialsRoute,
+  PackagesSlugRoute: PackagesSlugRoute,
   PortfolioSlugRoute: PortfolioSlugRoute,
   PortfolioIndexRoute: PortfolioIndexRoute,
 }

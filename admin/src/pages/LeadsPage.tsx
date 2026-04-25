@@ -83,7 +83,7 @@ export function LeadsPage() {
                 <td className="px-4 py-3 text-zinc-200">{l.name}</td>
                 <td className="px-4 py-3 text-violet-300">{l.email}</td>
                 <td className="px-4 py-3 text-zinc-400">{l.source}</td>
-                <td className="max-w-md truncate px-4 py-3 text-zinc-500">{l.message ?? "—"}</td>
+                <td className="max-w-md truncate px-4 py-3 text-zinc-500">{l.message ?? "N/A"}</td>
                 <td className="px-4 py-3">
                   <button
                     type="button"

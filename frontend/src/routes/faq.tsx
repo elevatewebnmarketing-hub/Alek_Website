@@ -28,11 +28,11 @@ const FAQS = [
   },
   {
     q: "How do sessions work?",
-    a: "Most sessions are one-to-one on video. In person is sometimes possible depending on where you are. You choose a service first, then complete booking once Stripe checkout, Calendly scheduling, and confirmation email setup is finished.",
+    a: "Most sessions are one-to-one on video. In person is sometimes possible depending on where you are. You pick a package, schedule in Calendly first, then we add Stripe checkout in GBP and confirmation email as the next step.",
   },
   {
     q: "How much does it cost?",
-    a: "From about £30 for a walk analysis up to £700 a month for full mentorship. Each service lists a clear band on the Services page so you can match spend to your stage.",
+    a: "Walk analysis and feedback is from about £20 to £60 (up to £60 when that is the only service), or £150 for everything in one package. Ongoing work runs up to about £700 a month for full mentorship. See each package page and the Services page for the full breakdown.",
   },
   {
     q: "What results should I expect?",
@@ -55,7 +55,7 @@ const FAQS = [
     a: "Wear something fitted you can move in, bring heels if runway is on the plan, and come ready to talk goals. If you have practice clips, share them so feedback can be specific.",
   },
   {
-    q: "Can I switch services after booking?",
+    q: "Can I switch packages after booking?",
     a: "Usually, yes. If your goals shift, we can move you to a better fit and adjust what you have already paid in a fair way.",
   },
   {

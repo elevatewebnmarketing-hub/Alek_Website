@@ -96,7 +96,7 @@ function ContactPage() {
             {err ? <p className="mt-6 text-sm text-red-600 dark:text-red-400">{err}</p> : null}
             {sent && (
               <p className="mt-6 text-sm text-muted-foreground">
-                Thank you — your message was received. Alek will get back to you soon. You can still reach
+                Thank you. Your message was received. Alek will get back to you soon. You can still reach
                 out via email or phone on the right.
               </p>
             )}

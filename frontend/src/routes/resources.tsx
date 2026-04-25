@@ -47,7 +47,7 @@ function ResourcesPage() {
     const res = await postLead({
       name: name.trim() || "Resources list",
       email: email.trim(),
-      message: "Resources page — join the list",
+      message: "Resources page, join the list",
       source: "resources",
     });
     setPending(false);
@@ -119,7 +119,7 @@ function ResourcesPage() {
           <div className="editorial-eyebrow">Get the resources first</div>
           <h2 className="display-lg mt-6">Join the list. New tools, no spam.</h2>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-            Leave your name and email — we will route this into your admin leads inbox. Add Resend later
+            Leave your name and email. We will route this into your admin leads inbox. Add Resend later
             for automated sends.
           </p>
           <form
@@ -154,7 +154,7 @@ function ResourcesPage() {
           {err ? <p className="mt-4 text-sm text-red-600 dark:text-red-400">{err}</p> : null}
           {sent && (
             <p className="mt-4 text-sm text-muted-foreground">
-              Thank you — your details were saved. We will be in touch when new resources drop.
+              Thank you. Your details were saved. We will be in touch when new resources drop.
             </p>
           )}
         </div>

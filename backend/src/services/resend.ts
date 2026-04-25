@@ -32,10 +32,10 @@ export async function sendLeadNotification(input: LeadNotificationInput): Promis
   const safeName = escapeHtml(input.name);
   const safeEmail = escapeHtml(input.email);
   const safeSource = escapeHtml(input.source);
-  const safeMessage = escapeHtml((input.message ?? "").trim()) || "—";
-  const safeUtmSource = escapeHtml(input.utmSource ?? "") || "—";
-  const safeUtmMedium = escapeHtml(input.utmMedium ?? "") || "—";
-  const safeUtmCampaign = escapeHtml(input.utmCampaign ?? "") || "—";
+  const safeMessage = escapeHtml((input.message ?? "").trim()) || "N/A";
+  const safeUtmSource = escapeHtml(input.utmSource ?? "") || "N/A";
+  const safeUtmMedium = escapeHtml(input.utmMedium ?? "") || "N/A";
+  const safeUtmCampaign = escapeHtml(input.utmCampaign ?? "") || "N/A";
 
   const subject = `New ${input.source} lead: ${input.name}`;
   const html = `
@@ -57,13 +57,13 @@ export async function sendLeadNotification(input: LeadNotificationInput): Promis
     `Name: ${input.name}`,
     `Email: ${input.email}`,
     `Source: ${input.source}`,
-    `Message: ${(input.message ?? "").trim() || "—"}`,
+    `Message: ${(input.message ?? "").trim() || "N/A"}`,
     "",
     `Lead ID: ${input.id}`,
     `Created at: ${input.createdAt}`,
-    `utm_source: ${input.utmSource ?? "—"}`,
-    `utm_medium: ${input.utmMedium ?? "—"}`,
-    `utm_campaign: ${input.utmCampaign ?? "—"}`,
+    `utm_source: ${input.utmSource ?? "N/A"}`,
+    `utm_medium: ${input.utmMedium ?? "N/A"}`,
+    `utm_campaign: ${input.utmCampaign ?? "N/A"}`,
   ].join("\n");
 
   const response = await fetch(RESEND_API_URL, {

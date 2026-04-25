@@ -1,7 +1,32 @@
 import { Hono } from "hono";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "../db.js";
+import { bookingIntentCreateSchema } from "../schemas.js";
 
 export const publicApiRoute = new Hono();
+
+/** Calendly-first: record which package and payment scope the user chose; checkout comes later. */
+publicApiRoute.post("/booking-intent", async (c) => {
+  const raw = await c.req.json().catch(() => null);
+  const parsed = bookingIntentCreateSchema.safeParse(raw);
+  if (!parsed.success) {
+    return c.json(
+      { error: "validation_error", details: parsed.error.flatten() },
+      400,
+    );
+  }
+  const d = parsed.data;
+  const row = await prisma.bookingIntent.create({
+    data: {
+      packageSlug: d.packageSlug,
+      paymentScope: d.paymentScope,
+      contactEmail: d.contactEmail ?? null,
+      notes: d.notes ?? null,
+      pricingSnapshot: (d.pricingSnapshot as Prisma.InputJsonValue | undefined) ?? undefined,
+    },
+  });
+  return c.json({ id: row.id });
+});
 
 publicApiRoute.get("/portfolio", async (c) => {
   const items = await prisma.portfolioProject.findMany({

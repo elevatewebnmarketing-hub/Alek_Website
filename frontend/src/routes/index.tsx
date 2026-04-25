@@ -124,14 +124,14 @@ function HomePage() {
           <div>
             <div className="editorial-eyebrow">The work</div>
             <h2 className="display-lg mt-6 max-w-xl">
-              Services tailored to where you are now.
+              Packages tailored to where you are now.
             </h2>
           </div>
           <Link
             to="/services"
             className="text-[0.72rem] font-medium uppercase tracking-[0.22em] underline-offset-8 hover:underline"
           >
-            View all services →
+            View all packages →
           </Link>
         </div>
 
@@ -139,7 +139,8 @@ function HomePage() {
           {SERVICES.slice(0, 6).map((s) => (
             <Link
               key={s.slug}
-              to="/services"
+              to="/packages/$slug"
+              params={{ slug: s.slug }}
               className="group flex flex-col bg-background p-8 transition-colors hover:bg-secondary"
             >
               <div className="editorial-eyebrow">{s.priceRange}</div>

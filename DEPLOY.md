@@ -36,7 +36,7 @@ Environment variables:
 - **Build command:** `bun install && bunx prisma migrate deploy && bun run build`  
   (`build` runs `prisma generate`; migrate needs `DATABASE_URL` in the service env.)
 - **Start command:** `bun run start`  
-  (`start` runs `tsx src/index.ts` so the service does not rely on a pre-built `dist/`—avoids `Cannot find module .../dist/index.js` when the compile step is skipped or misconfigured.)
+  (`start` runs `tsx src/index.ts` so the service does not rely on a pre-built `dist/`. This avoids `Cannot find module .../dist/index.js` when the compile step is skipped or misconfigured.)
 - **Optional:** run `bun run build:compile` locally to emit `dist/` and use `node dist/index.js` only if you add a custom start that points at the compiled file.
 
 Deploy to Railway, Render, Fly.io, or any Node host. Health check: `GET /health`.
@@ -46,6 +46,7 @@ Public routes:
 - `GET /api/public/portfolio`, `GET /api/public/portfolio/:slug`
 - `GET /api/public/journal`, `GET /api/public/journal/:slug`
 - `GET /api/public/resources`, `GET /api/public/testimonials`
+- `POST /api/public/booking-intent` (Calendly-first package and payment scope; no card yet)
 - `POST /api/leads`
 
 Admin routes (Bearer Clerk session token):
@@ -67,15 +68,15 @@ Admin routes (Bearer Clerk session token):
 - **Vercel (npm workspaces):** use the **repository root** as the Vercel project **Root Directory** (not `frontend/`), so `npm install` at the monorepo root can hoist dependencies correctly. Set **Build Command** to `npm run build -w frontend` (or `cd frontend && npm run build` after a root `npm install`). The repo includes `vercel.json` with `installCommand: npm install --include=optional` to avoid Rollup’s missing `@rollup/rollup-linux-x64-gnu` on Linux builders.
 - If you insist on Root Directory = `frontend` only, you must run install from the parent (workspaces) or you will get broken / incomplete `node_modules` and Rollup errors.
 - Env:
-  - `VITE_SITE_URL` — canonical site URL (OG URLs).
-  - `VITE_PUBLIC_API_URL` — public base URL of the deployed API (no trailing slash).
+  - `VITE_SITE_URL`: canonical site URL (OG URLs).
+  - `VITE_PUBLIC_API_URL`: public base URL of the deployed API (no trailing slash).
 
 ## 4. Admin dashboard (`admin/`)
 
 - **Vercel** (recommended): new project, same monorepo repo; **Root Directory = repository root** and build command `npm run build -w admin`, or mirror the marketing setup above. Custom domain **`admin.runwayrefinedbyalek.com`**.
 - Env:
-  - `VITE_CLERK_PUBLISHABLE_KEY` — Clerk **publishable** key (matches the same Clerk instance as the backend secret).
-  - `VITE_PUBLIC_API_URL` — same API base as the marketing site.
+  - `VITE_CLERK_PUBLISHABLE_KEY`: Clerk **publishable** key (matches the same Clerk instance as the backend secret).
+  - `VITE_PUBLIC_API_URL`: same API base as the marketing site.
 
 In the [Clerk Dashboard](https://dashboard.clerk.com), restrict sign-ups or allowlist emails for your team.
 
@@ -87,13 +88,13 @@ In the [Clerk Dashboard](https://dashboard.clerk.com), restrict sign-ups or allo
 ## Local development
 
 ```bash
-# Terminal 1 — API (needs DATABASE_URL + CLERK_SECRET_KEY)
+# Terminal 1: API (needs DATABASE_URL + CLERK_SECRET_KEY)
 npm run dev -w backend
 
-# Terminal 2 — marketing (optional: .env with VITE_PUBLIC_API_URL=http://localhost:3001)
+# Terminal 2: marketing (optional: .env with VITE_PUBLIC_API_URL=http://localhost:3001)
 npm run dev -w frontend
 
-# Terminal 3 — admin (VITE_PUBLIC_API_URL + VITE_CLERK_PUBLISHABLE_KEY)
+# Terminal 3: admin (VITE_PUBLIC_API_URL + VITE_CLERK_PUBLISHABLE_KEY)
 npm run dev -w admin
 ```
 

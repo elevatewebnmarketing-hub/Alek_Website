@@ -77,9 +77,9 @@ async function main() {
         eyebrow: "Portfolio · Wonderland",
         title: "Wonderland × Ahluwalia SS24.",
         intro:
-          "Editorial frames from a Wonderland story tied to Ahluwalia's Spring–Summer 24 collection, Acknowledgements—shot on a saturated red field with the label's knit, patchwork, and tailoring signatures.",
-        body: `<p><a href="https://ahluwalia.world/blogs/our-world/wonderland-magazine" target="_blank" rel="noreferrer">Ahluwalia's official write-up of its Wonderland Magazine feature</a> situates the season around "different perspectives": Creative Director Priya Ahluwalia discusses SS24 research into overlooked artists and makers, and techniques such as illusion knit—where jacquard and knit surfaces can read as a different colour depending on the angle.</p>
-<p>The Wonderland set used a red seamless field so wardrobe, silhouette, and skin would read cleanly on camera. The selects below move from seated and standing full-lengths to duo framing—each image is labelled in the carousel.</p>`,
+          "Editorial frames from a Wonderland story tied to Ahluwalia's Spring–Summer 24 collection. Acknowledgements, shot on a saturated red field with the label's knit, patchwork, and tailoring signatures.",
+        body: `<p><a href="https://ahluwalia.world/blogs/our-world/wonderland-magazine" target="_blank" rel="noreferrer">Ahluwalia's official write-up of its Wonderland Magazine feature</a> situates the season around "different perspectives": Creative Director Priya Ahluwalia discusses SS24 research into overlooked artists and makers, and techniques such as illusion knit, where jacquard and knit surfaces can read as a different colour depending on the angle.</p>
+<p>The Wonderland set used a red seamless field so wardrobe, silhouette, and skin would read cleanly on camera. The selects below move from seated and standing full-lengths to duo framing. Each image is labelled in the carousel.</p>`,
         heroImage: "/portfolio/wonderland-01-seated.png",
         sortOrder: 2,
         content: {
@@ -197,7 +197,7 @@ async function main() {
         title: "Fashion Trends Models Should Watch This Season",
         excerpt:
           "The shifts in aesthetics, casting preferences, and content style that are shaping model demand right now.",
-        body: "<p>Full article in progress — expand this post from the admin when ready.</p>",
+        body: "<p>Full article in progress. Expand this post from the admin when ready.</p>",
         status: "published",
         publishedAt: pub,
       },
@@ -207,7 +207,7 @@ async function main() {
         title: "What Agencies and Clients Are Looking For Right Now",
         excerpt:
           "A practical breakdown of the qualities, presentation, and professionalism decision-makers are prioritising.",
-        body: "<p>Full article in progress — expand this post from the admin when ready.</p>",
+        body: "<p>Full article in progress. Expand this post from the admin when ready.</p>",
         status: "published",
         publishedAt: pub,
       },
@@ -217,7 +217,7 @@ async function main() {
         title: "How Social Trends Are Reshaping Model Demand and Income",
         excerpt:
           "What is changing in platform behaviour, audience expectations, and brand casting so models can adapt early.",
-        body: "<p>Full article in progress — expand this post from the admin when ready.</p>",
+        body: "<p>Full article in progress. Expand this post from the admin when ready.</p>",
         status: "published",
         publishedAt: pub,
       },
@@ -227,7 +227,7 @@ async function main() {
         title: "Runway and Casting Readiness: A Practical Checklist",
         excerpt:
           "A clear prep checklist models can use before castings, training sessions, and high-stakes opportunities.",
-        body: "<p>Full article in progress — expand this post from the admin when ready.</p>",
+        body: "<p>Full article in progress. Expand this post from the admin when ready.</p>",
         status: "published",
         publishedAt: pub,
       },
@@ -269,7 +269,7 @@ async function main() {
     data: {
       name: "Sample Lead",
       email: "hello@example.com",
-      message: "Seed entry — delete from admin.",
+      message: "Seed entry. Delete from admin.",
       source: "contact",
     },
   });

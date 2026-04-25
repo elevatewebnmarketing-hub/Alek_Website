@@ -26,6 +26,30 @@ enum PaymentStatus {
   refunded
 }
 
+/**
+ * Scopes a booking before checkout: one-time item vs full package (in full or instalments).
+ * Gateway charges are a later step; this row is a Calendly-first record.
+ */
+enum BookingPaymentScope {
+  one_time_item
+  full_package_full
+  full_package_instalments
+}
+
+model BookingIntent {
+  id             String            @id @default(cuid())
+  packageSlug    String
+  paymentScope   BookingPaymentScope
+  contactEmail   String?
+  notes          String?           @db.Text
+  /** Optional denormalized snapshot (for reporting when frontend pricing changes) */
+  pricingSnapshot Json?
+  createdAt      DateTime          @default(now())
+
+  @@index([packageSlug, createdAt])
+  @@index([createdAt])
+}
+
 model Lead {
   id        String     @id @default(cuid())
   name      String

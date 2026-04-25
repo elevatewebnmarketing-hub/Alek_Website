@@ -24,7 +24,7 @@ function ServicesPage() {
       <PageHero
         eyebrow="Services"
         title="Coaching, refined to where you are."
-        intro="Each service matches your level and what you are working toward. Prices are in GBP, from £30 for analysis up to £700 per month for mentorship."
+        intro="Each package matches your level and what you are working toward. One-time item amounts and full package fees are in GBP. See each package page for full detail, images, and how instalments will work after Calendly."
       />
 
       <Section className="border-b border-border pt-0">
@@ -47,7 +47,7 @@ function ServicesPage() {
             >
               <div className="flex items-center justify-between">
                 <div className="editorial-eyebrow">
-                  Service {String(i + 1).padStart(2, "0")}
+                  Package {String(i + 1).padStart(2, "0")}
                 </div>
                 <div className="editorial-eyebrow text-foreground">
                   {s.priceRange}
@@ -75,13 +75,22 @@ function ServicesPage() {
                 ))}
               </ul>
 
-              <Link
-                to="/booking"
-                search={{ service: s.slug }}
-                className="mt-10 inline-flex items-center gap-3 self-start border border-foreground px-6 py-3 text-[0.72rem] font-medium uppercase tracking-[0.22em] hover:bg-foreground hover:text-background"
-              >
-                Book this service <ArrowRight className="size-4" />
-              </Link>
+              <div className="mt-10 flex flex-wrap items-center gap-4">
+                <Link
+                  to="/packages/$slug"
+                  params={{ slug: s.slug }}
+                  className="inline-flex items-center gap-3 self-start border border-foreground px-6 py-3 text-[0.72rem] font-medium uppercase tracking-[0.22em] hover:bg-foreground hover:text-background"
+                >
+                  View package <ArrowRight className="size-4" />
+                </Link>
+                <Link
+                  to="/booking"
+                  search={{ service: s.slug, package: s.slug }}
+                  className="inline-flex items-center gap-3 self-start text-[0.72rem] font-medium uppercase tracking-[0.2em] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                >
+                  Book now
+                </Link>
+              </div>
             </article>
           ))}
         </div>

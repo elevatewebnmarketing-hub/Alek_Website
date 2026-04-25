@@ -80,3 +80,20 @@ export const testimonialCreateSchema = z.object({
 });
 
 export const testimonialUpdateSchema = testimonialCreateSchema.partial();
+
+export const bookingIntentCreateSchema = z.object({
+  packageSlug: z
+    .string()
+    .min(1)
+    .max(120)
+    .regex(/^[a-z0-9-]+$/),
+  paymentScope: z.enum([
+    "one_time_item",
+    "full_package_full",
+    "full_package_instalments",
+  ]),
+  contactEmail: z.string().email().max(320).optional(),
+  notes: z.string().max(5_000).optional(),
+  /** Optional client snapshot for debugging or future price reconciliation */
+  pricingSnapshot: z.record(z.string(), z.unknown()).optional(),
+});

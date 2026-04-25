@@ -123,7 +123,7 @@ export function DashboardPage() {
         />
         <Kpi
           label="Revenue (MTD)"
-          value={data.payments.mtdCount ? mtd : "—"}
+          value={data.payments.mtdCount ? mtd : "N/A"}
           hint={data.payments.note}
           icon={CreditCard}
         />
