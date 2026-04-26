@@ -68,6 +68,32 @@ export type Package = {
 };
 
 const section = (title: string, body: string) => ({ title, body });
+const STANDARD_ONE_TIME_SELECTIONS = [
+  {
+    value: "runway_fundamentals",
+    label: "Runway fundamentals",
+    description:
+      "This section builds your base from the ground up, including posture stack, foot placement, stride length, and clean arm behaviour. The goal is a runway walk that looks polished and stable even when nerves are high.",
+  },
+  {
+    value: "turn_mechanics",
+    label: "Turn mechanics",
+    description:
+      "You are coached through repeatable turn patterns with clear timing, balance transfer, and controlled exit. We remove common beginner issues like drifting, over-rotating, or losing your centre line after the turn.",
+  },
+  {
+    value: "casting_expectations",
+    label: "Casting expectations",
+    description:
+      "You learn what agencies and clients usually scan for in first looks, including composure, body awareness, and how you hold a simple walk request. This helps you walk into castings with clearer standards and less guesswork.",
+  },
+  {
+    value: "session_follow_through",
+    label: "Session follow-through",
+    description:
+      "You leave with a clear practice structure instead of vague motivation. Each follow-through point tells you what to train, how to train it, and what result to look for in your next tape or in-person casting.",
+  },
+] as const;
 
 export const PACKAGES: Package[] = [
   {
@@ -89,9 +115,7 @@ export const PACKAGES: Package[] = [
       maxGbp: 80,
       notes: "Single-session runway item when booked on its own.",
     },
-    oneTimeOptions: [
-      { value: "runway_technique_session", label: "Runway technique session", description: "Line, posture, and pacing corrections in one focused live block." },
-    ],
+    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
     fullPackage: {
       display: "£150",
       amountGbp: 150,
@@ -156,7 +180,7 @@ export const PACKAGES: Package[] = [
       maxGbp: 120,
       notes: "Single foundations session when booked alone.",
     },
-    oneTimeOptions: [{ value: "foundations_session", label: "Foundations session", description: "Core runway basics designed for newer models." }],
+    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
     fullPackage: {
       display: "£300",
       amountGbp: 300,
@@ -216,7 +240,7 @@ export const PACKAGES: Package[] = [
       "Brief interpretation: commercial vs editorial vs couture pacing cues",
     ],
     oneTimeItem: { display: "£150", minGbp: 150, maxGbp: 150, notes: "Single advanced session when booked alone." },
-    oneTimeOptions: [{ value: "advanced_runway_session", label: "Advanced runway session", description: "Signature refinement for experienced or fast-progressing models." }],
+    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
     fullPackage: {
       display: "£350",
       amountGbp: 350,
@@ -284,10 +308,7 @@ export const PACKAGES: Package[] = [
       notes: "Combined Walk Analysis fee is £60.",
     },
     allowsInstalmentsForFullPackage: true,
-    oneTimeOptions: [
-      { value: "walk_analysis_video_review", label: "Video walk analysis", description: "Detailed review of one submitted walk clip with technical corrections." },
-      { value: "walk_analysis_images_plus_video", label: "Images + video review", description: "Combined feedback on stills and walk footage for broader presentation notes." },
-    ],
+    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
     walkAnalysisNotes: {
       singleService:
         "The combined Walk Analysis fee is £60. Lighter-scope reviews can be priced below this where appropriate.",
@@ -354,7 +375,7 @@ export const PACKAGES: Package[] = [
       "Body language, breath, and composure under observation",
     ],
     oneTimeItem: { display: "£60", minGbp: 60, maxGbp: 60, notes: "Single casting-prep session when booked alone." },
-    oneTimeOptions: [{ value: "casting_prep_session", label: "Casting prep session", description: "Focused support for room entry, delivery, and casting composure." }],
+    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
     fullPackage: {
       display: "£120",
       amountGbp: 120,
@@ -408,7 +429,7 @@ export const PACKAGES: Package[] = [
       "Repeatable pre-casting drills you can use independently",
     ],
     oneTimeItem: { display: "£60", minGbp: 60, maxGbp: 60, notes: "Single presence session when booked alone." },
-    oneTimeOptions: [{ value: "confidence_presence_session", label: "Confidence and presence session", description: "Tools to reduce visible tension and improve controlled delivery." }],
+    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
     fullPackage: {
       display: "£120",
       amountGbp: 120,
@@ -467,7 +488,7 @@ export const PACKAGES: Package[] = [
       maxGbp: 250,
       notes: "Entry mentorship tier for a single billing period when taken as the item rate.",
     },
-    oneTimeOptions: [{ value: "mentorship_month_start", label: "Mentorship monthly start", description: "Start a monthly mentorship cycle with weekly guidance." }],
+    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
     fullPackage: {
       display: "Up to £700 / month",
       amountGbp: 250,
