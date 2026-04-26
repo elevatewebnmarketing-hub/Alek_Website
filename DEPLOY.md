@@ -58,9 +58,9 @@ Admin routes (Bearer Clerk session token):
 - `GET /api/admin/dashboard/summary`
 - CRUD under `/api/admin/leads`, `.../portfolio`, `.../journal`, `.../resources`, `.../testimonials`
 
-### Stripe (follow-up)
+### Stripe webhooks
 
-`POST /webhooks/stripe` currently returns **501 Not Implemented**. Next step: verify `Stripe-Signature`, upsert `PaymentRecord`, then flip dashboard “payments connected” logic when rows exist.
+`POST /webhooks/stripe` verifies `Stripe-Signature`, upserts `PaymentRecord`, and reconciles against Stripe so payment statuses and completion emails stay in sync.
 
 ### Resend & Calendly
 

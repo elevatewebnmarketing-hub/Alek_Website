@@ -12,7 +12,10 @@ import { reconcilePaymentRecordBySessionId } from "./lib/paymentReconciliation.j
 
 const app = new Hono();
 
-const origins = (process.env.CORS_ORIGINS ?? "http://localhost:3000,http://localhost:5173,http://localhost:5174")
+const origins = (
+  process.env.CORS_ORIGINS ??
+  "http://localhost:3000,http://localhost:5173,http://localhost:5174,https://admin.runwayrefinedbyalek.com"
+)
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
@@ -77,11 +80,15 @@ app.post("/webhooks/stripe", async (c) => {
     const sessionId = session.id;
     const paymentIntentId =
       typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id;
+    const resolvedStatus =
+      event.type === "checkout.session.async_payment_succeeded" || session.payment_status === "paid"
+        ? "succeeded"
+        : "pending";
 
     await prisma.paymentRecord.upsert({
       where: { stripeSessionId: sessionId },
       update: {
-        status: "succeeded",
+        status: resolvedStatus,
         stripePaymentId: paymentIntentId ?? null,
         customerEmail: session.customer_details?.email ?? undefined,
       },
@@ -90,9 +97,9 @@ app.post("/webhooks/stripe", async (c) => {
         stripePaymentId: paymentIntentId ?? null,
         amountCents: session.amount_total ?? 0,
         currency: session.currency ?? "gbp",
-        status: "succeeded",
+        status: resolvedStatus,
         customerEmail: session.customer_details?.email ?? null,
-        description: "Stripe checkout session completed",
+        description: `Stripe checkout session ${resolvedStatus}`,
         metadata: session.metadata ?? undefined,
       },
     });
