@@ -57,7 +57,6 @@ function PackageDetailPage() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [selectedOneTimeOption, setSelectedOneTimeOption] = useState("");
   const [intakeDetails, setIntakeDetails] = useState("");
-  const [mediaUploadPreference, setMediaUploadPreference] = useState<"secure_link" | "wetransfer_request" | "dropbox_file_request">("secure_link");
   const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const search = Route.useSearch();
@@ -116,6 +115,16 @@ function PackageDetailPage() {
   const instalment = useMemo(() => getInstalmentBreakdown(p), [p]);
 
   const runCheckout = async () => {
+    const trimmedEmail = customerEmail.trim();
+    if (!trimmedEmail) {
+      setCheckoutMessage("Email is required before payment.");
+      return;
+    }
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail);
+    if (!emailOk) {
+      setCheckoutMessage("Please enter a valid email address.");
+      return;
+    }
     if (selectedScope === "one_time_item" && !selectedOneTimeOption) {
       setCheckoutMessage("Please select one one-time option before continuing.");
       return;
@@ -125,10 +134,9 @@ function PackageDetailPage() {
     const response = await createCheckoutSession({
       packageSlug: p.slug,
       paymentScope: selectedScope,
-      customerEmail: customerEmail || undefined,
+      customerEmail: trimmedEmail,
       selectedOneTimeOption: selectedScope === "one_time_item" ? selectedOneTimeOption : undefined,
       intakeDetails: intakeDetails || undefined,
-      mediaUploadPreference: selectedScope === "one_time_item" ? mediaUploadPreference : undefined,
     });
     setIsRedirecting(false);
 
@@ -246,7 +254,7 @@ function PackageDetailPage() {
               <div className="border border-border bg-secondary/20 p-4">
                 <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground">03</div>
                 <h2 className="mt-2 font-serif text-lg leading-snug">Pricing logic</h2>
-                <p className="mt-2 text-sm text-muted-foreground">One-time item vs full package and instalments.</p>
+                <p className="mt-2 text-sm text-muted-foreground">One-Time payment For one Item vs full package and instalments.</p>
               </div>
               <div className="border border-border bg-secondary/20 p-4">
                 <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground">04</div>
@@ -301,7 +309,7 @@ function PackageDetailPage() {
               <div className="editorial-eyebrow">How pricing works</div>
               <div className="mt-5 space-y-4">
                 <div className="border border-border bg-secondary/20 p-4">
-                  <div className="text-[0.64rem] uppercase tracking-[0.18em] text-muted-foreground">One-time item</div>
+                  <div className="text-[0.64rem] uppercase tracking-[0.18em] text-muted-foreground">One-Time payment For one Item</div>
                   <div className="mt-2 font-serif text-2xl">{p.oneTimeItem.display}</div>
                   {p.oneTimeItem.notes && <p className="mt-2 text-sm text-muted-foreground">{p.oneTimeItem.notes}</p>}
                 </div>
@@ -356,7 +364,7 @@ function PackageDetailPage() {
                     : "border-border hover:border-foreground/40"
                 }`}
               >
-                <div className="text-sm font-medium">One-time item</div>
+                <div className="text-sm font-medium">One-Time payment For one Item</div>
                 <div className="mt-1 text-xs text-muted-foreground">
                   {p.oneTimeItem.display} · Best when you only want one focused service.
                 </div>
@@ -398,6 +406,11 @@ function PackageDetailPage() {
                 <label className="block text-xs uppercase tracking-[0.16em] text-muted-foreground">
                   Choose your one-time service
                 </label>
+                <div className="rounded border border-border bg-background/60 p-3">
+                  <p className="text-xs text-muted-foreground">
+                    Pick one item below. This selection is attached to your payment so your request is handled correctly.
+                  </p>
+                </div>
                 <select
                   value={selectedOneTimeOption}
                   onChange={(e) => setSelectedOneTimeOption(e.target.value)}
@@ -412,22 +425,6 @@ function PackageDetailPage() {
                 <p className="text-xs text-muted-foreground">
                   {p.oneTimeOptions.find((option) => option.value === selectedOneTimeOption)?.description}
                 </p>
-                <label className="block text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                  Upload preference
-                </label>
-                <select
-                  value={mediaUploadPreference}
-                  onChange={(e) =>
-                    setMediaUploadPreference(
-                      e.target.value as "secure_link" | "wetransfer_request" | "dropbox_file_request",
-                    )
-                  }
-                  className="w-full border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground"
-                >
-                  <option value="secure_link">Secure upload link (recommended)</option>
-                  <option value="wetransfer_request">WeTransfer transfer request</option>
-                  <option value="dropbox_file_request">Dropbox File Request</option>
-                </select>
                 <label className="block text-xs uppercase tracking-[0.16em] text-muted-foreground">
                   Intake notes (optional)
                 </label>
@@ -459,13 +456,14 @@ function PackageDetailPage() {
               </div>
 
               <label className="mt-5 block text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                Email for receipt (optional)
+                Email for receipt (required)
               </label>
               <input
                 type="email"
                 value={customerEmail}
                 onChange={(e) => setCustomerEmail(e.target.value)}
                 placeholder="you@example.com"
+                required
                 className="mt-2 w-full border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground"
               />
 
@@ -482,15 +480,6 @@ function PackageDetailPage() {
               <p className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
                 <ShieldCheck className="size-4" /> Secure Stripe checkout in GBP.
               </p>
-              {p.slug === "walk-analysis" && p.intakeInfo && (
-                <div className="mt-4 rounded border border-border bg-secondary/20 p-3 text-xs text-muted-foreground">
-                  <p className="font-medium text-foreground">{p.intakeInfo.heading}</p>
-                  <p className="mt-2">{p.intakeInfo.body}</p>
-                  <p className="mt-2">
-                    Preferred upload path: secure link. Alternatives: {p.intakeInfo.uploadAlternatives.join(", ")}.
-                  </p>
-                </div>
-              )}
             </div>
           </aside>
         </div>

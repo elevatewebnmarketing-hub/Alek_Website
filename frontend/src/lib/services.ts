@@ -631,7 +631,7 @@ export function getScopePricing(
   if (scope === "one_time_item") {
     const dueNowGbp = p.oneTimeItem.maxGbp ?? p.oneTimeItem.singleServiceCapGbp ?? p.oneTimeItem.minGbp ?? 0;
     return {
-      headline: "One-time item",
+      headline: "One-Time payment For one Item",
       dueNowLabel: p.oneTimeItem.display,
       dueNowGbp,
       note: p.oneTimeItem.notes ?? "Single service payment.",

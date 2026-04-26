@@ -43,7 +43,7 @@ publicApiRoute.post("/checkout-session", async (c) => {
     mode: "payment",
     success_url: successUrl,
     cancel_url: `${siteUrl}/packages/${d.packageSlug}?checkout=cancel`,
-    customer_email: d.customerEmail ?? undefined,
+    customer_email: d.customerEmail,
     line_items: [
       {
         quantity: 1,
@@ -65,7 +65,6 @@ publicApiRoute.post("/checkout-session", async (c) => {
       paymentScope: d.paymentScope,
       selectedOneTimeOption: d.selectedOneTimeOption ?? "",
       intakeDetails: d.intakeDetails ?? "",
-      mediaUploadPreference: d.mediaUploadPreference ?? "",
       amountGbp: String(amount.amountGbp),
       fullPackageGbp: String(amount.fullPackageGbp),
       instalmentDueNowGbp: String(amount.instalmentDueNowGbp),
@@ -83,14 +82,13 @@ publicApiRoute.post("/checkout-session", async (c) => {
       amountCents: amount.amountGbp * 100,
       currency: "gbp",
       status: "pending",
-      customerEmail: d.customerEmail ?? null,
+      customerEmail: d.customerEmail,
       description: `Checkout for ${d.packageSlug} (${d.paymentScope})`,
       metadata: {
         packageSlug: d.packageSlug,
         paymentScope: d.paymentScope,
         selectedOneTimeOption: d.selectedOneTimeOption ?? null,
         intakeDetails: d.intakeDetails ?? null,
-        mediaUploadPreference: d.mediaUploadPreference ?? null,
         fullPackageGbp: amount.fullPackageGbp,
         instalmentDueNowGbp: amount.instalmentDueNowGbp,
         instalmentRemainingGbp: amount.instalmentRemainingGbp,

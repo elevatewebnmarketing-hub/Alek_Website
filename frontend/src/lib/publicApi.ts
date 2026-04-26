@@ -66,10 +66,9 @@ export async function postLead(payload: {
 export type CheckoutSessionPayload = {
   packageSlug: string;
   paymentScope: "one_time_item" | "full_package_full" | "full_package_instalments";
-  customerEmail?: string;
+  customerEmail: string;
   selectedOneTimeOption?: string;
   intakeDetails?: string;
-  mediaUploadPreference?: "secure_link" | "wetransfer_request" | "dropbox_file_request";
 };
 
 export async function createCheckoutSession(

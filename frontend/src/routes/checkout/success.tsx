@@ -37,8 +37,9 @@ function CheckoutSuccessPage() {
           <div className="editorial-eyebrow mt-8">Payment received</div>
           <h1 className="display-lg mt-4">Thank you. Your booking is almost complete.</h1>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-            Your payment was successful. The next step is to choose a time that works for you in Calendly so we can
-            match your session to the package you purchased.
+            {pkg?.slug === "walk-analysis"
+              ? "Your payment was successful. Next, upload your media in the review folder so we can begin your analysis."
+              : "Your payment was successful. The next step is to choose a time that works for you in Calendly so we can match your session to the package you purchased."}
           </p>
           {sessionId && (
             <p className="mt-4 text-xs uppercase tracking-[0.14em] text-muted-foreground">
@@ -79,23 +80,21 @@ function CheckoutSuccessPage() {
           <div className="mx-auto max-w-xl border border-border bg-background p-8 lg:p-10">
             <h2 className="font-serif text-2xl">Walk Analysis: next step is your intake form</h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Thank you for your payment. Walk Analysis follows a form-first intake so we can review your goals,
-              context, and footage professionally before sending your feedback.
+              Thank you for your payment. Your submission link appears here only after successful payment so our review
+              workflow remains secure and organised.
             </p>
             <div className="mt-5 rounded border border-border bg-secondary/20 p-4 text-sm text-muted-foreground">
-              <p>What we collect: service focus, timeline, model context, and upload preference.</p>
-              <p className="mt-2">
-                Preferred media route: secure upload link. Alternatives: WeTransfer transfer request or Dropbox File
-                Request.
-              </p>
+              <p>Upload your walk images or videos in this folder so we can review and respond professionally.</p>
             </div>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                to="/contact"
+              <a
+                href="https://drive.google.com/drive/folders/1nX931oQ8WvHx2L2Z2iYl2g6bh8CbRdGZ?usp=drive_link"
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex items-center gap-2 border border-foreground bg-foreground px-6 py-3.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-background hover:bg-background hover:text-foreground"
               >
-                Open intake support <ArrowRight className="size-4" />
-              </Link>
+                Open upload folder <ArrowRight className="size-4" />
+              </a>
             </div>
           </div>
         ) : (

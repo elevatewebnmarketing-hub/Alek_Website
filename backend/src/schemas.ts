@@ -109,8 +109,7 @@ export const checkoutSessionCreateSchema = z.object({
     "full_package_full",
     "full_package_instalments",
   ]),
-  customerEmail: z.string().email().max(320).optional(),
+  customerEmail: z.string().email().max(320),
   selectedOneTimeOption: z.string().min(1).max(200).optional(),
   intakeDetails: z.string().max(5000).optional(),
-  mediaUploadPreference: z.enum(["secure_link", "wetransfer_request", "dropbox_file_request"]).optional(),
 });
