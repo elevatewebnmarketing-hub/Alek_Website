@@ -4,6 +4,7 @@ import { prisma } from "../db.js";
 import { checkoutSessionCreateSchema } from "../schemas.js";
 import { checkoutAmountForScope } from "../lib/pricing.js";
 import Stripe from "stripe";
+import { sendPaymentStartedNotification } from "../services/resend.js";
 
 export const publicApiRoute = new Hono();
 
@@ -95,6 +96,20 @@ publicApiRoute.post("/checkout-session", async (c) => {
       } as Prisma.InputJsonValue,
     },
   });
+
+  try {
+    await sendPaymentStartedNotification({
+      customerEmail: d.customerEmail,
+      packageSlug: d.packageSlug,
+      paymentScope: d.paymentScope,
+      selectedOneTimeOption: d.selectedOneTimeOption ?? null,
+      intakeDetails: d.intakeDetails ?? null,
+      stripeSessionId: session.id,
+      createdAt: paymentRecord.createdAt.toISOString(),
+    });
+  } catch (error) {
+    console.error("[resend] Failed to send payment-started notification:", error);
+  }
 
   return c.json({
     sessionId: session.id,

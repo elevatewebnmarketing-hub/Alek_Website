@@ -1,4 +1,5 @@
 import { serve } from "@hono/node-server";
+import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { clerkAuth } from "./middleware/clerk.js";
@@ -7,6 +8,7 @@ import { leadsRoute } from "./routes/leads.js";
 import { publicApiRoute } from "./routes/publicApi.js";
 import Stripe from "stripe";
 import { prisma } from "./db.js";
+import { sendPaymentCompletedNotification } from "./services/resend.js";
 
 const app = new Hono();
 
@@ -25,6 +27,7 @@ app.use(
 );
 
 app.get("/health", (c) => c.json({ ok: true }));
+app.use("/email-assets/*", serveStatic({ root: "./public" }));
 
 app.route("/api/leads", leadsRoute);
 app.route("/api/public", publicApiRoute);
@@ -89,6 +92,22 @@ app.post("/webhooks/stripe", async (c) => {
         metadata: session.metadata ?? undefined,
       },
     });
+
+    try {
+      await sendPaymentCompletedNotification({
+        customerEmail: session.customer_details?.email ?? null,
+        packageSlug: session.metadata?.packageSlug ?? null,
+        paymentScope: session.metadata?.paymentScope ?? null,
+        selectedOneTimeOption: session.metadata?.selectedOneTimeOption ?? null,
+        stripeSessionId: session.id,
+        stripePaymentId: paymentIntentId ?? null,
+        amountCents: session.amount_total ?? null,
+        currency: session.currency ?? "gbp",
+        completedAt: new Date().toISOString(),
+      });
+    } catch (error) {
+      console.error("[resend] Failed to send payment-completed notification:", error);
+    }
   }
 
   if (event.type === "checkout.session.expired") {
