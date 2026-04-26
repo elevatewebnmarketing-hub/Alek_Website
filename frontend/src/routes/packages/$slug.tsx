@@ -510,12 +510,17 @@ function PackageDetailPage() {
       </Section>
 
       <Section className="border-b border-border">
-        <div className="editorial-eyebrow">What&apos;s included, in depth</div>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="editorial-eyebrow">What&apos;s included</div>
+        <h2 className="display-lg mt-4">Everything included in this package, explained clearly</h2>
+        <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          Each item below is written as a service component with practical detail so you understand what you are paying
+          for and how it supports runway performance, casting confidence, and professional delivery.
+        </p>
+        <div className="mt-8 grid gap-5">
           {(p.includeDetails ?? p.includes.map((item) => ({ title: item, body: item }))).map((item) => (
-            <article key={item.title} className="border border-border bg-secondary/20 p-5">
-              <h3 className="font-serif text-xl">{item.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
+            <article key={item.title} className="border border-border bg-secondary/20 p-6 lg:p-7">
+              <h3 className="font-serif text-2xl">{item.title}</h3>
+              <p className="mt-3 max-w-4xl text-base leading-relaxed text-muted-foreground">{item.body}</p>
             </article>
           ))}
         </div>

@@ -98,10 +98,22 @@ export const PACKAGES: Package[] = [
       notes: "Full runway coaching block: pay in full or split the full-package amount into instalments (first instalment is half of this fee at checkout).",
     },
     includeDetails: [
-      { title: "Live coaching block", body: "A real-time private session where you are corrected as you move, not after the fact." },
-      { title: "Technical runway corrections", body: "We target line quality, turn control, and transitions that read clearly in castings and on camera." },
-      { title: "Pacing and brief alignment", body: "Your walk is adjusted for different briefs, from clean commercial movement to stronger editorial energy." },
-      { title: "Action notes", body: "You leave with a practical rehearsal focus to apply before your next casting or booking." },
+      {
+        title: "Live coaching block",
+        body: "You work in a private live session where corrections happen in real time while you walk. We adjust posture, shoulder line, hand carriage, and finish position so you can feel the change immediately and repeat it with confidence.",
+      },
+      {
+        title: "Technical runway corrections",
+        body: "This covers the technical details that casting teams notice first, including line consistency, hip control, turn quality, and return walk clarity. Every correction is demonstrated in plain language so you know what to fix and why it improves your runway read.",
+      },
+      {
+        title: "Pacing and brief alignment",
+        body: "You learn how to tune your pace and energy to fit different runway briefs, from clean commercial movement to stronger editorial tone. We also coach spacing awareness so your rhythm stays controlled in lineups and live show flow.",
+      },
+      {
+        title: "Action notes",
+        body: "After the session you get a focused rehearsal plan with priorities for your next casting or show call. The notes are practical and specific, so your practice time goes into the drills that create visible improvement.",
+      },
     ],
     allowsInstalmentsForFullPackage: true,
     detailSections: [
@@ -152,10 +164,22 @@ export const PACKAGES: Package[] = [
     },
     allowsInstalmentsForFullPackage: true,
     includeDetails: [
-      { title: "Runway fundamentals", body: "You build balanced posture, heel control, and simple runway patterns you can repeat under pressure." },
-      { title: "Turn mechanics", body: "Safe, clean turn execution that avoids wobble and keeps your line coherent." },
-      { title: "Casting expectations", body: "You get clear guidance on what agents and clients usually assess in early-stage castings." },
-      { title: "Session follow-through", body: "You receive specific practice priorities instead of broad, unclear advice." },
+      {
+        title: "Runway fundamentals",
+        body: "This section builds your base from the ground up, including posture stack, foot placement, stride length, and clean arm behaviour. The goal is a runway walk that looks polished and stable even when nerves are high.",
+      },
+      {
+        title: "Turn mechanics",
+        body: "You are coached through repeatable turn patterns with clear timing, balance transfer, and controlled exit. We remove common beginner issues like drifting, over-rotating, or losing your centre line after the turn.",
+      },
+      {
+        title: "Casting expectations",
+        body: "You learn what agencies and clients usually scan for in first looks, including composure, body awareness, and how you hold a simple walk request. This helps you walk into castings with clearer standards and less guesswork.",
+      },
+      {
+        title: "Session follow-through",
+        body: "You leave with a clear practice structure instead of vague motivation. Each follow-through point tells you what to train, how to train it, and what result to look for in your next tape or in-person casting.",
+      },
     ],
     detailSections: [
       section(
@@ -200,10 +224,22 @@ export const PACKAGES: Package[] = [
     },
     allowsInstalmentsForFullPackage: true,
     includeDetails: [
-      { title: "Signature development", body: "We refine movement quality so your walk remains distinctive while meeting creative direction." },
-      { title: "Pacing control", body: "You learn to adapt rhythm and spacing across runway formats and line-up pressure." },
-      { title: "Brief interpretation", body: "Coaching covers tone shifts between commercial, editorial, and couture expectations." },
-      { title: "Delivery consistency", body: "You leave with cues that keep your walk stable when direction changes quickly." },
+      {
+        title: "Signature development",
+        body: "You refine your personal runway signature so it stays recognisable while still serving the brief. We work on shape, timing, and transitions that feel like you, not a copied walk.",
+      },
+      {
+        title: "Pacing control",
+        body: "This covers tempo control for short runways, long runways, and crowded lineups where spacing can break quickly. You learn how to hold a strong pace without rushing your turns or flattening your expression.",
+      },
+      {
+        title: "Brief interpretation",
+        body: "You practice reading and delivering different runway tones, such as commercial clarity, editorial edge, or couture precision. The coaching helps you switch direction quickly while keeping your line clean and intentional.",
+      },
+      {
+        title: "Delivery consistency",
+        body: "You build consistency so your first pass and final pass feel equally controlled under pressure. We add repeatable cues you can use backstage, at castings, and on set when instructions change fast.",
+      },
     ],
     detailSections: [
       section(
@@ -259,10 +295,22 @@ export const PACKAGES: Package[] = [
         "This service now uses a combined £60 fee for full review delivery.",
     },
     includeDetails: [
-      { title: "Focused review window", body: "Your submitted material is reviewed in a concentrated analysis block so feedback remains practical and specific." },
-      { title: "Timestamped corrections", body: "You receive notes tied to exact moments in your clip, so practice priorities are obvious." },
-      { title: "Technical drill direction", body: "Feedback is paired with rehearsal actions to improve your next tape or live walk-through." },
-      { title: "Professional follow-up", body: "Your intake details help us respond with context and next-step recommendations." },
+      {
+        title: "Focused review window",
+        body: "Your footage is assessed in a dedicated review slot so every note is tied to what your walk actually shows. This keeps feedback specific, professional, and useful for real casting preparation.",
+      },
+      {
+        title: "Timestamped corrections",
+        body: "You receive feedback linked to exact moments in your video, for example entry line, midpoint rhythm, turn execution, and final pose control. That structure makes it easy to replay, understand, and improve each point step by step.",
+      },
+      {
+        title: "Technical drill direction",
+        body: "Each correction is paired with practical drills you can apply before your next self tape, fitting, or live rehearsal. You are not left with theory only, you get a clear training path to improve your next take.",
+      },
+      {
+        title: "Professional follow-up",
+        body: "Your intake details let us tailor feedback to your goals, timeline, and current runway level. You also receive clear next-step guidance so communication stays organised and professional throughout.",
+      },
     ],
     intakeInfo: {
       heading: "After payment: secure intake form",
@@ -314,10 +362,22 @@ export const PACKAGES: Package[] = [
     },
     allowsInstalmentsForFullPackage: true,
     includeDetails: [
-      { title: "Casting-room structure", body: "You rehearse entry, presentation, and exit so your sequence feels professional and deliberate." },
-      { title: "First-impression mechanics", body: "We tune posture, eyeline, and movement quality for high-pressure first-look moments." },
-      { title: "Client-facing delivery", body: "The session trains concise, appropriate communication and body language." },
-      { title: "Preparation framework", body: "You leave with a checklist you can repeat before key castings." },
+      {
+        title: "Casting-room structure",
+        body: "You rehearse the full casting sequence from room entry to close, including where to stand and how to transition into a walk request. This helps your delivery feel calm, clean, and professionally timed.",
+      },
+      {
+        title: "First-impression mechanics",
+        body: "We sharpen first-look details such as posture setup, eyeline control, facial composure, and turn-in timing. These details shape how confidently you read in the first few seconds.",
+      },
+      {
+        title: "Client-facing delivery",
+        body: "You train concise communication and professional body language for agency and brand-facing environments. The goal is to sound and look prepared without over-talking or over-performing.",
+      },
+      {
+        title: "Preparation framework",
+        body: "You leave with a repeatable pre-casting checklist covering presentation, movement readiness, and mental reset cues. This creates consistency when your schedule is tight and decisions happen quickly.",
+      },
     ],
     detailSections: [
       section(
@@ -356,10 +416,22 @@ export const PACKAGES: Package[] = [
     },
     allowsInstalmentsForFullPackage: true,
     includeDetails: [
-      { title: "Nervous-system support", body: "You learn practical tools to reduce visible tension before and during performance." },
-      { title: "Presence training", body: "Breath, weight placement, and eyeline are coached so confidence reads authentic." },
-      { title: "Body-language refinement", body: "Movement is adjusted for credibility under observation, not forced performance." },
-      { title: "Repeatable drills", body: "You receive pre-casting routines you can apply independently." },
+      {
+        title: "Nervous-system support",
+        body: "You learn practical reset tools for moments when nerves tighten your posture, breath, or movement quality. These tools help you stay available and controlled in castings and on camera.",
+      },
+      {
+        title: "Presence training",
+        body: "We coach breath rhythm, weight placement, and eyeline discipline so your confidence reads natural and grounded. The result is stronger room presence without forcing a persona.",
+      },
+      {
+        title: "Body-language refinement",
+        body: "You refine gestures, transitions, and stillness so your delivery looks intentional when observed closely. This supports more credible runway presence in live and filmed situations.",
+      },
+      {
+        title: "Repeatable drills",
+        body: "You receive short drills you can run before castings, fittings, and rehearsals to steady your body and focus your performance. The drills are simple enough to use consistently in real schedules.",
+      },
     ],
     detailSections: [
       section(
@@ -405,10 +477,22 @@ export const PACKAGES: Package[] = [
     },
     allowsInstalmentsForFullPackage: true,
     includeDetails: [
-      { title: "Weekly coaching cadence", body: "You receive regular sessions that align with your current casting and booking priorities." },
-      { title: "Progress tracking", body: "Direction is adjusted month-to-month using real outcomes and feedback patterns." },
-      { title: "Strategic support", body: "You get guidance across runway, confidence, and positioning decisions." },
-      { title: "Priority response channel", body: "Time-sensitive questions receive higher-priority support between sessions." },
+      {
+        title: "Weekly coaching cadence",
+        body: "You get consistent weekly sessions that respond to your actual calendar, including castings, fittings, and booking prep. This keeps your runway development active instead of reactive.",
+      },
+      {
+        title: "Progress tracking",
+        body: "Your progress is reviewed month by month using real feedback and performance outcomes. Priorities are updated so coaching stays relevant to your next professional step.",
+      },
+      {
+        title: "Strategic support",
+        body: "You receive guidance on runway performance, casting delivery, and personal positioning decisions in a changing market. This gives you both technical coaching and career clarity.",
+      },
+      {
+        title: "Priority response channel",
+        body: "For urgent briefs and time-sensitive decisions, you have priority support between sessions. This helps you stay prepared when opportunities move quickly.",
+      },
     ],
     detailSections: [
       section(
