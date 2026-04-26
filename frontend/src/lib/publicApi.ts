@@ -67,6 +67,9 @@ export type CheckoutSessionPayload = {
   packageSlug: string;
   paymentScope: "one_time_item" | "full_package_full" | "full_package_instalments";
   customerEmail?: string;
+  selectedOneTimeOption?: string;
+  intakeDetails?: string;
+  mediaUploadPreference?: "secure_link" | "wetransfer_request" | "dropbox_file_request";
 };
 
 export async function createCheckoutSession(
@@ -86,6 +89,24 @@ export async function createCheckoutSession(
     }
     const data = (await r.json()) as { checkoutUrl: string; sessionId: string };
     return { ok: true, checkoutUrl: data.checkoutUrl, sessionId: data.sessionId };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "Network error" };
+  }
+}
+
+export async function fetchCheckoutStatus(
+  sessionId: string,
+): Promise<{ ok: boolean; status?: string; error?: string }> {
+  const base = getPublicApiBase();
+  if (!base) return { ok: false, error: "API is not configured (VITE_PUBLIC_API_URL)." };
+  try {
+    const r = await fetch(`${base}/api/public/checkout-status?session_id=${encodeURIComponent(sessionId)}`);
+    if (!r.ok) {
+      const t = await r.text();
+      return { ok: false, error: t || r.statusText };
+    }
+    const data = (await r.json()) as { item: { status: string } };
+    return { ok: true, status: data.item.status };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "Network error" };
   }

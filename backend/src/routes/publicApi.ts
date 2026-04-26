@@ -55,7 +55,7 @@ publicApiRoute.post("/checkout-session", async (c) => {
             description:
               d.paymentScope === "full_package_instalments"
                 ? `First instalment collected now. Remaining balance: £${amount.instalmentRemainingGbp}.`
-                : `Payment option: ${d.paymentScope.replaceAll("_", " ")}.`,
+                : `Payment option: ${d.paymentScope.replaceAll("_", " ")}${d.selectedOneTimeOption ? ` (${d.selectedOneTimeOption})` : ""}.`,
           },
         },
       },
@@ -63,16 +63,23 @@ publicApiRoute.post("/checkout-session", async (c) => {
     metadata: {
       packageSlug: d.packageSlug,
       paymentScope: d.paymentScope,
+      selectedOneTimeOption: d.selectedOneTimeOption ?? "",
+      intakeDetails: d.intakeDetails ?? "",
+      mediaUploadPreference: d.mediaUploadPreference ?? "",
       amountGbp: String(amount.amountGbp),
       fullPackageGbp: String(amount.fullPackageGbp),
       instalmentDueNowGbp: String(amount.instalmentDueNowGbp),
       instalmentRemainingGbp: String(amount.instalmentRemainingGbp),
     },
+    expand: ["payment_intent"],
   });
+  const paymentIntentId =
+    typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id ?? null;
 
   const paymentRecord = await prisma.paymentRecord.create({
     data: {
       stripeSessionId: session.id,
+      stripePaymentId: paymentIntentId,
       amountCents: amount.amountGbp * 100,
       currency: "gbp",
       status: "pending",
@@ -81,6 +88,9 @@ publicApiRoute.post("/checkout-session", async (c) => {
       metadata: {
         packageSlug: d.packageSlug,
         paymentScope: d.paymentScope,
+        selectedOneTimeOption: d.selectedOneTimeOption ?? null,
+        intakeDetails: d.intakeDetails ?? null,
+        mediaUploadPreference: d.mediaUploadPreference ?? null,
         fullPackageGbp: amount.fullPackageGbp,
         instalmentDueNowGbp: amount.instalmentDueNowGbp,
         instalmentRemainingGbp: amount.instalmentRemainingGbp,
@@ -93,6 +103,19 @@ publicApiRoute.post("/checkout-session", async (c) => {
     checkoutUrl: session.url,
     paymentRecordId: paymentRecord.id,
   });
+});
+
+publicApiRoute.get("/checkout-status", async (c) => {
+  const sessionId = c.req.query("session_id");
+  if (!sessionId) {
+    return c.json({ error: "missing_session_id" }, 400);
+  }
+  const payment = await prisma.paymentRecord.findFirst({
+    where: { stripeSessionId: sessionId },
+    select: { status: true, stripeSessionId: true, stripePaymentId: true, createdAt: true },
+  });
+  if (!payment) return c.json({ error: "not_found" }, 404);
+  return c.json({ item: payment });
 });
 
 publicApiRoute.get("/portfolio", async (c) => {

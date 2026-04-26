@@ -12,11 +12,12 @@ import {
   type Package,
   type PaymentScope,
 } from "@/lib/services";
-import { createCheckoutSession } from "@/lib/publicApi";
-import { ArrowDown, ArrowLeft, ArrowRight, Check, ShieldCheck, Sparkles } from "lucide-react";
+import { createCheckoutSession, fetchCheckoutStatus } from "@/lib/publicApi";
+import { AlertTriangle, ArrowDown, ArrowLeft, ArrowRight, Check, ShieldCheck, Sparkles } from "lucide-react";
 
 const packageSearchSchema = z.object({
-  checkout: z.enum(["cancel"]).optional(),
+  checkout: z.enum(["cancel", "failed"]).optional(),
+  session_id: z.string().optional(),
 });
 
 export const Route = createFileRoute("/packages/$slug")({
@@ -54,11 +55,17 @@ function PackageDetailPage() {
   const related = PACKAGES.filter((item) => item.slug !== p.slug).slice(0, 3);
   const [selectedScope, setSelectedScope] = useState<PaymentScope>("one_time_item");
   const [customerEmail, setCustomerEmail] = useState("");
+  const [selectedOneTimeOption, setSelectedOneTimeOption] = useState("");
+  const [intakeDetails, setIntakeDetails] = useState("");
+  const [mediaUploadPreference, setMediaUploadPreference] = useState<"secure_link" | "wetransfer_request" | "dropbox_file_request">("secure_link");
   const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const search = Route.useSearch();
   const paySentinelRef = useRef<HTMLDivElement>(null);
   const [showPayBar, setShowPayBar] = useState(false);
+  const noticeDialogRef = useRef<HTMLDialogElement>(null);
+  const [noticeTitle, setNoticeTitle] = useState("Checkout update");
+  const [noticeBody, setNoticeBody] = useState("");
 
   useEffect(() => {
     const el = paySentinelRef.current;
@@ -73,16 +80,55 @@ function PackageDetailPage() {
     return () => io.disconnect();
   }, [p.slug]);
 
+  useEffect(() => {
+    if (!p.oneTimeOptions.length) {
+      setSelectedOneTimeOption("");
+      return;
+    }
+    setSelectedOneTimeOption(p.oneTimeOptions[0].value);
+  }, [p.slug, p.oneTimeOptions]);
+
+  useEffect(() => {
+    const openNotice = (title: string, body: string) => {
+      setNoticeTitle(title);
+      setNoticeBody(body);
+      noticeDialogRef.current?.showModal();
+    };
+    if (search.checkout === "cancel") {
+      openNotice("Payment cancelled", "Your payment was not completed. You can review your option and try checkout again.");
+      return;
+    }
+    if (search.checkout === "failed") {
+      openNotice("Payment failed", "Your payment attempt failed. Please retry with another method or contact us for support.");
+      return;
+    }
+    if (search.session_id) {
+      fetchCheckoutStatus(search.session_id).then((res) => {
+        if (!res.ok) return;
+        if (res.status === "failed") {
+          openNotice("Payment failed", "This checkout session is marked as failed. Please retry when you are ready.");
+        }
+      });
+    }
+  }, [search.checkout, search.session_id]);
+
   const pricing = useMemo(() => getScopePricing(p, selectedScope), [p, selectedScope]);
   const instalment = useMemo(() => getInstalmentBreakdown(p), [p]);
 
   const runCheckout = async () => {
+    if (selectedScope === "one_time_item" && !selectedOneTimeOption) {
+      setCheckoutMessage("Please select one one-time option before continuing.");
+      return;
+    }
     setIsRedirecting(true);
     setCheckoutMessage(null);
     const response = await createCheckoutSession({
       packageSlug: p.slug,
       paymentScope: selectedScope,
       customerEmail: customerEmail || undefined,
+      selectedOneTimeOption: selectedScope === "one_time_item" ? selectedOneTimeOption : undefined,
+      intakeDetails: intakeDetails || undefined,
+      mediaUploadPreference: selectedScope === "one_time_item" ? mediaUploadPreference : undefined,
     });
     setIsRedirecting(false);
 
@@ -319,7 +365,7 @@ function PackageDetailPage() {
                 onClick={() => setSelectedScope("one_time_item")}
                 className={`border px-5 py-4 text-left transition-colors ${
                   selectedScope === "one_time_item"
-                    ? "border-foreground bg-secondary/30"
+                    ? "border-foreground bg-zinc-900/60 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2)]"
                     : "border-border hover:border-foreground/40"
                 }`}
               >
@@ -334,7 +380,7 @@ function PackageDetailPage() {
                 onClick={() => setSelectedScope("full_package_full")}
                 className={`border px-5 py-4 text-left transition-colors ${
                   selectedScope === "full_package_full"
-                    ? "border-foreground bg-secondary/30"
+                    ? "border-foreground bg-zinc-900/60 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2)]"
                     : "border-border hover:border-foreground/40"
                 }`}
               >
@@ -350,7 +396,7 @@ function PackageDetailPage() {
                 disabled={!p.allowsInstalmentsForFullPackage}
                 className={`border px-5 py-4 text-left transition-colors disabled:opacity-50 ${
                   selectedScope === "full_package_instalments"
-                    ? "border-foreground bg-secondary/30"
+                    ? "border-foreground bg-zinc-900/60 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2)]"
                     : "border-border hover:border-foreground/40"
                 }`}
               >
@@ -360,6 +406,53 @@ function PackageDetailPage() {
                 </div>
               </button>
             </div>
+            {selectedScope === "one_time_item" && (
+              <div className="mt-6 space-y-4 border border-border bg-secondary/10 p-4">
+                <label className="block text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                  Choose your one-time service
+                </label>
+                <select
+                  value={selectedOneTimeOption}
+                  onChange={(e) => setSelectedOneTimeOption(e.target.value)}
+                  className="w-full border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground"
+                >
+                  {p.oneTimeOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs text-muted-foreground">
+                  {p.oneTimeOptions.find((option) => option.value === selectedOneTimeOption)?.description}
+                </p>
+                <label className="block text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                  Upload preference
+                </label>
+                <select
+                  value={mediaUploadPreference}
+                  onChange={(e) =>
+                    setMediaUploadPreference(
+                      e.target.value as "secure_link" | "wetransfer_request" | "dropbox_file_request",
+                    )
+                  }
+                  className="w-full border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground"
+                >
+                  <option value="secure_link">Secure upload link (recommended)</option>
+                  <option value="wetransfer_request">WeTransfer transfer request</option>
+                  <option value="dropbox_file_request">Dropbox File Request</option>
+                </select>
+                <label className="block text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                  Intake notes (optional)
+                </label>
+                <textarea
+                  value={intakeDetails}
+                  onChange={(e) => setIntakeDetails(e.target.value)}
+                  rows={3}
+                  placeholder="Share goals, deadlines, or context we should consider."
+                  className="w-full border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground"
+                />
+              </div>
+            )}
           </div>
 
           <aside className="lg:col-span-5">
@@ -399,14 +492,32 @@ function PackageDetailPage() {
                 <ArrowRight className="size-4" />
               </button>
               {checkoutMessage && <p className="mt-3 text-xs text-muted-foreground">{checkoutMessage}</p>}
-              {search.checkout === "cancel" && (
-                <p className="mt-3 text-xs text-amber-700">Checkout canceled. You can choose another option and try again.</p>
-              )}
               <p className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
                 <ShieldCheck className="size-4" /> Secure Stripe checkout in GBP.
               </p>
+              {p.slug === "walk-analysis" && p.intakeInfo && (
+                <div className="mt-4 rounded border border-border bg-secondary/20 p-3 text-xs text-muted-foreground">
+                  <p className="font-medium text-foreground">{p.intakeInfo.heading}</p>
+                  <p className="mt-2">{p.intakeInfo.body}</p>
+                  <p className="mt-2">
+                    Preferred upload path: secure link. Alternatives: {p.intakeInfo.uploadAlternatives.join(", ")}.
+                  </p>
+                </div>
+              )}
             </div>
           </aside>
+        </div>
+      </Section>
+
+      <Section className="border-b border-border">
+        <div className="editorial-eyebrow">What&apos;s included, in depth</div>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {(p.includeDetails ?? p.includes.map((item) => ({ title: item, body: item }))).map((item) => (
+            <article key={item.title} className="border border-border bg-secondary/20 p-5">
+              <h3 className="font-serif text-xl">{item.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
+            </article>
+          ))}
         </div>
       </Section>
 
@@ -479,6 +590,42 @@ function PackageDetailPage() {
           </a>
         </div>
       </div>
+      <dialog
+        ref={noticeDialogRef}
+        className="w-[min(100vw-2rem,520px)] rounded border border-border bg-background p-0 shadow-xl backdrop:bg-black/65"
+        onClick={(e) => {
+          if (e.target === noticeDialogRef.current) noticeDialogRef.current?.close();
+        }}
+      >
+        <div className="p-6">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="mt-0.5 size-5 text-amber-600" />
+            <div>
+              <h3 className="font-serif text-2xl">{noticeTitle}</h3>
+              <p className="mt-3 text-sm text-muted-foreground">{noticeBody}</p>
+            </div>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                noticeDialogRef.current?.close();
+                window.location.hash = "checkout";
+              }}
+              className="inline-flex items-center justify-center gap-2 border border-foreground bg-foreground px-5 py-2.5 text-[0.7rem] font-medium uppercase tracking-[0.2em] text-background hover:bg-background hover:text-foreground"
+            >
+              Try checkout again
+            </button>
+            <button
+              type="button"
+              onClick={() => noticeDialogRef.current?.close()}
+              className="inline-flex items-center justify-center border border-border px-5 py-2.5 text-[0.7rem] font-medium uppercase tracking-[0.2em] hover:border-foreground"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </dialog>
     </>
   );
 }

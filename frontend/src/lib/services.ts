@@ -46,7 +46,9 @@ export type Package = {
   tagline: string;
   description: string;
   includes: string[];
+  includeDetails?: { title: string; body: string }[];
   oneTimeItem: OneTimeItemPrice;
+  oneTimeOptions: { value: string; label: string; description: string }[];
   fullPackage: FullPackagePrice;
   /** The larger full-package fee can be paid in full or in instalments. */
   allowsInstalmentsForFullPackage: boolean;
@@ -62,6 +64,7 @@ export type Package = {
   keyStats: { duration: string; format: string; cadence?: string };
   /** If set, show extra walk analysis pricing callouts */
   walkAnalysisNotes?: { singleService: string; bundle: string };
+  intakeInfo?: { heading: string; body: string; uploadAlternatives: string[] };
 };
 
 const section = (title: string, body: string) => ({ title, body });
@@ -86,11 +89,20 @@ export const PACKAGES: Package[] = [
       maxGbp: 80,
       notes: "Single-session runway item when booked on its own.",
     },
+    oneTimeOptions: [
+      { value: "runway_technique_session", label: "Runway technique session", description: "Line, posture, and pacing corrections in one focused live block." },
+    ],
     fullPackage: {
       display: "£150",
       amountGbp: 150,
       notes: "Full runway coaching block: pay in full or split the full-package amount into instalments (first instalment is half of this fee at checkout).",
     },
+    includeDetails: [
+      { title: "Live coaching block", body: "A real-time private session where you are corrected as you move, not after the fact." },
+      { title: "Technical runway corrections", body: "We target line quality, turn control, and transitions that read clearly in castings and on camera." },
+      { title: "Pacing and brief alignment", body: "Your walk is adjusted for different briefs, from clean commercial movement to stronger editorial energy." },
+      { title: "Action notes", body: "You leave with a practical rehearsal focus to apply before your next casting or booking." },
+    ],
     allowsInstalmentsForFullPackage: true,
     detailSections: [
       section(
@@ -132,12 +144,19 @@ export const PACKAGES: Package[] = [
       maxGbp: 120,
       notes: "Single foundations session when booked alone.",
     },
+    oneTimeOptions: [{ value: "foundations_session", label: "Foundations session", description: "Core runway basics designed for newer models." }],
     fullPackage: {
       display: "£300",
       amountGbp: 300,
       notes: "Full foundations programme fee: pay in full or instalments against the full-package total.",
     },
     allowsInstalmentsForFullPackage: true,
+    includeDetails: [
+      { title: "Runway fundamentals", body: "You build balanced posture, heel control, and simple runway patterns you can repeat under pressure." },
+      { title: "Turn mechanics", body: "Safe, clean turn execution that avoids wobble and keeps your line coherent." },
+      { title: "Casting expectations", body: "You get clear guidance on what agents and clients usually assess in early-stage castings." },
+      { title: "Session follow-through", body: "You receive specific practice priorities instead of broad, unclear advice." },
+    ],
     detailSections: [
       section(
         "Foundations that travel",
@@ -173,12 +192,19 @@ export const PACKAGES: Package[] = [
       "Brief interpretation: commercial vs editorial vs couture pacing cues",
     ],
     oneTimeItem: { display: "£150", minGbp: 150, maxGbp: 150, notes: "Single advanced session when booked alone." },
+    oneTimeOptions: [{ value: "advanced_runway_session", label: "Advanced runway session", description: "Signature refinement for experienced or fast-progressing models." }],
     fullPackage: {
       display: "£350",
       amountGbp: 350,
       notes: "Full advanced programme fee: pay in full or instalments against the full-package total.",
     },
     allowsInstalmentsForFullPackage: true,
+    includeDetails: [
+      { title: "Signature development", body: "We refine movement quality so your walk remains distinctive while meeting creative direction." },
+      { title: "Pacing control", body: "You learn to adapt rhythm and spacing across runway formats and line-up pressure." },
+      { title: "Brief interpretation", body: "Coaching covers tone shifts between commercial, editorial, and couture expectations." },
+      { title: "Delivery consistency", body: "You leave with cues that keep your walk stable when direction changes quickly." },
+    ],
     detailSections: [
       section(
         "Refine, then own it",
@@ -199,7 +225,7 @@ export const PACKAGES: Package[] = [
   {
     slug: "walk-analysis",
     name: "Walk Analysis and Feedback",
-    priceSummary: "£20 to £60 (item) · £150 all services together",
+    priceSummary: "£20 to £60 (item) · £60 combined fee",
     tagline: "Footage-led feedback: a clear hierarchy of what to correct before your next take.",
     description:
       "Submit runway or practice footage and receive a structured critique—what reads, what breaks the line, and what to rehearse next so your walk tightens for castings, digitals, or show prep.",
@@ -214,19 +240,34 @@ export const PACKAGES: Package[] = [
       minGbp: 20,
       maxGbp: 60,
       singleServiceCapGbp: 60,
-      notes: "Analysis-only item from £20; capped at £60 when walk analysis is your sole booking.",
+      notes: "Walk Analysis combined fee is £60. Scope can start lower for lighter reviews.",
     },
     fullPackage: {
-      display: "£150 (all services together)",
-      amountGbp: 150,
-      notes: "All-in bundle fee when you combine services in one checkout; payable in full or by instalments against this full-package total.",
+      display: "£60 (combined fee)",
+      amountGbp: 60,
+      notes: "Combined Walk Analysis fee is £60.",
     },
     allowsInstalmentsForFullPackage: true,
+    oneTimeOptions: [
+      { value: "walk_analysis_video_review", label: "Video walk analysis", description: "Detailed review of one submitted walk clip with technical corrections." },
+      { value: "walk_analysis_images_plus_video", label: "Images + video review", description: "Combined feedback on stills and walk footage for broader presentation notes." },
+    ],
     walkAnalysisNotes: {
       singleService:
-        "£60 applies when walk analysis is booked as your only service. Otherwise the one-time item sits between £20 and £60 according to scope.",
+        "The combined Walk Analysis fee is £60. Lighter-scope reviews can be priced below this where appropriate.",
       bundle:
-        "When you bundle everything together, the all-in fee is £150. You may pay in full or use instalments against that full-package amount.",
+        "This service now uses a combined £60 fee for full review delivery.",
+    },
+    includeDetails: [
+      { title: "Focused review window", body: "Your submitted material is reviewed in a concentrated analysis block so feedback remains practical and specific." },
+      { title: "Timestamped corrections", body: "You receive notes tied to exact moments in your clip, so practice priorities are obvious." },
+      { title: "Technical drill direction", body: "Feedback is paired with rehearsal actions to improve your next tape or live walk-through." },
+      { title: "Professional follow-up", body: "Your intake details help us respond with context and next-step recommendations." },
+    ],
+    intakeInfo: {
+      heading: "After payment: secure intake form",
+      body: "You will complete a structured intake form with your goals, context, and media details so we can respond professionally and accurately.",
+      uploadAlternatives: ["Secure upload link (recommended)", "WeTransfer transfer request", "Dropbox File Request"],
     },
     detailSections: [
       section(
@@ -238,8 +279,8 @@ export const PACKAGES: Package[] = [
         "Pricing scales with depth of review. The cap is £60 when this is the only service you are purchasing.",
       ),
       section(
-        "The £150 bundle",
-        "If you are combining all services in one engagement, the bundle is £150—payable in full or split into instalments on the full-package side.",
+        "Combined fee",
+        "This Walk Analysis offer uses a combined £60 fee for full review delivery.",
       ),
     ],
     outcomes: [
@@ -265,12 +306,19 @@ export const PACKAGES: Package[] = [
       "Body language, breath, and composure under observation",
     ],
     oneTimeItem: { display: "£60", minGbp: 60, maxGbp: 60, notes: "Single casting-prep session when booked alone." },
+    oneTimeOptions: [{ value: "casting_prep_session", label: "Casting prep session", description: "Focused support for room entry, delivery, and casting composure." }],
     fullPackage: {
       display: "£120",
       amountGbp: 120,
       notes: "Full casting-prep programme fee: pay in full or instalments on the full-package total.",
     },
     allowsInstalmentsForFullPackage: true,
+    includeDetails: [
+      { title: "Casting-room structure", body: "You rehearse entry, presentation, and exit so your sequence feels professional and deliberate." },
+      { title: "First-impression mechanics", body: "We tune posture, eyeline, and movement quality for high-pressure first-look moments." },
+      { title: "Client-facing delivery", body: "The session trains concise, appropriate communication and body language." },
+      { title: "Preparation framework", body: "You leave with a checklist you can repeat before key castings." },
+    ],
     detailSections: [
       section(
         "Casting with intention",
@@ -300,12 +348,19 @@ export const PACKAGES: Package[] = [
       "Repeatable pre-casting drills you can use independently",
     ],
     oneTimeItem: { display: "£60", minGbp: 60, maxGbp: 60, notes: "Single presence session when booked alone." },
+    oneTimeOptions: [{ value: "confidence_presence_session", label: "Confidence and presence session", description: "Tools to reduce visible tension and improve controlled delivery." }],
     fullPackage: {
       display: "£120",
       amountGbp: 120,
       notes: "Deeper presence programme fee: pay in full or instalments on the full-package total.",
     },
     allowsInstalmentsForFullPackage: true,
+    includeDetails: [
+      { title: "Nervous-system support", body: "You learn practical tools to reduce visible tension before and during performance." },
+      { title: "Presence training", body: "Breath, weight placement, and eyeline are coached so confidence reads authentic." },
+      { title: "Body-language refinement", body: "Movement is adjusted for credibility under observation, not forced performance." },
+      { title: "Repeatable drills", body: "You receive pre-casting routines you can apply independently." },
+    ],
     detailSections: [
       section(
         "Presence, not performance anxiety",
@@ -340,6 +395,7 @@ export const PACKAGES: Package[] = [
       maxGbp: 250,
       notes: "Entry mentorship tier for a single billing period when taken as the item rate.",
     },
+    oneTimeOptions: [{ value: "mentorship_month_start", label: "Mentorship monthly start", description: "Start a monthly mentorship cycle with weekly guidance." }],
     fullPackage: {
       display: "Up to £700 / month",
       amountGbp: 250,
@@ -348,6 +404,12 @@ export const PACKAGES: Package[] = [
       notes: "Full mentorship tiers up to £700 / month. Pay the month in full or use instalments against the selected full-package monthly fee.",
     },
     allowsInstalmentsForFullPackage: true,
+    includeDetails: [
+      { title: "Weekly coaching cadence", body: "You receive regular sessions that align with your current casting and booking priorities." },
+      { title: "Progress tracking", body: "Direction is adjusted month-to-month using real outcomes and feedback patterns." },
+      { title: "Strategic support", body: "You get guidance across runway, confidence, and positioning decisions." },
+      { title: "Priority response channel", body: "Time-sensitive questions receive higher-priority support between sessions." },
+    ],
     detailSections: [
       section(
         "Long-game coaching",
@@ -396,10 +458,13 @@ export const SERVICES: Service[] = PACKAGES.map((p) => ({
 }));
 
 export const CALENDLY_URL_30_MIN = "https://calendly.com/runwayrefinedofficial/30min";
-export const CALENDLY_URL_45_MIN =
-  "https://calendly.com/runwayrefinedofficial/45-minute-meeting";
-export const CALENDLY_URL_60_MIN =
-  "https://calendly.com/runwayrefinedofficial/60-minute-meeting";
+export const CALENDLY_URL_45_MIN = "https://calendly.com/runwayrefinedofficial/45-minute-meeting";
+export const CALENDLY_URL_60_MIN = "https://calendly.com/runwayrefinedofficial/60-minute-meeting";
+export const CALENDLY_URL_BEGINNER = "https://calendly.com/runwayrefinedofficial/beginner-model-foundations-runway-basics-60-minutes";
+export const CALENDLY_URL_ADVANCED = "https://calendly.com/runwayrefinedofficial/advanced-runway-training-60-minutes";
+export const CALENDLY_URL_CASTING_PREP = "https://calendly.com/runwayrefinedofficial/casting-preparation-coaching-45-minutes";
+export const CALENDLY_URL_CONFIDENCE = "https://calendly.com/runwayrefinedofficial/confidence-and-presence-training-45-minutes";
+export const CALENDLY_URL_MENTORSHIP = "https://calendly.com/runwayrefinedofficial/monthly-mentorship-programme-60-minutes";
 
 /** Backwards-compatible default; package-specific links should use `getCalendlyForPackage`. */
 export const CALENDLY_URL = CALENDLY_URL_30_MIN;
@@ -407,19 +472,24 @@ export const CALENDLY_URL = CALENDLY_URL_30_MIN;
 export function getCalendlyForPackage(slug: string): {
   url: string;
   label: string;
-} {
+} | null {
   switch (slug) {
     case "walk-analysis":
-      return { url: CALENDLY_URL_30_MIN, label: "30-minute meeting" };
+      return null;
     case "casting-prep":
+      return { url: CALENDLY_URL_CASTING_PREP, label: "Casting preparation coaching (45 minutes)" };
     case "confidence-presence":
-      return { url: CALENDLY_URL_45_MIN, label: "45-minute meeting" };
-    case "runway-1to1":
+      return { url: CALENDLY_URL_CONFIDENCE, label: "Confidence and presence training (45 minutes)" };
     case "beginner-foundations":
+      return { url: CALENDLY_URL_BEGINNER, label: "Beginner model foundations (60 minutes)" };
     case "advanced-runway":
+      return { url: CALENDLY_URL_ADVANCED, label: "Advanced runway training (60 minutes)" };
     case "monthly-mentorship":
-    default:
+      return { url: CALENDLY_URL_MENTORSHIP, label: "Monthly mentorship programme (60 minutes)" };
+    case "runway-1to1":
       return { url: CALENDLY_URL_60_MIN, label: "60-minute meeting" };
+    default:
+      return { url: CALENDLY_URL_45_MIN, label: "45-minute meeting" };
   }
 }
 

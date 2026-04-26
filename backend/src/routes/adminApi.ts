@@ -16,6 +16,20 @@ export const adminApiRoute = new Hono();
 
 const PAYMENT_STATUSES: PaymentStatus[] = ["pending", "succeeded", "failed", "refunded"];
 
+type OneTimeOrderItem = {
+  id: string;
+  createdAt: Date;
+  status: PaymentStatus;
+  amountCents: number;
+  currency: string;
+  customerEmail: string | null;
+  packageSlug: string | null;
+  selectedOneTimeOption: string | null;
+  intakeDetails: string | null;
+  mediaUploadPreference: string | null;
+  stripeSessionId: string | null;
+};
+
 function parseDateQuery(value: string | undefined, fallback: Date): Date {
   if (!value) return fallback;
   const d = new Date(value);
@@ -229,6 +243,54 @@ adminApiRoute.get("/payments/summary", async (c) => {
     },
     daily,
   });
+});
+
+adminApiRoute.get("/one-time-orders", async (c) => {
+  const rows = await prisma.paymentRecord.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 500,
+    select: {
+      id: true,
+      createdAt: true,
+      status: true,
+      amountCents: true,
+      currency: true,
+      customerEmail: true,
+      stripeSessionId: true,
+      metadata: true,
+    },
+  });
+
+  const items: OneTimeOrderItem[] = [];
+  for (const row of rows) {
+    const metadata = (row.metadata ?? {}) as Record<string, unknown>;
+    const paymentScope = typeof metadata.paymentScope === "string" ? metadata.paymentScope : null;
+    if (paymentScope !== "one_time_item") continue;
+    items.push({
+      id: row.id,
+      createdAt: row.createdAt,
+      status: row.status,
+      amountCents: row.amountCents,
+      currency: row.currency,
+      customerEmail: row.customerEmail,
+      packageSlug: typeof metadata.packageSlug === "string" ? metadata.packageSlug : null,
+      selectedOneTimeOption:
+        typeof metadata.selectedOneTimeOption === "string" && metadata.selectedOneTimeOption.trim().length
+          ? metadata.selectedOneTimeOption
+          : null,
+      intakeDetails:
+        typeof metadata.intakeDetails === "string" && metadata.intakeDetails.trim().length
+          ? metadata.intakeDetails
+          : null,
+      mediaUploadPreference:
+        typeof metadata.mediaUploadPreference === "string" && metadata.mediaUploadPreference.trim().length
+          ? metadata.mediaUploadPreference
+          : null,
+      stripeSessionId: row.stripeSessionId,
+    });
+  }
+
+  return c.json({ items });
 });
 
 adminApiRoute.get("/portfolio", async (c) => {

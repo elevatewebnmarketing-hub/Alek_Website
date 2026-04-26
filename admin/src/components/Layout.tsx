@@ -4,6 +4,7 @@ import {
   CreditCard,
   FolderKanban,
   LayoutDashboard,
+  ListChecks,
   MessageSquareQuote,
   Newspaper,
   Settings,
@@ -15,6 +16,7 @@ import { cn } from "@/lib/cn";
 const nav = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/payments", label: "Payments", icon: CreditCard },
+  { to: "/one-time-orders", label: "One-time Orders", icon: ListChecks },
   { to: "/leads", label: "Leads", icon: Users },
   { to: "/portfolio", label: "Portfolio", icon: FolderKanban },
   { to: "/journal", label: "Journal", icon: BookOpen },

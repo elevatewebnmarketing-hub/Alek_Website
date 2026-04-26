@@ -13,7 +13,7 @@ const PRICING_BY_PACKAGE: Record<string, PricingMap> = {
   "runway-1to1": { oneTimeItemGbp: 80, fullPackageGbp: 150, allowsInstalments: true },
   "beginner-foundations": { oneTimeItemGbp: 120, fullPackageGbp: 300, allowsInstalments: true },
   "advanced-runway": { oneTimeItemGbp: 150, fullPackageGbp: 350, allowsInstalments: true },
-  "walk-analysis": { oneTimeItemGbp: 60, fullPackageGbp: 150, allowsInstalments: true },
+  "walk-analysis": { oneTimeItemGbp: 60, fullPackageGbp: 60, allowsInstalments: true },
   "casting-prep": { oneTimeItemGbp: 60, fullPackageGbp: 120, allowsInstalments: true },
   "confidence-presence": { oneTimeItemGbp: 60, fullPackageGbp: 120, allowsInstalments: true },
   "monthly-mentorship": { oneTimeItemGbp: 250, fullPackageGbp: 700, allowsInstalments: true },

@@ -75,6 +75,29 @@ function CheckoutSuccessPage() {
               </div>
             </div>
           </div>
+        ) : pkg?.slug === "walk-analysis" ? (
+          <div className="mx-auto max-w-xl border border-border bg-background p-8 lg:p-10">
+            <h2 className="font-serif text-2xl">Walk Analysis: next step is your intake form</h2>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              Thank you for your payment. Walk Analysis follows a form-first intake so we can review your goals,
+              context, and footage professionally before sending your feedback.
+            </p>
+            <div className="mt-5 rounded border border-border bg-secondary/20 p-4 text-sm text-muted-foreground">
+              <p>What we collect: service focus, timeline, model context, and upload preference.</p>
+              <p className="mt-2">
+                Preferred media route: secure upload link. Alternatives: WeTransfer transfer request or Dropbox File
+                Request.
+              </p>
+            </div>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 border border-foreground bg-foreground px-6 py-3.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-background hover:bg-background hover:text-foreground"
+              >
+                Open intake support <ArrowRight className="size-4" />
+              </Link>
+            </div>
+          </div>
         ) : (
           <div className="mx-auto max-w-xl border border-border p-8 text-center">
             <p className="text-sm leading-relaxed text-muted-foreground">

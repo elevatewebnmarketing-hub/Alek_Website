@@ -65,7 +65,7 @@ app.post("/webhooks/stripe", async (c) => {
     );
   }
 
-  if (event.type === "checkout.session.completed") {
+  if (event.type === "checkout.session.completed" || event.type === "checkout.session.async_payment_succeeded") {
     const session = event.data.object as Stripe.Checkout.Session;
     const sessionId = session.id;
     const paymentIntentId =
@@ -95,6 +95,22 @@ app.post("/webhooks/stripe", async (c) => {
     const session = event.data.object as Stripe.Checkout.Session;
     await prisma.paymentRecord.updateMany({
       where: { stripeSessionId: session.id },
+      data: { status: "failed" },
+    });
+  }
+
+  if (event.type === "checkout.session.async_payment_failed") {
+    const session = event.data.object as Stripe.Checkout.Session;
+    await prisma.paymentRecord.updateMany({
+      where: { stripeSessionId: session.id },
+      data: { status: "failed" },
+    });
+  }
+
+  if (event.type === "payment_intent.payment_failed") {
+    const paymentIntent = event.data.object as Stripe.PaymentIntent;
+    await prisma.paymentRecord.updateMany({
+      where: { stripePaymentId: paymentIntent.id },
       data: { status: "failed" },
     });
   }
