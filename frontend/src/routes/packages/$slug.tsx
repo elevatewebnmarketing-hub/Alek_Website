@@ -411,20 +411,26 @@ function PackageDetailPage() {
                     Pick one item below. This selection is attached to your payment so your request is handled correctly.
                   </p>
                 </div>
-                <select
-                  value={selectedOneTimeOption}
-                  onChange={(e) => setSelectedOneTimeOption(e.target.value)}
-                  className="w-full border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground"
-                >
-                  {p.oneTimeOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                <p className="text-xs text-muted-foreground">
-                  {p.oneTimeOptions.find((option) => option.value === selectedOneTimeOption)?.description}
-                </p>
+                <div className="grid gap-3">
+                  {p.oneTimeOptions.map((option) => {
+                    const active = selectedOneTimeOption === option.value;
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => setSelectedOneTimeOption(option.value)}
+                        className={`w-full border px-4 py-3 text-left transition-colors ${
+                          active
+                            ? "border-foreground bg-zinc-900/60 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2)]"
+                            : "border-border bg-background hover:border-foreground/40"
+                        }`}
+                      >
+                        <div className="text-sm font-medium">{option.label}</div>
+                        <p className="mt-1 text-xs text-muted-foreground">{option.description}</p>
+                      </button>
+                    );
+                  })}
+                </div>
                 <label className="block text-xs uppercase tracking-[0.16em] text-muted-foreground">
                   Intake notes (optional)
                 </label>
