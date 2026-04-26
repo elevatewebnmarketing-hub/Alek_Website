@@ -13,7 +13,7 @@ import {
   type PaymentScope,
 } from "@/lib/services";
 import { createCheckoutSession, fetchCheckoutStatus } from "@/lib/publicApi";
-import { AlertTriangle, ArrowDown, ArrowLeft, ArrowRight, Check, ShieldCheck, Sparkles } from "lucide-react";
+import { AlertTriangle, ArrowDown, ArrowLeft, ArrowRight, ShieldCheck } from "lucide-react";
 
 const packageSearchSchema = z.object({
   checkout: z.enum(["cancel", "failed"]).optional(),
@@ -260,32 +260,19 @@ function PackageDetailPage() {
       </Section>
 
       <Section id="package-outcomes" className="scroll-mt-28 border-b border-border">
-        <div className="grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
-              <Sparkles className="size-3.5" /> What you will leave with
-            </div>
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
-              {p.outcomes.map((outcome) => (
-                <div key={outcome} className="border border-border bg-secondary/20 p-5 text-sm leading-relaxed">
-                  {outcome}
-                </div>
-              ))}
-            </div>
-          </div>
-          <aside className="lg:col-span-5">
-            <div className="border border-border p-6">
-              <div className="text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">What&apos;s included</div>
-              <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                {p.includes.map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm">
-                    <Check className="mt-0.5 size-4 shrink-0" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </aside>
+        <div className="editorial-eyebrow">What&apos;s included</div>
+        <h2 className="display-lg mt-4">Everything included in this package, explained clearly</h2>
+        <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          Each item below is written as a service component with practical detail so you understand what you are paying
+          for and how it supports runway performance, casting confidence, and professional delivery.
+        </p>
+        <div className="mt-8 grid gap-5">
+          {(p.includeDetails ?? p.includes.map((item) => ({ title: item, body: item }))).map((item) => (
+            <article key={item.title} className="border border-border bg-secondary/20 p-6 lg:p-7">
+              <h3 className="font-serif text-2xl">{item.title}</h3>
+              <p className="mt-3 max-w-4xl text-base leading-relaxed text-muted-foreground">{item.body}</p>
+            </article>
+          ))}
         </div>
       </Section>
 
@@ -506,23 +493,6 @@ function PackageDetailPage() {
               )}
             </div>
           </aside>
-        </div>
-      </Section>
-
-      <Section className="border-b border-border">
-        <div className="editorial-eyebrow">What&apos;s included</div>
-        <h2 className="display-lg mt-4">Everything included in this package, explained clearly</h2>
-        <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-          Each item below is written as a service component with practical detail so you understand what you are paying
-          for and how it supports runway performance, casting confidence, and professional delivery.
-        </p>
-        <div className="mt-8 grid gap-5">
-          {(p.includeDetails ?? p.includes.map((item) => ({ title: item, body: item }))).map((item) => (
-            <article key={item.title} className="border border-border bg-secondary/20 p-6 lg:p-7">
-              <h3 className="font-serif text-2xl">{item.title}</h3>
-              <p className="mt-3 max-w-4xl text-base leading-relaxed text-muted-foreground">{item.body}</p>
-            </article>
-          ))}
         </div>
       </Section>
 
