@@ -39,7 +39,7 @@ function CheckoutSuccessPage() {
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">
             {pkg?.slug === "walk-analysis"
               ? "Your payment was successful. Next, upload your media in the review folder so we can begin your analysis."
-              : "Your payment was successful. The next step is to choose a time that works for you in Calendly so we can match your session to the package you purchased."}
+              : "Your payment was successful. Scroll down and book your Calendly meeting to secure your session time."}
           </p>
           {sessionId && (
             <p className="mt-4 text-xs uppercase tracking-[0.14em] text-muted-foreground">
@@ -71,7 +71,8 @@ function CheckoutSuccessPage() {
                   Open Calendly <ArrowRight className="size-4" />
                 </a>
                 <p className="mt-4 text-xs text-muted-foreground">
-                  Calendly opens in a new tab. If you do not see it, check your pop-up blocker.
+                  Scroll down to this booking section and click Open Calendly. It opens in a new tab. If you do not
+                  see it, check your pop-up blocker.
                 </p>
               </div>
             </div>

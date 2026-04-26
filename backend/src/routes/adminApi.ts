@@ -11,6 +11,7 @@ import {
   testimonialCreateSchema,
   testimonialUpdateSchema,
 } from "../schemas.js";
+import { getStripeClient, reconcilePaymentRecord } from "../lib/paymentReconciliation.js";
 
 export const adminApiRoute = new Hono();
 
@@ -145,6 +146,30 @@ adminApiRoute.get("/payments", async (c) => {
       ? { status: statusParam as PaymentStatus }
       : {};
 
+  const stripeClient = getStripeClient();
+  if (stripeClient) {
+    const pendingRows = await prisma.paymentRecord.findMany({
+      where: {
+        status: "pending",
+        stripeSessionId: { not: null },
+        createdAt: { gte: from, lte: to },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 50,
+    });
+    for (const row of pendingRows) {
+      try {
+        await reconcilePaymentRecord(stripeClient, row);
+      } catch (error) {
+        console.error("[admin-payments] Failed to reconcile pending payment:", {
+          paymentId: row.id,
+          sessionId: row.stripeSessionId,
+          error: error instanceof Error ? error.message : String(error),
+        });
+      }
+    }
+  }
+
   const items = await prisma.paymentRecord.findMany({
     where: {
       createdAt: { gte: from, lte: to },
@@ -167,6 +192,30 @@ adminApiRoute.get("/payments/summary", async (c) => {
 
   const from = parseDateQuery(c.req.query("from"), defaultFrom);
   const to = parseDateQuery(c.req.query("to"), now);
+
+  const stripeClient = getStripeClient();
+  if (stripeClient) {
+    const pendingRows = await prisma.paymentRecord.findMany({
+      where: {
+        status: "pending",
+        stripeSessionId: { not: null },
+        createdAt: { gte: from, lte: to },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 50,
+    });
+    for (const row of pendingRows) {
+      try {
+        await reconcilePaymentRecord(stripeClient, row);
+      } catch (error) {
+        console.error("[admin-payments-summary] Failed to reconcile pending payment:", {
+          paymentId: row.id,
+          sessionId: row.stripeSessionId,
+          error: error instanceof Error ? error.message : String(error),
+        });
+      }
+    }
+  }
 
   const rows = await prisma.paymentRecord.findMany({
     where: { createdAt: { gte: from, lte: to } },

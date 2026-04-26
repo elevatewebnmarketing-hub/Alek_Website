@@ -5,6 +5,7 @@ import { checkoutSessionCreateSchema } from "../schemas.js";
 import { checkoutAmountForScope } from "../lib/pricing.js";
 import Stripe from "stripe";
 import { sendPaymentStartedNotification } from "../services/resend.js";
+import { reconcilePaymentRecord, getStripeClient } from "../lib/paymentReconciliation.js";
 
 export const publicApiRoute = new Hono();
 
@@ -123,11 +124,25 @@ publicApiRoute.get("/checkout-status", async (c) => {
   if (!sessionId) {
     return c.json({ error: "missing_session_id" }, 400);
   }
-  const payment = await prisma.paymentRecord.findFirst({
+  let payment = await prisma.paymentRecord.findFirst({
     where: { stripeSessionId: sessionId },
-    select: { status: true, stripeSessionId: true, stripePaymentId: true, createdAt: true },
   });
   if (!payment) return c.json({ error: "not_found" }, 404);
+
+  if (payment.status === "pending") {
+    const stripeClient = getStripeClient();
+    if (stripeClient) {
+      try {
+        payment = await reconcilePaymentRecord(stripeClient, payment);
+      } catch (error) {
+        console.error("[checkout-status] Failed to reconcile pending payment:", {
+          sessionId,
+          error: error instanceof Error ? error.message : String(error),
+        });
+      }
+    }
+  }
+
   return c.json({ item: payment });
 });
 

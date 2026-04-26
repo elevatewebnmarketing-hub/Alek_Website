@@ -8,7 +8,7 @@ import { leadsRoute } from "./routes/leads.js";
 import { publicApiRoute } from "./routes/publicApi.js";
 import Stripe from "stripe";
 import { prisma } from "./db.js";
-import { sendPaymentCompletedNotification } from "./services/resend.js";
+import { reconcilePaymentRecordBySessionId } from "./lib/paymentReconciliation.js";
 
 const app = new Hono();
 
@@ -52,6 +52,7 @@ app.post("/webhooks/stripe", async (c) => {
 
   const signature = c.req.header("stripe-signature");
   if (!signature) {
+    console.error("[stripe-webhook] Missing stripe-signature header");
     return c.json({ error: "missing_signature" }, 400);
   }
 
@@ -62,11 +63,14 @@ app.post("/webhooks/stripe", async (c) => {
   try {
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
   } catch (error) {
+    console.error("[stripe-webhook] Invalid signature:", error);
     return c.json(
       { error: "invalid_signature", message: error instanceof Error ? error.message : "Invalid signature" },
       400,
     );
   }
+
+  console.log("[stripe-webhook] Event received:", event.type, { eventId: event.id });
 
   if (event.type === "checkout.session.completed" || event.type === "checkout.session.async_payment_succeeded") {
     const session = event.data.object as Stripe.Checkout.Session;
@@ -92,22 +96,11 @@ app.post("/webhooks/stripe", async (c) => {
         metadata: session.metadata ?? undefined,
       },
     });
-
-    try {
-      await sendPaymentCompletedNotification({
-        customerEmail: session.customer_details?.email ?? null,
-        packageSlug: session.metadata?.packageSlug ?? null,
-        paymentScope: session.metadata?.paymentScope ?? null,
-        selectedOneTimeOption: session.metadata?.selectedOneTimeOption ?? null,
-        stripeSessionId: session.id,
-        stripePaymentId: paymentIntentId ?? null,
-        amountCents: session.amount_total ?? null,
-        currency: session.currency ?? "gbp",
-        completedAt: new Date().toISOString(),
-      });
-    } catch (error) {
-      console.error("[resend] Failed to send payment-completed notification:", error);
-    }
+    console.log("[stripe-webhook] Upserted successful checkout session", {
+      sessionId,
+      paymentIntentId: paymentIntentId ?? null,
+    });
+    await reconcilePaymentRecordBySessionId(stripe, sessionId);
   }
 
   if (event.type === "checkout.session.expired") {
@@ -116,6 +109,7 @@ app.post("/webhooks/stripe", async (c) => {
       where: { stripeSessionId: session.id },
       data: { status: "failed" },
     });
+    console.log("[stripe-webhook] Marked session as failed (expired)", { sessionId: session.id });
   }
 
   if (event.type === "checkout.session.async_payment_failed") {
@@ -124,6 +118,7 @@ app.post("/webhooks/stripe", async (c) => {
       where: { stripeSessionId: session.id },
       data: { status: "failed" },
     });
+    console.log("[stripe-webhook] Marked session as failed (async failed)", { sessionId: session.id });
   }
 
   if (event.type === "payment_intent.payment_failed") {
@@ -132,6 +127,7 @@ app.post("/webhooks/stripe", async (c) => {
       where: { stripePaymentId: paymentIntent.id },
       data: { status: "failed" },
     });
+    console.log("[stripe-webhook] Marked payment intent as failed", { paymentIntentId: paymentIntent.id });
   }
 
   return c.json({ received: true });
