@@ -68,32 +68,6 @@ export type Package = {
 };
 
 const section = (title: string, body: string) => ({ title, body });
-const STANDARD_ONE_TIME_SELECTIONS = [
-  {
-    value: "runway_fundamentals",
-    label: "Runway fundamentals",
-    description:
-      "This section builds your base from the ground up, including posture stack, foot placement, stride length, and clean arm behaviour. The goal is a runway walk that looks polished and stable even when nerves are high.",
-  },
-  {
-    value: "turn_mechanics",
-    label: "Turn mechanics",
-    description:
-      "You are coached through repeatable turn patterns with clear timing, balance transfer, and controlled exit. We remove common beginner issues like drifting, over-rotating, or losing your centre line after the turn.",
-  },
-  {
-    value: "casting_expectations",
-    label: "Casting expectations",
-    description:
-      "You learn what agencies and clients usually scan for in first looks, including composure, body awareness, and how you hold a simple walk request. This helps you walk into castings with clearer standards and less guesswork.",
-  },
-  {
-    value: "session_follow_through",
-    label: "Session follow-through",
-    description:
-      "You leave with a clear practice structure instead of vague motivation. Each follow-through point tells you what to train, how to train it, and what result to look for in your next tape or in-person casting.",
-  },
-] as const;
 
 export const PACKAGES: Package[] = [
   {
@@ -115,7 +89,32 @@ export const PACKAGES: Package[] = [
       maxGbp: 80,
       notes: "Single-session runway item when booked on its own.",
     },
-    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
+    oneTimeOptions: [
+      {
+        value: "live_coaching_block",
+        label: "Live coaching block",
+        description:
+          "You work in a private live session where corrections happen in real time while you walk. We adjust posture, shoulder line, hand carriage, and finish position so you can feel the change immediately and repeat it with confidence.",
+      },
+      {
+        value: "technical_runway_corrections",
+        label: "Technical runway corrections",
+        description:
+          "This covers the technical details that casting teams notice first, including line consistency, hip control, turn quality, and return walk clarity. Every correction is demonstrated in plain language so you know what to fix and why it improves your runway read.",
+      },
+      {
+        value: "pacing_and_brief_alignment",
+        label: "Pacing and brief alignment",
+        description:
+          "You learn how to tune your pace and energy to fit different runway briefs, from clean commercial movement to stronger editorial tone. We also coach spacing awareness so your rhythm stays controlled in lineups and live show flow.",
+      },
+      {
+        value: "action_notes",
+        label: "Action notes",
+        description:
+          "After the session you get a focused rehearsal plan with priorities for your next casting or show call. The notes are practical and specific, so your practice time goes into the drills that create visible improvement.",
+      },
+    ],
     fullPackage: {
       display: "£150",
       amountGbp: 150,
@@ -180,7 +179,32 @@ export const PACKAGES: Package[] = [
       maxGbp: 120,
       notes: "Single foundations session when booked alone.",
     },
-    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
+    oneTimeOptions: [
+      {
+        value: "runway_fundamentals",
+        label: "Runway fundamentals",
+        description:
+          "This section builds your base from the ground up, including posture stack, foot placement, stride length, and clean arm behaviour. The goal is a runway walk that looks polished and stable even when nerves are high.",
+      },
+      {
+        value: "turn_mechanics",
+        label: "Turn mechanics",
+        description:
+          "You are coached through repeatable turn patterns with clear timing, balance transfer, and controlled exit. We remove common beginner issues like drifting, over-rotating, or losing your centre line after the turn.",
+      },
+      {
+        value: "casting_expectations",
+        label: "Casting expectations",
+        description:
+          "You learn what agencies and clients usually scan for in first looks, including composure, body awareness, and how you hold a simple walk request. This helps you walk into castings with clearer standards and less guesswork.",
+      },
+      {
+        value: "session_follow_through",
+        label: "Session follow-through",
+        description:
+          "You leave with a clear practice structure instead of vague motivation. Each follow-through point tells you what to train, how to train it, and what result to look for in your next tape or in-person casting.",
+      },
+    ],
     fullPackage: {
       display: "£300",
       amountGbp: 300,
@@ -240,7 +264,32 @@ export const PACKAGES: Package[] = [
       "Brief interpretation: commercial vs editorial vs couture pacing cues",
     ],
     oneTimeItem: { display: "£150", minGbp: 150, maxGbp: 150, notes: "Single advanced session when booked alone." },
-    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
+    oneTimeOptions: [
+      {
+        value: "signature_development",
+        label: "Signature development",
+        description:
+          "You refine your personal runway signature so it stays recognisable while still serving the brief. We work on shape, timing, and transitions that feel like you, not a copied walk.",
+      },
+      {
+        value: "pacing_control",
+        label: "Pacing control",
+        description:
+          "This covers tempo control for short runways, long runways, and crowded lineups where spacing can break quickly. You learn how to hold a strong pace without rushing your turns or flattening your expression.",
+      },
+      {
+        value: "brief_interpretation",
+        label: "Brief interpretation",
+        description:
+          "You practice reading and delivering different runway tones, such as commercial clarity, editorial edge, or couture precision. The coaching helps you switch direction quickly while keeping your line clean and intentional.",
+      },
+      {
+        value: "delivery_consistency",
+        label: "Delivery consistency",
+        description:
+          "You build consistency so your first pass and final pass feel equally controlled under pressure. We add repeatable cues you can use backstage, at castings, and on set when instructions change fast.",
+      },
+    ],
     fullPackage: {
       display: "£350",
       amountGbp: 350,
@@ -308,7 +357,32 @@ export const PACKAGES: Package[] = [
       notes: "Combined Walk Analysis fee is £60.",
     },
     allowsInstalmentsForFullPackage: true,
-    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
+    oneTimeOptions: [
+      {
+        value: "focused_review_window",
+        label: "Focused review window",
+        description:
+          "Your footage is assessed in a dedicated review slot so every note is tied to what your walk actually shows. This keeps feedback specific, professional, and useful for real casting preparation.",
+      },
+      {
+        value: "timestamped_corrections",
+        label: "Timestamped corrections",
+        description:
+          "You receive feedback linked to exact moments in your video, for example entry line, midpoint rhythm, turn execution, and final pose control. That structure makes it easy to replay, understand, and improve each point step by step.",
+      },
+      {
+        value: "technical_drill_direction",
+        label: "Technical drill direction",
+        description:
+          "Each correction is paired with practical drills you can apply before your next self tape, fitting, or live rehearsal. You are not left with theory only, you get a clear training path to improve your next take.",
+      },
+      {
+        value: "professional_follow_up",
+        label: "Professional follow-up",
+        description:
+          "Your intake details let us tailor feedback to your goals, timeline, and current runway level. You also receive clear next-step guidance so communication stays organised and professional throughout.",
+      },
+    ],
     walkAnalysisNotes: {
       singleService:
         "The combined Walk Analysis fee is £60. Lighter-scope reviews can be priced below this where appropriate.",
@@ -375,7 +449,32 @@ export const PACKAGES: Package[] = [
       "Body language, breath, and composure under observation",
     ],
     oneTimeItem: { display: "£60", minGbp: 60, maxGbp: 60, notes: "Single casting-prep session when booked alone." },
-    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
+    oneTimeOptions: [
+      {
+        value: "casting_room_structure",
+        label: "Casting-room structure",
+        description:
+          "You rehearse the full casting sequence from room entry to close, including where to stand and how to transition into a walk request. This helps your delivery feel calm, clean, and professionally timed.",
+      },
+      {
+        value: "first_impression_mechanics",
+        label: "First-impression mechanics",
+        description:
+          "We sharpen first-look details such as posture setup, eyeline control, facial composure, and turn-in timing. These details shape how confidently you read in the first few seconds.",
+      },
+      {
+        value: "client_facing_delivery",
+        label: "Client-facing delivery",
+        description:
+          "You train concise communication and professional body language for agency and brand-facing environments. The goal is to sound and look prepared without over-talking or over-performing.",
+      },
+      {
+        value: "preparation_framework",
+        label: "Preparation framework",
+        description:
+          "You leave with a repeatable pre-casting checklist covering presentation, movement readiness, and mental reset cues. This creates consistency when your schedule is tight and decisions happen quickly.",
+      },
+    ],
     fullPackage: {
       display: "£120",
       amountGbp: 120,
@@ -429,7 +528,32 @@ export const PACKAGES: Package[] = [
       "Repeatable pre-casting drills you can use independently",
     ],
     oneTimeItem: { display: "£60", minGbp: 60, maxGbp: 60, notes: "Single presence session when booked alone." },
-    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
+    oneTimeOptions: [
+      {
+        value: "nervous_system_support",
+        label: "Nervous-system support",
+        description:
+          "You learn practical reset tools for moments when nerves tighten your posture, breath, or movement quality. These tools help you stay available and controlled in castings and on camera.",
+      },
+      {
+        value: "presence_training",
+        label: "Presence training",
+        description:
+          "We coach breath rhythm, weight placement, and eyeline discipline so your confidence reads natural and grounded. The result is stronger room presence without forcing a persona.",
+      },
+      {
+        value: "body_language_refinement",
+        label: "Body-language refinement",
+        description:
+          "You refine gestures, transitions, and stillness so your delivery looks intentional when observed closely. This supports more credible runway presence in live and filmed situations.",
+      },
+      {
+        value: "repeatable_drills",
+        label: "Repeatable drills",
+        description:
+          "You receive short drills you can run before castings, fittings, and rehearsals to steady your body and focus your performance. The drills are simple enough to use consistently in real schedules.",
+      },
+    ],
     fullPackage: {
       display: "£120",
       amountGbp: 120,
@@ -488,7 +612,32 @@ export const PACKAGES: Package[] = [
       maxGbp: 250,
       notes: "Entry mentorship tier for a single billing period when taken as the item rate.",
     },
-    oneTimeOptions: [...STANDARD_ONE_TIME_SELECTIONS],
+    oneTimeOptions: [
+      {
+        value: "weekly_coaching_cadence",
+        label: "Weekly coaching cadence",
+        description:
+          "You get consistent weekly sessions that respond to your actual calendar, including castings, fittings, and booking prep. This keeps your runway development active instead of reactive.",
+      },
+      {
+        value: "progress_tracking",
+        label: "Progress tracking",
+        description:
+          "Your progress is reviewed month by month using real feedback and performance outcomes. Priorities are updated so coaching stays relevant to your next professional step.",
+      },
+      {
+        value: "strategic_support",
+        label: "Strategic support",
+        description:
+          "You receive guidance on runway performance, casting delivery, and personal positioning decisions in a changing market. This gives you both technical coaching and career clarity.",
+      },
+      {
+        value: "priority_response_channel",
+        label: "Priority response channel",
+        description:
+          "For urgent briefs and time-sensitive decisions, you have priority support between sessions. This helps you stay prepared when opportunities move quickly.",
+      },
+    ],
     fullPackage: {
       display: "Up to £700 / month",
       amountGbp: 250,
