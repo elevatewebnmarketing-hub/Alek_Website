@@ -40,7 +40,12 @@ function ResourceMedia({ url, title }: { url: string | null; title: string }) {
       </span>
     );
   }
-  if (url.includes("/video/upload/")) {
+  // Check for PDF by extension before checking upload type — Cloudinary auto-classifies
+  // PDFs as image type, so url.includes("/image/upload/") would match and try to render
+  // them as <img>, which breaks. Extension check must come first.
+  const isPdf = /\.pdf(\?|$)/i.test(url);
+
+  if (!isPdf && url.includes("/video/upload/")) {
     return (
       <video
         src={url}
@@ -50,7 +55,7 @@ function ResourceMedia({ url, title }: { url: string | null; title: string }) {
       />
     );
   }
-  if (url.includes("/image/upload/")) {
+  if (!isPdf && url.includes("/image/upload/")) {
     return (
       <img
         src={url}
@@ -60,8 +65,10 @@ function ResourceMedia({ url, title }: { url: string | null; title: string }) {
       />
     );
   }
-  // For Cloudinary raw uploads (PDFs), insert fl_attachment so browsers download rather than open inline
-  const href = url.includes("/raw/upload/")
+  // PDF or raw file — insert fl_attachment so browser downloads instead of opening inline
+  const href = url.includes("/image/upload/")
+    ? url.replace("/image/upload/", "/image/upload/fl_attachment/")
+    : url.includes("/raw/upload/")
     ? url.replace("/raw/upload/", "/raw/upload/fl_attachment/")
     : url;
   return (
