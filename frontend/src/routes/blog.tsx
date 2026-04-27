@@ -9,6 +9,7 @@ type JournalListItem = {
   category: string;
   title: string;
   excerpt: string;
+  coverImage: string | null;
   publishedAt: string | null;
 };
 
@@ -52,6 +53,19 @@ function BlogPage() {
               key={p.slug}
               className="group flex flex-col bg-background p-8 lg:p-12"
             >
+              {p.coverImage ? (
+                <Link
+                  to={`/blog/${p.slug}`}
+                  className="-mx-8 -mt-8 mb-6 block overflow-hidden border-b border-border lg:-mx-12 lg:-mt-12"
+                >
+                  <img
+                    src={p.coverImage}
+                    alt=""
+                    loading="lazy"
+                    className="aspect-[16/9] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                  />
+                </Link>
+              ) : null}
               <div className="flex items-center justify-between text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground">
                 <span>{p.category}</span>
                 <span>
@@ -65,8 +79,7 @@ function BlogPage() {
               </div>
               <h2 className="font-serif text-3xl mt-6 leading-tight lg:text-4xl">
                 <Link
-                  to="/blog/$slug"
-                  params={{ slug: p.slug }}
+                  to={`/blog/${p.slug}`}
                   className="hover:underline decoration-1 underline-offset-4"
                 >
                   {p.title}
@@ -74,8 +87,7 @@ function BlogPage() {
               </h2>
               <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{p.excerpt}</p>
               <Link
-                to="/blog/$slug"
-                params={{ slug: p.slug }}
+                to={`/blog/${p.slug}`}
                 className="mt-8 inline-flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-muted-foreground hover:text-foreground"
               >
                 Read article {String(i + 1).padStart(2, "0")}{" "}

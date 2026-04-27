@@ -1,9 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FileUpload } from "@/components/FileUpload";
 import { useAdminApi } from "@/hooks/useAdminApi";
 
 type JournalItem = { id: string };
+
+function defaultDatetimeLocal(): string {
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().slice(0, 16);
+}
 
 export function JournalCreatePage() {
   const { request } = useAdminApi();
@@ -15,8 +22,9 @@ export function JournalCreatePage() {
   const [title, setTitle] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [body, setBody] = useState("");
-  const [status, setStatus] = useState<"draft" | "published">("draft");
-  const [publishedAt, setPublishedAt] = useState("");
+  const [coverImage, setCoverImage] = useState("");
+  const [status, setStatus] = useState<"draft" | "published">("published");
+  const [publishedAt, setPublishedAt] = useState(() => defaultDatetimeLocal());
 
   const create = useMutation({
     mutationFn: () =>
@@ -28,6 +36,7 @@ export function JournalCreatePage() {
           title,
           excerpt,
           body,
+          coverImage: coverImage || null,
           status,
           publishedAt: publishedAt ? new Date(publishedAt).toISOString() : null,
         },
@@ -44,6 +53,9 @@ export function JournalCreatePage() {
         ← Back to journal
       </Link>
       <h2 className="text-xl font-semibold text-zinc-100">New post</h2>
+      <p className="text-sm text-zinc-500">
+        Draft posts are hidden on the public site until you set status to published.
+      </p>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block text-sm">
           <span className="text-zinc-400">Slug</span>
@@ -80,6 +92,23 @@ export function JournalCreatePage() {
           onChange={(e) => setExcerpt(e.target.value)}
         />
       </label>
+      <div className="space-y-2">
+        <p className="text-sm text-zinc-400">Cover image (optional)</p>
+        <FileUpload
+          accept="image/*"
+          label="Upload cover image"
+          value={coverImage}
+          onUploaded={setCoverImage}
+          onClear={() => setCoverImage("")}
+        />
+        {coverImage ? (
+          <img
+            src={coverImage}
+            alt=""
+            className="max-h-48 max-w-full rounded-lg border border-zinc-700 object-cover"
+          />
+        ) : null}
+      </div>
       <label className="block text-sm">
         <span className="text-zinc-400">Body (HTML)</span>
         <textarea

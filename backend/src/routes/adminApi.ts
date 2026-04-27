@@ -421,7 +421,8 @@ adminApiRoute.post("/journal", async (c) => {
       title: parsed.data.title,
       excerpt: parsed.data.excerpt,
       body: parsed.data.body,
-      status: parsed.data.status ?? "draft",
+      coverImage: parsed.data.coverImage ?? null,
+      status: parsed.data.status ?? "published",
       publishedAt: parsed.data.publishedAt ? new Date(parsed.data.publishedAt) : null,
     },
   });

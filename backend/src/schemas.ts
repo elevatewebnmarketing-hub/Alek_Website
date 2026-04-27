@@ -53,6 +53,10 @@ export const journalCreateSchema = z.object({
   title: z.string().min(1).max(300),
   excerpt: z.string().min(1).max(2000),
   body: z.string().min(1).max(100_000),
+  coverImage: z
+    .union([z.string().url(), z.string().regex(/^\/.+/)])
+    .nullable()
+    .optional(),
   status: z.enum(["draft", "published"]).optional(),
   publishedAt: z.string().datetime().nullable().optional(),
 });

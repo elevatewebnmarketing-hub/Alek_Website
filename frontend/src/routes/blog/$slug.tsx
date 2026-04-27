@@ -10,6 +10,7 @@ type JournalDetail = {
   title: string;
   excerpt: string;
   body: string;
+  coverImage: string | null;
   publishedAt: string | null;
 };
 
@@ -70,6 +71,19 @@ function JournalArticlePage() {
     <>
       <PageHero eyebrow={data.category} title={data.title} intro={data.excerpt} />
 
+      {data.coverImage ? (
+        <div className="border-b border-border">
+          <img
+            src={data.coverImage}
+            alt=""
+            loading="eager"
+            className="mx-auto max-h-[min(52vh,520px)] w-full max-w-[1600px] object-cover"
+            width={1600}
+            height={900}
+          />
+        </div>
+      ) : null}
+
       <Section className="border-b border-border">
         <Link
           to="/blog"
@@ -81,7 +95,7 @@ function JournalArticlePage() {
           <p className="mt-6 text-sm uppercase tracking-[0.2em] text-muted-foreground">{dateLabel}</p>
         ) : null}
         <div
-          className="journal-body mt-10 max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_p]:mt-6 [&_p:first-child]:mt-0"
+          className="journal-body mt-10 max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_h2]:mt-10 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:text-foreground [&_li]:mt-2 [&_p]:mt-6 [&_p:first-child]:mt-0 [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6"
           dangerouslySetInnerHTML={{ __html: data.body }}
         />
       </Section>

@@ -189,6 +189,8 @@ async function main() {
   });
 
   const pub = new Date();
+  const days = (n: number) => new Date(pub.getTime() - n * 86400000);
+
   await prisma.journalPost.createMany({
     data: [
       {
@@ -197,9 +199,13 @@ async function main() {
         title: "Fashion Trends Models Should Watch This Season",
         excerpt:
           "The shifts in aesthetics, casting preferences, and content style that are shaping model demand right now.",
-        body: "<p>Full article in progress. Expand this post from the admin when ready.</p>",
+        body: `<p>The runway and editorial worlds move faster than most social feeds. What reads as &ldquo;current&rdquo; in casting rooms is rarely one viral aesthetic—it is a bundle of signals: silhouette, makeup mood, pace of casting, and how brands want to show up on camera.</p>
+<h2>What is shifting</h2>
+<p>We are seeing more emphasis on presence over perfection: teams want models who can hold a frame, take direction, and adapt between stills and motion. Quiet confidence and specificity beat generic poses. That does not mean everyone should look the same—it means your book and self-tapes should show range within a clear point of view.</p>
+<h2>What to do with this</h2>
+<p>Audit your portfolio against the work you actually want. Refresh headshots when your hair or look has genuinely changed. Study show notes and campaigns from houses you admire, not only macro trends. Small, consistent updates beat one rushed overhaul before fashion week.</p>`,
         status: "published",
-        publishedAt: pub,
+        publishedAt: days(0),
       },
       {
         slug: "what-agencies-look-for-now",
@@ -207,9 +213,15 @@ async function main() {
         title: "What Agencies and Clients Are Looking For Right Now",
         excerpt:
           "A practical breakdown of the qualities, presentation, and professionalism decision-makers are prioritising.",
-        body: "<p>Full article in progress. Expand this post from the admin when ready.</p>",
+        body: `<p>Agencies and direct clients are not guessing from a single polaroid anymore. They cross-reference digitals, video, social proof, and how you communicate before you ever walk into a room.</p>
+<h2>Professionalism that shows</h2>
+<p>Timely replies, accurate measurements, and materials that match your current look signal reliability. Decision-makers remember who is easy to work with when schedules get tight.</p>
+<h2>Presentation</h2>
+<p>Your digitals should look like you on a normal strong week—not heavily retouched, not underplayed. For castings, neutral styling that fits the brief usually wins over outfits that compete with the clothes you are there to wear.</p>
+<h2>Skills that transfer</h2>
+<p>Walk training, short-form camera comfort, and clear articulation of your availability and boundaries all compound. You do not need every skill on day one—you need a trajectory agencies can invest in.</p>`,
         status: "published",
-        publishedAt: pub,
+        publishedAt: days(2),
       },
       {
         slug: "social-content-that-converts",
@@ -217,9 +229,15 @@ async function main() {
         title: "How Social Trends Are Reshaping Model Demand and Income",
         excerpt:
           "What is changing in platform behaviour, audience expectations, and brand casting so models can adapt early.",
-        body: "<p>Full article in progress. Expand this post from the admin when ready.</p>",
+        body: `<p>Platforms reward clarity and consistency more than noise. Brands increasingly cast from short clips and stories because they show how you move, speak, and hold light—not only how you freeze in a frame.</p>
+<h2>Audience expectations</h2>
+<p>Followers connect when content feels intentional: a defined niche, a repeatable format, and captions that sound like you. Scattershot posting rarely converts to paid work; a concise narrative does.</p>
+<h2>Income and positioning</h2>
+<p>Rates follow positioning. When your feed aligns with the commercial category you want—beauty, runway, lifestyle—you shorten the gap between attention and briefs. Protect your rate by saying no to off-brand collaborations that dilute that story.</p>
+<h2>A sustainable rhythm</h2>
+<p>Batch creation, reuse B-roll, and prioritise rest. Long careers are built on repeatable systems, not constant burnout posting.</p>`,
         status: "published",
-        publishedAt: pub,
+        publishedAt: days(5),
       },
       {
         slug: "runway-casting-readiness-checklist",
@@ -227,9 +245,15 @@ async function main() {
         title: "Runway and Casting Readiness: A Practical Checklist",
         excerpt:
           "A clear prep checklist models can use before castings, training sessions, and high-stakes opportunities.",
-        body: "<p>Full article in progress. Expand this post from the admin when ready.</p>",
+        body: `<p>Use this as a pre-flight list the night before high-stakes days. Adapt items to the brief—editorial, showroom, or runway.</p>
+<h2>The night before</h2>
+<ul><li>Confirm call time, address, and contact person.</li><li>Lay out clothing that fits the brief; avoid logos that compete with the product.</li><li>Pack snacks, water, phone charger, and comp cards or digitals as requested.</li><li>Short walk-through of your pace and turns—focus on calm repetition, not exhaustion.</li></ul>
+<h2>Morning of</h2>
+<ul><li>Hair and skin minimal unless the brief says otherwise.</li><li>Arrive early enough to breathe and register without rushing.</li><li>Warm up ankles, hips, and posture lightly—especially in cold studios.</li></ul>
+<h2>In the room</h2>
+<p>Listen first. Take direction once, execute cleanly, and thank the team on the way out. You are building a reputation on how you handle pressure, not only how you look in line-up.</p>`,
         status: "published",
-        publishedAt: pub,
+        publishedAt: days(8),
       },
     ],
   });

@@ -180,6 +180,7 @@ publicApiRoute.get("/journal", async (c) => {
       category: true,
       title: true,
       excerpt: true,
+      coverImage: true,
       publishedAt: true,
       status: true,
     },

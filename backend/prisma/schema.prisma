@@ -89,6 +89,7 @@ model JournalPost {
   title       String
   excerpt     String        @db.Text
   body        String        @db.Text
+  coverImage  String?
   status      JournalStatus @default(draft)
   publishedAt DateTime?
   createdAt   DateTime      @default(now())
