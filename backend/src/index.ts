@@ -2,6 +2,9 @@ import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { secureHeaders } from "hono/secure-headers";
+import { bodyLimit } from "hono/body-limit";
+import type { Context, Next } from "hono";
 import { clerkAuth } from "./middleware/clerk.js";
 import { adminApiRoute } from "./routes/adminApi.js";
 import { leadsRoute } from "./routes/leads.js";
@@ -28,6 +31,43 @@ app.use(
     allowMethods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   }),
 );
+
+app.use("*", secureHeaders());
+
+app.use(
+  "*",
+  bodyLimit({
+    maxSize: 1 * 1024 * 1024,
+    onError: (c) => c.json({ error: "payload_too_large" }, 413),
+  }),
+);
+
+const _rateLimitStore = new Map<string, { count: number; resetAt: number }>();
+
+function rateLimit(max: number, windowMs: number) {
+  return async (c: Context, next: Next) => {
+    const ip =
+      c.req.header("x-forwarded-for")?.split(",")[0].trim() ??
+      c.req.header("x-real-ip") ??
+      "unknown";
+    const key = `${c.req.path}:${ip}`;
+    const now = Date.now();
+    const entry = _rateLimitStore.get(key);
+    if (!entry || now > entry.resetAt) {
+      _rateLimitStore.set(key, { count: 1, resetAt: now + windowMs });
+      return next();
+    }
+    if (entry.count >= max) {
+      c.header("Retry-After", String(Math.ceil((entry.resetAt - now) / 1000)));
+      return c.json({ error: "too_many_requests" }, 429);
+    }
+    entry.count++;
+    return next();
+  };
+}
+
+app.use("/api/leads/*", rateLimit(10, 15 * 60 * 1000));
+app.use("/api/public/checkout-session", rateLimit(20, 15 * 60 * 1000));
 
 app.get("/health", (c) => c.json({ ok: true }));
 app.use("/email-assets/*", serveStatic({ root: "./public" }));
