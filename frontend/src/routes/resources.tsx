@@ -65,15 +65,9 @@ function ResourceMedia({ url, title }: { url: string | null; title: string }) {
       />
     );
   }
-  // PDF or raw file — insert fl_attachment so browser downloads instead of opening inline
-  const href = url.includes("/image/upload/")
-    ? url.replace("/image/upload/", "/image/upload/fl_attachment/")
-    : url.includes("/raw/upload/")
-    ? url.replace("/raw/upload/", "/raw/upload/fl_attachment/")
-    : url;
   return (
     <a
-      href={href}
+      href={url}
       target="_blank"
       rel="noreferrer"
       className="mt-8 inline-flex items-center gap-2 self-start text-[0.72rem] font-medium uppercase tracking-[0.22em] underline-offset-8 hover:underline"
