@@ -60,14 +60,18 @@ function ResourceMedia({ url, title }: { url: string | null; title: string }) {
       />
     );
   }
+  // For Cloudinary raw uploads (PDFs), insert fl_attachment so browsers download rather than open inline
+  const href = url.includes("/raw/upload/")
+    ? url.replace("/raw/upload/", "/raw/upload/fl_attachment/")
+    : url;
   return (
     <a
-      href={url}
+      href={href}
       target="_blank"
       rel="noreferrer"
       className="mt-8 inline-flex items-center gap-2 self-start text-[0.72rem] font-medium uppercase tracking-[0.22em] underline-offset-8 hover:underline"
     >
-      <Download className="size-4" /> Get resource
+      <Download className="size-4" /> Download
     </a>
   );
 }
