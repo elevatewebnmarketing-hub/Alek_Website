@@ -32,7 +32,7 @@ app.use(
   }),
 );
 
-app.use("*", secureHeaders());
+app.use("*", secureHeaders({ crossOriginResourcePolicy: "cross-origin" }));
 
 app.use(
   "*",
