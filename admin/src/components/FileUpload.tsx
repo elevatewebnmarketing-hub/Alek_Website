@@ -16,6 +16,7 @@ type SigResponse = {
   cloudName: string;
   apiKey: string;
   folder: string;
+  type: string;
 };
 
 type CloudinaryResponse = { secure_url: string };
@@ -42,6 +43,7 @@ export function FileUpload({ accept, label = "Upload file", value, onUploaded, o
       fd.append("timestamp", String(sig.timestamp));
       fd.append("signature", sig.signature);
       fd.append("folder", sig.folder);
+      fd.append("type", sig.type);
       const res = await fetch(`https://api.cloudinary.com/v1_1/${sig.cloudName}/${uploadPath}/upload`, {
         method: "POST",
         body: fd,

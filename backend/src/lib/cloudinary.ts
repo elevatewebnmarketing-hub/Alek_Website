@@ -10,8 +10,9 @@ export function getUploadSignature(folder: string) {
   }
 
   const timestamp = Math.round(Date.now() / 1000);
-  const paramStr = `folder=${folder}&timestamp=${timestamp}`;
+  // Parameters must be alphabetically sorted: folder < timestamp < type
+  const paramStr = `folder=${folder}&timestamp=${timestamp}&type=upload`;
   const signature = createHash("sha1").update(paramStr + apiSecret).digest("hex");
 
-  return { signature, timestamp, cloudName, apiKey, folder };
+  return { signature, timestamp, cloudName, apiKey, folder, type: "upload" };
 }
