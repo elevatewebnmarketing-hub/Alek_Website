@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { CheckCircle, Loader2, Upload, X } from "lucide-react";
-import { useAdminApi } from "@/hooks/useAdminApi";
 
 interface FileUploadProps {
   accept: string;
@@ -10,19 +9,13 @@ interface FileUploadProps {
   onClear?: () => void;
 }
 
-type SigResponse = {
-  signature: string;
-  timestamp: number;
-  cloudName: string;
-  apiKey: string;
-  folder: string;
-};
-
 type CloudinaryResponse = { secure_url: string };
 type CloudinaryError = { error?: { message?: string } };
 
+const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME as string | undefined;
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET as string | undefined;
+
 export function FileUpload({ accept, label = "Upload file", value, onUploaded, onClear }: FileUploadProps) {
-  const { request } = useAdminApi();
   const inputRef = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState<"idle" | "uploading" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
@@ -31,22 +24,18 @@ export function FileUpload({ accept, label = "Upload file", value, onUploaded, o
     setStatus("uploading");
     setError(null);
     try {
-      const sig = (await request("/api/admin/upload/signature")) as SigResponse;
-      // PDFs must go to /raw/upload so Cloudinary stores them as-is instead of
-      // routing them through the image pipeline (which breaks PDF serving).
-      const isRaw = file.type === "application/pdf";
-      const uploadPath = isRaw ? "raw" : "auto";
+      if (!CLOUD_NAME || !UPLOAD_PRESET) {
+        throw new Error("Set VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_UPLOAD_PRESET in Vercel env vars");
+      }
+      // PDFs go to /raw/upload to bypass Cloudinary's image pipeline
+      const uploadPath = file.type === "application/pdf" ? "raw" : "auto";
       const fd = new FormData();
       fd.append("file", file);
-      fd.append("api_key", sig.apiKey);
-      fd.append("timestamp", String(sig.timestamp));
-      fd.append("signature", sig.signature);
-      fd.append("folder", sig.folder);
-      fd.append("type", "upload");
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${sig.cloudName}/${uploadPath}/upload`, {
-        method: "POST",
-        body: fd,
-      });
+      fd.append("upload_preset", UPLOAD_PRESET);
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${uploadPath}/upload`,
+        { method: "POST", body: fd },
+      );
       if (!res.ok) {
         const err = (await res.json().catch(() => ({}))) as CloudinaryError;
         throw new Error(err.error?.message ?? "Upload failed");
