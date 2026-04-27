@@ -32,6 +32,46 @@ export const Route = createFileRoute("/resources")({
   component: ResourcesPage,
 });
 
+function ResourceMedia({ url, title }: { url: string | null; title: string }) {
+  if (!url) {
+    return (
+      <span className="mt-8 inline-flex items-center gap-2 self-start text-[0.72rem] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+        <Download className="size-4" /> Coming soon
+      </span>
+    );
+  }
+  if (url.includes("/video/upload/")) {
+    return (
+      <video
+        src={url}
+        controls
+        className="mt-6 w-full rounded"
+        aria-label={title}
+      />
+    );
+  }
+  if (url.includes("/image/upload/")) {
+    return (
+      <img
+        src={url}
+        alt={title}
+        loading="lazy"
+        className="mt-6 w-full rounded object-cover"
+      />
+    );
+  }
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      className="mt-8 inline-flex items-center gap-2 self-start text-[0.72rem] font-medium uppercase tracking-[0.22em] underline-offset-8 hover:underline"
+    >
+      <Download className="size-4" /> Get resource
+    </a>
+  );
+}
+
 function ResourcesPage() {
   const { items, offline } = Route.useLoaderData();
   const [name, setName] = useState("");
@@ -92,20 +132,7 @@ function ResourcesPage() {
               <div className="editorial-eyebrow">{r.type}</div>
               <h2 className="font-serif text-2xl mt-4 leading-tight">{r.title}</h2>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{r.description}</p>
-              {r.linkUrl ? (
-                <a
-                  href={r.linkUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-8 inline-flex items-center gap-2 self-start text-[0.72rem] font-medium uppercase tracking-[0.22em] underline-offset-8 hover:underline"
-                >
-                  <Download className="size-4" /> Get resource
-                </a>
-              ) : (
-                <span className="mt-8 inline-flex items-center gap-2 self-start text-[0.72rem] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-                  <Download className="size-4" /> Coming soon
-                </span>
-              )}
+              <ResourceMedia url={r.linkUrl} title={r.title} />
             </div>
           ))}
         </div>

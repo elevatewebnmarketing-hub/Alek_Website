@@ -1,6 +1,7 @@
 import type { PaymentStatus, Prisma } from "@prisma/client";
 import { Hono } from "hono";
 import { prisma } from "../db.js";
+import { getUploadSignature } from "../lib/cloudinary.js";
 import {
   journalCreateSchema,
   journalUpdateSchema,
@@ -41,6 +42,17 @@ function parseDateQuery(value: string | undefined, fallback: Date): Date {
 function toUtcDateKey(d: Date): string {
   return d.toISOString().slice(0, 10);
 }
+
+adminApiRoute.get("/upload/signature", (c) => {
+  try {
+    return c.json(getUploadSignature("runway-refined"));
+  } catch {
+    return c.json(
+      { error: "Cloudinary not configured. Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET." },
+      503,
+    );
+  }
+});
 
 adminApiRoute.get("/dashboard/summary", async (c) => {
   const now = new Date();

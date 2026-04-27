@@ -3,10 +3,12 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { AdminAccessGate } from "./components/AdminAccessGate";
 import { Layout } from "./components/Layout";
 import { DashboardPage } from "./pages/DashboardPage";
+import { JournalCreatePage } from "./pages/JournalCreatePage";
 import { JournalEditPage } from "./pages/JournalEditPage";
 import { JournalListPage } from "./pages/JournalListPage";
 import { LeadsPage } from "./pages/LeadsPage";
 import { OneTimeOrdersPage } from "./pages/OneTimeOrdersPage";
+import { PortfolioCreatePage } from "./pages/PortfolioCreatePage";
 import { PortfolioEditPage } from "./pages/PortfolioEditPage";
 import { PortfolioListPage } from "./pages/PortfolioListPage";
 import { ResourcesPage } from "./pages/ResourcesPage";
@@ -29,8 +31,10 @@ export default function App() {
               <Route path="leads" element={<LeadsPage />} />
               <Route path="one-time-orders" element={<OneTimeOrdersPage />} />
               <Route path="portfolio" element={<PortfolioListPage />} />
+              <Route path="portfolio/new" element={<PortfolioCreatePage />} />
               <Route path="portfolio/:id" element={<PortfolioEditPage />} />
               <Route path="journal" element={<JournalListPage />} />
+              <Route path="journal/new" element={<JournalCreatePage />} />
               <Route path="journal/:id" element={<JournalEditPage />} />
               <Route path="resources" element={<ResourcesPage />} />
               <Route path="testimonials" element={<TestimonialsPage />} />

@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { Pencil } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAdminApi } from "@/hooks/useAdminApi";
 
@@ -14,10 +14,17 @@ type Row = {
 
 export function PortfolioListPage() {
   const { request, isLoaded } = useAdminApi();
+  const qc = useQueryClient();
+
   const q = useQuery({
     queryKey: ["admin-portfolio"],
     enabled: isLoaded,
     queryFn: () => request("/api/admin/portfolio") as Promise<{ items: Row[] }>,
+  });
+
+  const del = useMutation({
+    mutationFn: (id: string) => request(`/api/admin/portfolio/${id}`, { method: "DELETE" }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-portfolio"] }),
   });
 
   if (q.isLoading) return <p className="text-sm text-zinc-500">Loading…</p>;
@@ -25,7 +32,15 @@ export function PortfolioListPage() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-zinc-100">Portfolio</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-zinc-100">Portfolio</h2>
+        <Link
+          to="/portfolio/new"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-violet-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-violet-500"
+        >
+          <Plus className="size-4" /> New project
+        </Link>
+      </div>
       <div className="overflow-x-auto rounded-xl border border-zinc-800">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-zinc-800 bg-zinc-900/80 text-xs uppercase text-zinc-500">
@@ -45,12 +60,23 @@ export function PortfolioListPage() {
                 <td className="px-4 py-3 text-zinc-200">{r.title}</td>
                 <td className="px-4 py-3 text-zinc-400">{r.published ? "Yes" : "No"}</td>
                 <td className="px-4 py-3 text-right">
-                  <Link
-                    to={`/portfolio/${r.id}`}
-                    className="inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-2 py-1 text-xs text-zinc-300 hover:bg-zinc-800"
-                  >
-                    <Pencil className="size-3.5" /> Edit
-                  </Link>
+                  <div className="inline-flex items-center gap-2">
+                    <Link
+                      to={`/portfolio/${r.id}`}
+                      className="inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-2 py-1 text-xs text-zinc-300 hover:bg-zinc-800"
+                    >
+                      <Pencil className="size-3.5" /> Edit
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (confirm(`Delete "${r.title}"?`)) del.mutate(r.id);
+                      }}
+                      className="rounded-lg p-1.5 text-zinc-500 hover:bg-zinc-800 hover:text-red-400"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

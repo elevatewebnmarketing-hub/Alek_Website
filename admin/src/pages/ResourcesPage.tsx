@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Trash2 } from "lucide-react";
+import { FileUpload } from "@/components/FileUpload";
 import { useAdminApi } from "@/hooks/useAdminApi";
 
 type Row = {
@@ -65,11 +66,12 @@ export function ResourcesPage() {
         <h3 className="text-sm font-medium text-zinc-200">Add resource</h3>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <label className="text-sm">
-            <span className="text-zinc-400">Type</span>
+            <span className="text-zinc-400">Type label</span>
             <input
               className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-zinc-100"
               value={type}
               onChange={(e) => setType(e.target.value)}
+              placeholder="Guide, Template, Video…"
             />
           </label>
           <label className="text-sm">
@@ -98,14 +100,31 @@ export function ResourcesPage() {
             onChange={(e) => setDescription(e.target.value)}
           />
         </label>
-        <label className="mt-3 block text-sm">
-          <span className="text-zinc-400">Link URL (optional)</span>
-          <input
-            className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-zinc-100"
+        <div className="mt-3 space-y-2">
+          <p className="text-sm text-zinc-400">File (image, PDF, or video)</p>
+          <FileUpload
+            accept="image/*,video/*,application/pdf"
+            label="Upload file"
             value={linkUrl}
-            onChange={(e) => setLinkUrl(e.target.value)}
+            onUploaded={setLinkUrl}
+            onClear={() => setLinkUrl("")}
           />
-        </label>
+          {!linkUrl && (
+            <div className="flex items-center gap-2">
+              <div className="h-px flex-1 bg-zinc-800" />
+              <span className="text-xs text-zinc-600">or paste a URL</span>
+              <div className="h-px flex-1 bg-zinc-800" />
+            </div>
+          )}
+          {!linkUrl && (
+            <input
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100"
+              placeholder="https://…"
+              value={linkUrl}
+              onChange={(e) => setLinkUrl(e.target.value)}
+            />
+          )}
+        </div>
         {create.isError ? (
           <p className="mt-2 text-sm text-red-400">{(create.error as Error).message}</p>
         ) : null}
@@ -115,7 +134,7 @@ export function ResourcesPage() {
           disabled={create.isPending || !title || !description}
           className="mt-4 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500 disabled:opacity-50"
         >
-          Create
+          {create.isPending ? "Creating…" : "Create"}
         </button>
       </div>
 
