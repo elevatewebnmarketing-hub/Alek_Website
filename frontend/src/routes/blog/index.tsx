@@ -13,7 +13,7 @@ type JournalListItem = {
   publishedAt: string | null;
 };
 
-export const Route = createFileRoute("/blog")({
+export const Route = createFileRoute("/blog/")({
   loader: async () => {
     const j = await safePublicFetch<{ items: JournalListItem[] }>("/api/public/journal");
     if (!j) return { items: [] as JournalListItem[], offline: true as const };
@@ -55,7 +55,8 @@ function BlogPage() {
             >
               {p.coverImage ? (
                 <Link
-                  to={`/blog/${p.slug}`}
+                  to="/blog/$slug"
+                  params={{ slug: p.slug }}
                   className="-mx-8 -mt-8 mb-6 block overflow-hidden border-b border-border lg:-mx-12 lg:-mt-12"
                 >
                   <img
@@ -79,7 +80,8 @@ function BlogPage() {
               </div>
               <h2 className="font-serif text-3xl mt-6 leading-tight lg:text-4xl">
                 <Link
-                  to={`/blog/${p.slug}`}
+                  to="/blog/$slug"
+                  params={{ slug: p.slug }}
                   className="hover:underline decoration-1 underline-offset-4"
                 >
                   {p.title}
@@ -87,7 +89,8 @@ function BlogPage() {
               </h2>
               <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{p.excerpt}</p>
               <Link
-                to={`/blog/${p.slug}`}
+                to="/blog/$slug"
+                params={{ slug: p.slug }}
                 className="mt-8 inline-flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-muted-foreground hover:text-foreground"
               >
                 Read article {String(i + 1).padStart(2, "0")}{" "}
