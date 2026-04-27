@@ -45,7 +45,12 @@ function toUtcDateKey(d: Date): string {
 
 adminApiRoute.get("/upload/signature", (c) => {
   try {
-    return c.json(getUploadSignature("runway-refined"));
+    const payload = getUploadSignature("runway-refined");
+    const resource = c.req.query("resource");
+    if (resource === "raw" || resource === "auto") {
+      return c.json({ ...payload, uploadSegment: resource });
+    }
+    return c.json(payload);
   } catch {
     return c.json(
       { error: "Cloudinary not configured. Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET." },

@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { CheckCircle, Loader2, Upload, X } from "lucide-react";
+import { useAdminApi } from "@/hooks/useAdminApi";
 
 interface FileUploadProps {
   accept: string;
@@ -12,28 +13,47 @@ interface FileUploadProps {
 type CloudinaryResponse = { secure_url: string };
 type CloudinaryError = { error?: { message?: string } };
 
-const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME as string | undefined;
-const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET as string | undefined;
+type SignaturePayload = {
+  signature: string;
+  timestamp: number;
+  cloudName: string;
+  apiKey: string;
+  folder: string;
+  uploadSegment?: "raw" | "auto";
+};
 
 export function FileUpload({ accept, label = "Upload file", value, onUploaded, onClear }: FileUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState<"idle" | "uploading" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
+  const { request, isLoaded } = useAdminApi();
 
   async function handleFile(file: File) {
     setStatus("uploading");
     setError(null);
     try {
-      if (!CLOUD_NAME || !UPLOAD_PRESET) {
-        throw new Error("Set VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_UPLOAD_PRESET in Vercel env vars");
+      if (!isLoaded) {
+        throw new Error("Authentication not ready");
       }
-      // PDFs go to /raw/upload to bypass Cloudinary's image pipeline
-      const uploadPath = file.type === "application/pdf" ? "raw" : "auto";
+      const isPdf =
+        file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+      const segment = isPdf ? "raw" : "auto";
+
+      const sig = (await request(
+        `/api/admin/upload/signature?resource=${segment}`,
+      )) as SignaturePayload;
+
+      const uploadSegment = sig.uploadSegment ?? segment;
+
       const fd = new FormData();
       fd.append("file", file);
-      fd.append("upload_preset", UPLOAD_PRESET);
+      fd.append("api_key", sig.apiKey);
+      fd.append("timestamp", String(sig.timestamp));
+      fd.append("signature", sig.signature);
+      fd.append("folder", sig.folder);
+
       const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${uploadPath}/upload`,
+        `https://api.cloudinary.com/v1_1/${sig.cloudName}/${uploadSegment}/upload`,
         { method: "POST", body: fd },
       );
       if (!res.ok) {
@@ -76,7 +96,7 @@ export function FileUpload({ accept, label = "Upload file", value, onUploaded, o
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          disabled={status === "uploading"}
+          disabled={status === "uploading" || !isLoaded}
           className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 disabled:opacity-50"
         >
           {status === "uploading" ? (

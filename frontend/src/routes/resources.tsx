@@ -45,6 +45,7 @@ function ResourceMedia({ url, title }: { url: string | null; title: string }) {
   // them as <img>, which breaks. Extension check must come first.
   const isPdf = /\.pdf(\?|$)/i.test(url);
 
+  // PDF delivery uses Cloudinary CDN URLs; if links 404, enable "PDF and ZIP files delivery" under Cloudinary Settings → Security.
   if (!isPdf && url.includes("/video/upload/")) {
     return (
       <video
