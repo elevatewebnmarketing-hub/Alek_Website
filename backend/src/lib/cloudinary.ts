@@ -1,4 +1,4 @@
-import { createHmac } from "node:crypto";
+import { createHash } from "node:crypto";
 
 export function getUploadSignature(folder: string) {
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
@@ -11,7 +11,7 @@ export function getUploadSignature(folder: string) {
 
   const timestamp = Math.round(Date.now() / 1000);
   const paramStr = `folder=${folder}&timestamp=${timestamp}`;
-  const signature = createHmac("sha1", apiSecret).update(paramStr).digest("hex");
+  const signature = createHash("sha1").update(paramStr + apiSecret).digest("hex");
 
   return { signature, timestamp, cloudName, apiKey, folder };
 }
