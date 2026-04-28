@@ -70,6 +70,17 @@ export function SiteFooter() {
           <div>© {new Date().getFullYear()} Runway Refined by Alek</div>
           <div>UK Based · Coaching Worldwide</div>
         </div>
+        <div className="mt-4 text-center text-xs text-muted-foreground/60">
+          Created by Ufuoma at{" "}
+          <a
+            href="https://elevatewebandmarketing.com"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-muted-foreground transition-colors"
+          >
+            elevatewebandmarketing.com
+          </a>
+        </div>
       </div>
     </footer>
   );
