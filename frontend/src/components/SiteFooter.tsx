@@ -38,10 +38,10 @@ export function SiteFooter() {
             <ul className="space-y-3 text-sm">
               <li>
                 <a
-                  href="mailto:Alekm423@gmail.com"
+                  href="mailto:runwayrefinedofficial@gmail.com"
                   className="inline-flex items-center gap-2 hover:underline"
                 >
-                  <Mail className="size-4" /> Alekm423@gmail.com
+                  <Mail className="size-4" /> runwayrefinedofficial@gmail.com
                 </a>
               </li>
               <li>

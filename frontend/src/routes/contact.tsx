@@ -108,10 +108,10 @@ function ContactPage() {
             <ul className="mt-10 space-y-6 text-base">
               <li>
                 <a
-                  href="mailto:Alekm423@gmail.com"
+                  href="mailto:runwayrefinedofficial@gmail.com"
                   className="inline-flex items-center gap-3 hover:underline"
                 >
-                  <Mail className="size-5" /> Alekm423@gmail.com
+                  <Mail className="size-5" /> runwayrefinedofficial@gmail.com
                 </a>
               </li>
               <li>
