@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImage from "@/assets/hero-grazia.png";
-import transformationImage from "@/assets/transformation.jpg";
 import portraitImage from "@/assets/alek-home-portrait.png";
 import { Section } from "@/components/Section";
 import { SERVICES } from "@/lib/services";
@@ -159,16 +158,7 @@ function HomePage() {
       {/* TRANSFORMATION */}
       <section className="relative overflow-hidden border-b border-border bg-foreground text-background">
         <div className="grid grid-cols-1 lg:grid-cols-12">
-          <div className="relative lg:col-span-7">
-            <img
-              src={transformationImage}
-              alt="Backstage editorial moment of models lined up before a runway show"
-              loading="lazy"
-              className="size-full object-cover opacity-85"
-              width={1920}
-              height={1080}
-            />
-          </div>
+          <div className="hidden lg:block lg:col-span-7 bg-black" />
           <div className="flex flex-col justify-center px-6 py-16 lg:col-span-5 lg:px-14 lg:py-24">
             <div className="editorial-eyebrow text-background/60">The transformation</div>
             <h2 className="display-lg mt-6">

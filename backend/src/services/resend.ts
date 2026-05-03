@@ -149,6 +149,50 @@ export async function sendLeadNotification(input: LeadNotificationInput): Promis
   });
 }
 
+type LeadConfirmationInput = {
+  name: string;
+  email: string;
+};
+
+export async function sendLeadConfirmation(input: LeadConfirmationInput): Promise<void> {
+  const safeName = escapeHtml(input.name);
+
+  const htmlContent = `
+    <h2 style="margin:0 0 16px;font-family:Georgia,serif;font-size:22px;font-weight:normal;color:#ffffff;">
+      Hi ${safeName},
+    </h2>
+    <p style="margin:0 0 14px;">Thank you for getting in touch with Runway Refined by Alek.</p>
+    <p style="margin:0 0 14px;">We have received your message and will get back to you within 1–2 business days.</p>
+    <p style="margin:0 0 14px;">
+      In the meantime, feel free to explore our
+      <a href="https://www.runwayrefinedbyalek.com/resources" style="color:#e8e8ea;">free resources</a>
+      or browse our
+      <a href="https://www.runwayrefinedbyalek.com/services" style="color:#e8e8ea;">coaching packages</a>.
+    </p>
+    <p style="margin:0;">
+      Speak soon,<br/>
+      <strong>Alek — Runway Refined</strong>
+    </p>
+  `;
+
+  const text = [
+    `Hi ${input.name},`,
+    "",
+    "Thank you for getting in touch with Runway Refined by Alek.",
+    "We have received your message and will get back to you within 1–2 business days.",
+    "",
+    "Speak soon,",
+    "Alek — Runway Refined",
+  ].join("\n");
+
+  await sendEmail({
+    to: input.email,
+    subject: "We've received your message — Runway Refined by Alek",
+    htmlContent,
+    text,
+  });
+}
+
 export async function sendPaymentStartedNotification(input: PaymentStartedInput): Promise<void> {
   const safeEmail = escapeHtml(input.customerEmail);
   const safePackage = escapeHtml(input.packageSlug);

@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { leadCreateSchema } from "../schemas.js";
 import { prisma } from "../db.js";
-import { sendLeadNotification } from "../services/resend.js";
+import { sendLeadNotification, sendLeadConfirmation } from "../services/resend.js";
 
 export const leadsRoute = new Hono();
 
@@ -43,6 +43,7 @@ leadsRoute.post("/", async (c) => {
       utmCampaign: lead.utmCampaign,
       createdAt: lead.createdAt.toISOString(),
     });
+    await sendLeadConfirmation({ name: lead.name, email: lead.email });
   } catch (error) {
     console.error("[resend] Failed to send lead notification:", error);
   }

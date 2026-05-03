@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
+import DOMPurify from "dompurify";
 import { PageHero, Section } from "@/components/Section";
 import { pageMeta } from "@/components/PageMeta";
 import { safePublicFetchDetail } from "@/lib/publicApi";
@@ -96,7 +97,7 @@ function JournalArticlePage() {
         ) : null}
         <div
           className="journal-body mt-10 max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_h2]:mt-10 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:text-foreground [&_li]:mt-2 [&_p]:mt-6 [&_p:first-child]:mt-0 [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6"
-          dangerouslySetInnerHTML={{ __html: data.body }}
+          dangerouslySetInnerHTML={{ __html: typeof window !== "undefined" ? DOMPurify.sanitize(data.body) : data.body }}
         />
       </Section>
     </>
