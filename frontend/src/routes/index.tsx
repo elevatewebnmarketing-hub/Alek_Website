@@ -156,33 +156,30 @@ function HomePage() {
       </Section>
 
       {/* TRANSFORMATION */}
-      <section className="relative overflow-hidden border-b border-border bg-foreground text-background">
-        <div className="grid grid-cols-1 lg:grid-cols-12">
-          <div className="hidden lg:block lg:col-span-7 bg-black" />
-          <div className="flex flex-col justify-center px-6 py-16 lg:col-span-5 lg:px-14 lg:py-24">
-            <div className="editorial-eyebrow text-background/60">The transformation</div>
-            <h2 className="display-lg mt-6">
-              From hesitant walks to <em className="italic">paid bookings.</em>
-            </h2>
-            <p className="mt-6 text-base leading-relaxed text-background/75">
-              Plenty of models know how to be seen but not how to get booked.
-              Here you get a plan that fits you, honest feedback, and support
-              while you build real momentum.
-            </p>
-            <div className="mt-10 grid grid-cols-3 gap-6 border-t border-background/15 pt-8">
-              {[
-                ["1:1", "Tailored coaching"],
-                ["UK", "Based · Serving worldwide"],
-                ["∞", "Long-term results"],
-              ].map(([k, v]) => (
-                <div key={v}>
-                  <div className="font-serif text-3xl">{k}</div>
-                  <div className="mt-2 text-[0.7rem] uppercase tracking-[0.2em] text-background/60">
-                    {v}
-                  </div>
+      <section className="border-b border-border bg-foreground py-24 text-background lg:py-32">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <div className="editorial-eyebrow text-background/60">The transformation</div>
+          <h2 className="display-lg mt-6">
+            From hesitant walks to <em className="italic">paid bookings.</em>
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-background/75">
+            Plenty of models know how to be seen but not how to get booked.
+            Here you get a plan that fits you, honest feedback, and support
+            while you build real momentum.
+          </p>
+          <div className="mx-auto mt-10 grid max-w-xl grid-cols-3 gap-6 border-t border-background/15 pt-8">
+            {[
+              ["1:1", "Tailored coaching"],
+              ["UK", "Based · Serving worldwide"],
+              ["∞", "Long-term results"],
+            ].map(([k, v]) => (
+              <div key={v}>
+                <div className="font-serif text-3xl">{k}</div>
+                <div className="mt-2 text-[0.7rem] uppercase tracking-[0.2em] text-background/60">
+                  {v}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
