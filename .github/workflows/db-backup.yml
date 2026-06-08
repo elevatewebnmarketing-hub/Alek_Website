@@ -1,0 +1,44 @@
+name: Database backup (Supabase)
+
+# Free off-site backups for the runway database.
+# Supabase's free tier has no automated backups, so this dumps the DB on a
+# schedule and stores it as a downloadable GitHub artifact.
+#
+# Setup: add a repo secret SUPABASE_DB_URL = the Supabase DIRECT connection
+# string (port 5432). Settings -> Secrets and variables -> Actions -> New secret.
+
+on:
+  schedule:
+    - cron: "0 3 * * 0" # every Sunday 03:00 UTC
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install PostgreSQL client 17
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y postgresql-client-17
+
+      - name: Dump database
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ]; then
+            echo "SUPABASE_DB_URL secret is not set."; exit 1
+          fi
+          STAMP=$(date +%Y-%m-%d)
+          /usr/lib/postgresql/17/bin/pg_dump "$SUPABASE_DB_URL" \
+            --no-owner --no-privileges --format=custom \
+            -f "runway-backup-$STAMP.dump"
+          ls -lh runway-backup-*.dump
+
+      - name: Upload backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: runway-db-backup
+          path: runway-backup-*.dump
+          retention-days: 30
