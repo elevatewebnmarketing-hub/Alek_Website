@@ -1,0 +1,66 @@
+name: Migrate Neon -> Supabase (one-off)
+
+# One-time data move from Neon to Supabase, run entirely on GitHub's servers
+# (no local pg_dump needed). MANUAL run only.
+#
+# Setup (Settings -> Secrets and variables -> Actions -> New repository secret):
+#   NEON_DB_URL      = your current Neon connection string (source)
+#   SUPABASE_DB_URL  = your Supabase DIRECT connection string, port 5432 (target)
+#
+# Then: Actions tab -> this workflow -> Run workflow -> type "migrate" to confirm.
+# Delete this workflow file and both secrets once the migration is verified.
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "migrate" to confirm copying Neon -> Supabase'
+        required: true
+        default: ""
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "migrate" ]; then
+            echo "Confirmation not provided (type 'migrate'). Aborting."; exit 1
+          fi
+
+      - name: Install PostgreSQL client 17
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y postgresql-client-17
+          echo "/usr/lib/postgresql/17/bin" >> "$GITHUB_PATH"
+
+      - name: Dump from Neon
+        env:
+          NEON_DB_URL: ${{ secrets.NEON_DB_URL }}
+        run: |
+          if [ -z "$NEON_DB_URL" ]; then echo "NEON_DB_URL secret not set"; exit 1; fi
+          pg_dump "$NEON_DB_URL" --no-owner --no-privileges --format=custom -f neon.dump
+          ls -lh neon.dump
+
+      - name: Restore into Supabase
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ]; then echo "SUPABASE_DB_URL secret not set"; exit 1; fi
+          # Benign notices (existing roles/extensions) are expected; don't fail the job on them.
+          pg_restore --no-owner --no-privileges --no-acl --dbname "$SUPABASE_DB_URL" neon.dump \
+            || echo "::warning::pg_restore reported notices (often benign). Verifying below."
+
+      - name: Verify target
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          echo "Tables in public schema:"
+          psql "$SUPABASE_DB_URL" -c "SELECT count(*) AS public_tables FROM information_schema.tables WHERE table_schema='public';"
+          echo "Applied Prisma migrations (should be > 0):"
+          psql "$SUPABASE_DB_URL" -c "SELECT count(*) AS applied_migrations FROM public._prisma_migrations;" \
+            || echo "::warning::_prisma_migrations not found — check the restore output above."
+          echo "Done. Spot-check a table you know has data, e.g.:"
+          psql "$SUPABASE_DB_URL" -c "\dt"
