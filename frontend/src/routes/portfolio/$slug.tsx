@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import DOMPurify from "dompurify";
 import { PageHero, Section } from "@/components/Section";
 import { PortfolioCarousel, CarouselItem } from "@/components/PortfolioCarousel";
 import { PortfolioVideoCarousel } from "@/components/PortfolioVideoCarousel";
@@ -84,7 +85,7 @@ function PortfolioProjectPage() {
 
         <div
           className="journal-body mt-10 max-w-3xl space-y-6 text-base leading-relaxed text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_p]:mt-6 [&_p:first-child]:mt-0"
-          dangerouslySetInnerHTML={{ __html: data.body }}
+          dangerouslySetInnerHTML={{ __html: typeof window !== "undefined" ? DOMPurify.sanitize(data.body) : data.body }}
         />
 
         {images.length > 0 ? (
